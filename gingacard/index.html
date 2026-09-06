@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Ginga ID — Sua identidade. Um toque.</title>
+  <meta name="theme-color" content="#082B3A">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --azul-profundo: #082B3A;
+      --azul-light: #0c3d50;
+      --azul-surface: #0e4558;
+      --turquesa: #12B8A6;
+      --turquesa-dim: rgba(18, 184, 166, 0.12);
+      --turquesa-glow: rgba(18, 184, 166, 0.25);
+      --amarelo: #F4C95D;
+      --amarelo-dim: rgba(244, 201, 93, 0.12);
+      --off-white: #F6F7F2;
+      --text-primary: #F6F7F2;
+      --text-body: #b8ccd4;
+      --text-muted: #6a8a98;
+      --text-dim: #3a5a68;
+      --whatsapp: #25d366;
+      --instagram: #e1306c;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--azul-profundo);
+      color: var(--text-primary);
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Padrao de pontos — derivado do "Ponto de Contato" */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: radial-gradient(circle, rgba(18, 184, 166, 0.06) 1px, transparent 1px);
+      background-size: 24px 24px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Glow ambiente — derivado da "Curva Principal" */
+    body::after {
+      content: '';
+      position: fixed;
+      top: -160px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 450px;
+      height: 450px;
+      background: radial-gradient(ellipse, rgba(18, 184, 166, 0.07) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+      animation: ambientPulse 6s ease-in-out infinite;
+    }
+
+    @keyframes ambientPulse {
+      0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 0 24px 36px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* =============================================
+       SIMBOLO + ANIMACAO (Arcos de Sinal)
+       ============================================= */
+    .header {
+      text-align: center;
+      padding-top: 48px;
+      margin-bottom: 0;
+      opacity: 0;
+      animation: fadeDown 0.8s ease forwards;
+    }
+
+    .symbol-container {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      margin: 0 auto 24px;
+    }
+
+    /* Simbolo central */
+    .symbol-core {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: var(--off-white);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow:
+    0 0 30px var(--turquesa-glow),
+    0 0 60px rgba(18, 184, 166, 0.1);
+  z-index: 3;
+}
+
+    .symbol-core img {
+      width: 95%;
+      height: 95%;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Placeholder do simbolo */
+    .symbol-placeholder {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 1.5rem;
+      color: var(--azul-profundo);
+      letter-spacing: -1px;
+    }
+
+    /* Arcos de Sinal — anel 1 (interno) */
+    .sinal-ring-1 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 100px;
+      height: 100px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1.5px solid rgba(18, 184, 166, 0.2);
+      border-top-color: var(--turquesa);
+      border-right-color: transparent;
+      animation: sinalRotate 4s linear infinite;
+      z-index: 2;
+    }
+
+    /* Arcos de Sinal — anel 2 (externo) */
+    .sinal-ring-2 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 126px;
+      height: 126px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1px solid rgba(18, 184, 166, 0.1);
+      border-bottom-color: var(--amarelo);
+      border-left-color: transparent;
+      animation: sinalRotateReverse 6s linear infinite;
+      z-index: 2;
+    }
+
+    /* Arcos de Sinal — anel 3 (mais externo, tracejado) */
+    .sinal-ring-3 {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 140px;
+      height: 140px;
+      transform: translate(-50%, -50%);
+      border-radius: 50%;
+      border: 1px dashed rgba(18, 184, 166, 0.08);
+      border-top-color: rgba(18, 184, 166, 0.15);
+      animation: sinalRotate 10s linear infinite;
+      z-index: 1;
+    }
+
+    @keyframes sinalRotate {
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    @keyframes sinalRotateReverse {
+      to { transform: translate(-50%, -50%) rotate(-360deg); }
+    }
+
+    /* Ponto de Contato — pontos orbitais */
+    .contact-point {
+      position: absolute;
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      z-index: 4;
+    }
+
+    .contact-point.p1 {
+      background: var(--turquesa);
+      box-shadow: 0 0 8px var(--turquesa);
+      animation: orbit1 4s linear infinite;
+    }
+
+    .contact-point.p2 {
+      background: var(--amarelo);
+      box-shadow: 0 0 8px var(--amarelo);
+      animation: orbit2 6s linear infinite;
+    }
+
+    .contact-point.p3 {
+      background: var(--off-white);
+      box-shadow: 0 0 6px rgba(246, 247, 242, 0.4);
+      animation: orbit3 8s linear infinite;
+    }
+
+    @keyframes orbit1 {
+      0%   { top: 10px;  left: 50%; }
+      25%  { top: 50%;   left: 130px; }
+      50%  { top: 130px; left: 50%; }
+      75%  { top: 50%;   left: 10px; }
+      100% { top: 10px;  left: 50%; }
+    }
+
+    @keyframes orbit2 {
+      0%   { top: 50%;   left: 134px; }
+      25%  { top: 134px; left: 50%; }
+      50%  { top: 50%;   left: 6px; }
+      75%  { top: 6px;   left: 50%; }
+      100% { top: 50%;   left: 134px; }
+    }
+
+    @keyframes orbit3 {
+      0%   { top: 134px; left: 50%; }
+      25%  { top: 50%;   left: 6px; }
+      50%  { top: 6px;   left: 50%; }
+      75%  { top: 50%;   left: 134px; }
+      100% { top: 134px; left: 50%; }
+    }
+
+    /* =============================================
+       NOME — Lockup Principal
+       ============================================= */
+    .brand-name {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 700;
+      font-size: 2.2rem;
+      letter-spacing: 4px;
+      text-transform: uppercase;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .brand-name .id {
+      font-size: 1.2rem;
+      color: var(--amarelo);
+      vertical-align: middle;
+      letter-spacing: 2px;
+    }
+
+    .brand-tagline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 400;
+      font-size: 0.82rem;
+      letter-spacing: 1px;
+      color: var(--text-body);
+      opacity: 0;
+      animation: fadeDown 0.8s ease 0.2s forwards;
+    }
+
+    .brand-tagline .dot {
+      color: var(--amarelo);
+      font-weight: 700;
+    }
+
+    /* =============================================
+       CURVA PRINCIPAL — divider decorativo
+       ============================================= */
+    .curva-divider {
+      width: 100%;
+      height: 20px;
+      margin: 24px auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      animation: fadeDown 0.7s ease 0.3s forwards;
+    }
+
+    .curva-divider svg {
+      width: 120px;
+      height: 20px;
+    }
+
+    /* =============================================
+       DESCRICAO
+       ============================================= */
+    .description {
+      text-align: center;
+      font-size: 0.82rem;
+      line-height: 1.7;
+      color: var(--text-muted);
+      max-width: 340px;
+      margin-bottom: 8px;
+      opacity: 0;
+      animation: fadeDown 0.7s ease 0.35s forwards;
+    }
+
+    .tagline-secondary {
+      text-align: center;
+      font-family: 'Space Grotesk', sans-serif;
+      font-weight: 500;
+      font-size: 0.72rem;
+      letter-spacing: 0.5px;
+      color: var(--turquesa);
+      max-width: 320px;
+      margin-bottom: 0;
+      opacity: 0;
+      animation: fadeDown 0.7s ease 0.4s forwards;
+    }
+
+    .divider-simple {
+      width: 50px;
+      height: 1px;
+      background: var(--text-dim);
+      margin: 24px auto;
+      opacity: 0;
+      animation: fadeDown 0.6s ease 0.45s forwards;
+    }
+
+    /* =============================================
+       LINKS
+       ============================================= */
+    .links-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: var(--azul-light);
+      border: 1px solid rgba(18, 184, 166, 0.08);
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--text-primary);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.35s ease;
+      opacity: 0;
+      transform: translateY(15px);
+    }
+
+    .link-card:nth-child(1) { animation: fadeUp 0.6s ease 0.55s forwards; }
+    .link-card:nth-child(2) { animation: fadeUp 0.6s ease 0.7s forwards; }
+    .link-card:nth-child(3) { animation: fadeUp 0.6s ease 0.85s forwards; }
+
+    /* Curva de destaque no hover */
+    .link-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      border-radius: 0 2px 2px 0;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .link-card.whatsapp::before { background: var(--whatsapp); }
+    .link-card.instagram::before { background: var(--instagram); }
+    .link-card.site::before { background: var(--turquesa); }
+
+    .link-card:hover::before,
+    .link-card:active::before { opacity: 1; }
+
+    .link-card:hover {
+      background: var(--azul-surface);
+      border-color: rgba(18, 184, 166, 0.2);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
+      transform: translateY(-1px);
+    }
+
+    .link-card:active {
+      transform: scale(0.98) translateY(0);
+    }
+
+    .link-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .link-card:hover .link-icon-wrap { transform: scale(1.05); }
+
+    .whatsapp .link-icon-wrap {
+      background: rgba(37, 211, 102, 0.1);
+      border: 1px solid rgba(37, 211, 102, 0.15);
+    }
+    .instagram .link-icon-wrap {
+      background: rgba(225, 48, 108, 0.1);
+      border: 1px solid rgba(225, 48, 108, 0.15);
+    }
+    .site .link-icon-wrap {
+      background: var(--turquesa-dim);
+      border: 1px solid rgba(18, 184, 166, 0.15);
+    }
+
+    .link-icon-wrap svg { width: 22px; height: 22px; }
+    .whatsapp .link-icon-wrap svg { fill: var(--whatsapp); }
+    .instagram .link-icon-wrap svg { fill: var(--instagram); }
+    .site .link-icon-wrap svg { fill: var(--turquesa); }
+
+    .link-text { flex: 1; }
+
+    .link-title {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .link-desc {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .link-arrow {
+      color: var(--text-dim);
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      font-weight: 300;
+    }
+
+    .link-card:hover .link-arrow {
+      transform: translateX(4px);
+      color: var(--turquesa);
+    }
+
+    /* =============================================
+       PADRAO DE CONEXAO — decoracao inferior
+       ============================================= */
+    .pattern-decoration {
+      width: 100%;
+      margin-top: 28px;
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      opacity: 0;
+      animation: fadeDown 0.6s ease 0.95s forwards;
+    }
+
+    .pattern-dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--text-dim);
+    }
+
+    .pattern-dot.active {
+      background: var(--turquesa);
+      box-shadow: 0 0 6px var(--turquesa-glow);
+    }
+
+    .pattern-line {
+      width: 20px;
+      height: 1px;
+      background: var(--text-dim);
+      align-self: center;
+    }
+
+    /* =============================================
+       FOOTER
+       ============================================= */
+    .footer {
+      margin-top: auto;
+      padding-top: 24px;
+      text-align: center;
+      opacity: 0;
+      animation: fadeDown 0.6s ease 1s forwards;
+    }
+
+    .footer-line {
+      width: 40px;
+      height: 1px;
+      background: var(--text-dim);
+      margin: 0 auto 14px;
+    }
+
+    .footer-tagline {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.68rem;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .footer-tagline .dot {
+      color: var(--amarelo);
+    }
+
+    .footer-year {
+      font-size: 0.55rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* =============================================
+       ANIMACOES
+       ============================================= */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =============================================
+       RESPONSIVO
+       ============================================= */
+    @media (max-width: 360px) {
+      .brand-name { font-size: 1.8rem; letter-spacing: 2px; }
+      .brand-name .id { font-size: 1rem; }
+      .symbol-container { width: 120px; height: 120px; }
+      .symbol-core { width: 60px; height: 60px; }
+      .sinal-ring-1 { width: 86px; height: 86px; }
+      .sinal-ring-2 { width: 108px; height: 108px; }
+      .sinal-ring-3 { width: 120px; height: 120px; }
+      .link-card { padding: 14px 16px; }
+    }
+
+    @media (min-height: 800px) {
+      .header { padding-top: 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- ========================================
+         SIMBOLO COM ANIMACAO
+         Troque o src da logo
+         ======================================== -->
+    <div class="header">
+      <div class="symbol-container">
+
+        <!-- Ponto de Contato orbital 1 -->
+        <div class="contact-point p1"></div>
+        <!-- Ponto de Contato orbital 2 -->
+        <div class="contact-point p2"></div>
+        <!-- Ponto de Contato orbital 3 -->
+        <div class="contact-point p3"></div>
+
+        <!-- Arcos de Sinal -->
+        <div class="sinal-ring-1"></div>
+        <div class="sinal-ring-2"></div>
+        <div class="sinal-ring-3"></div>
+
+        <!-- Simbolo central -->
+        <div class="symbol-core">
+          <!-- COLOQUE SUA LOGO AQUI -->
+          <img src="logo-ginga.png" alt="Ginga ID">
+          <!-- Placeholder (descomente se nao tiver logo):
+          <span class="symbol-placeholder">G</span>
+          -->
+        </div>
+
+      </div>
+
+      <!-- Lockup Principal -->
+      <h1 class="brand-name">Ginga <span class="id">ID</span></h1>
+      <p class="brand-tagline">Sua identidade. Um toque<span class="dot">.</span></p>
+    </div>
+
+    <!-- Curva Principal — divider SVG -->
+    <div class="curva-divider">
+      <svg viewBox="0 0 120 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 10 Q30 0 60 10 Q90 20 120 10" stroke="rgba(18,184,166,0.2)" stroke-width="1" fill="none"/>
+        <circle cx="60" cy="10" r="2.5" fill="#F4C95D"/>
+        <circle cx="0" cy="10" r="1.5" fill="rgba(18,184,166,0.3)"/>
+        <circle cx="120" cy="10" r="1.5" fill="rgba(18,184,166,0.3)"/>
+      </svg>
+    </div>
+
+    <!-- DESCRICAO -->
+    <p class="description">
+      Soluções em identidade digital com tecnologia NFC e QR Code.
+      Conectamos pessoas, marcas e experiências com um simples toque.
+    </p>
+
+    <p class="tagline-secondary">
+      Tecnologia que conecta. Identidade que aproxima.
+    </p>
+
+    <div class="divider-simple"></div>
+
+    <!-- LINKS -->
+    <div class="links-section">
+
+      <!-- WHATSAPP -->
+      <a href="https://wa.me/5584994717566" target="_blank" rel="noopener noreferrer" class="link-card whatsapp">
+        <div class="link-icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-title">WhatsApp</div>
+          <div class="link-desc">Fale com a gente</div>
+        </div>
+        <span class="link-arrow">&#8250;</span>
+      </a>
+
+      <!-- INSTAGRAM -->
+      <a href="https://instagram.com/gingaid" target="_blank" rel="noopener noreferrer" class="link-card instagram">
+        <div class="link-icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-title">Instagram</div>
+          <div class="link-desc">@gingaid</div>
+        </div>
+        <span class="link-arrow">&#8250;</span>
+      </a>
+
+      <!-- SITE -->
+      <a href="https://gingaid.com.br" target="_blank" rel="noopener noreferrer" class="link-card site">
+        <div class="link-icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-title">Site</div>
+          <div class="link-desc">gingaid.com.br</div>
+        </div>
+        <span class="link-arrow">&#8250;</span>
+      </a>
+
+    </div>
+
+    <!-- Padrao de Conexao -->
+    <div class="pattern-decoration">
+      <span class="pattern-dot"></span>
+      <span class="pattern-line"></span>
+      <span class="pattern-dot active"></span>
+      <span class="pattern-line"></span>
+      <span class="pattern-dot"></span>
+      <span class="pattern-line"></span>
+      <span class="pattern-dot active"></span>
+      <span class="pattern-line"></span>
+      <span class="pattern-dot"></span>
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="footer-line"></div>
+      <p class="footer-tagline">Tecnologia que conecta. Identidade que aproxima<span class="dot">.</span></p>
+      <p class="footer-year">&copy; 2026 Ginga ID</p>
+    </div>
+
+  </div>
+
+</body>
+</html>
