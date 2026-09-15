@@ -2,18 +2,19 @@ export default {
   async fetch(request, env) {
     const url = new URL(request.url);
 
-    // Rotas dinâmicas de QR Code
+    // Rotas de QR Code dinâmico
     if (url.pathname.startsWith("/r/")) {
-      const code = url.pathname.slice(3);
-
-      // Evita códigos vazios
-      if (!code) {
+      // Aceita somente códigos no formato /r/0000
+      if (!/^\/r\/\d{4}$/.test(url.pathname)) {
         return new Response("QR Code inválido", {
           status: 400
         });
       }
 
-      // Procura o destino no Cloudflare KV
+      // Extrai o código, por exemplo: /r/0001 → 0001
+      const code = url.pathname.slice(3);
+
+      // Busca o destino no Cloudflare KV
       const destination = await env.REDIRECTS.get(code);
 
       // Código não cadastrado
@@ -27,7 +28,8 @@ export default {
       return Response.redirect(destination, 302);
     }
 
-    // Todo o restante continua sendo servido pelos arquivos estáticos
+    // Todas as outras páginas continuam sendo servidas
+    // normalmente pelos arquivos estáticos do site.
     return env.ASSETS.fetch(request);
   }
 };
