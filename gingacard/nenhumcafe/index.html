@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1" />
+    <meta name="theme-color" content="#4b281c" />
+    <meta name="description" content="Cardápio digital do Nenhum Café — cafés e comidinhas para acompanhar o momento." />
+    <title>Nenhum Café — Menu</title>
+    <style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&display=swap');
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+:root {
+  --radius: 0.8rem;
+  --background: #f5f0e8;
+  --foreground: #2d211b;
+  --card: #fbf8f2;
+  --card-foreground: #2d211b;
+  --popover: #fbf8f2;
+  --popover-foreground: #2d211b;
+  --primary: #4b281c;
+  --primary-foreground: #f5f0e8;
+  --secondary: #e8ddd0;
+  --secondary-foreground: #4b281c;
+  --muted: #eee7de;
+  --muted-foreground: #786b60;
+  --accent: #b85d40;
+  --accent-foreground: #fff8f1;
+  --border: #d9cdc0;
+  --input: #d9cdc0;
+  --ring: #b85d40;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  min-width: 320px;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'DM Sans', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+button, a { -webkit-tap-highlight-color: transparent; }
+button:focus-visible, a:focus-visible { outline: 2px solid var(--accent); outline-offset: 4px; }
+
+.menu-page { position: relative; overflow: hidden; background: #f5f0e8; }
+.grain { position: fixed; inset: 0; pointer-events: none; z-index: 20; opacity: .045; background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E"); }
+
+.hero { min-height: 620px; position: relative; overflow: hidden; color: #f7f2e9; background: #4b281c; }
+.hero::before { content: ''; position: absolute; inset: 0; background: radial-gradient(circle at 75% 40%, rgba(190, 112, 76, .2), transparent 24%), linear-gradient(135deg, #4b281c 0%, #3c2118 100%); }
+.hero-inner { width: min(100% - 40px, 1140px); min-height: 620px; position: relative; margin: 0 auto; display: flex; flex-direction: column; padding: 26px 0 38px; }
+.topbar { display: flex; align-items: center; justify-content: space-between; text-transform: uppercase; font: 500 11px 'DM Mono', monospace; letter-spacing: .11em; color: #d9b9a4; }
+.brand-mark { display: inline-flex; align-items: center; gap: 8px; color: #f7f2e9; }
+.topbar-label { border-bottom: 1px solid rgba(247, 242, 233, .4); padding-bottom: 5px; }
+.hero-copy { margin-top: auto; position: relative; z-index: 2; }
+.eyebrow { margin: 0 0 22px; color: #c98b70; font: 500 10px 'DM Mono', monospace; letter-spacing: .18em; text-transform: uppercase; }
+h1 { margin: 0; font: 500 clamp(65px, 18vw, 160px)/.82 'Fraunces', serif; letter-spacing: -.075em; }
+h1 span, h1 em { display: block; }
+h1 em { padding-left: 15%; color: #c98b70; font-style: italic; font-weight: 400; }
+.hero-rule { width: 120px; height: 1px; margin: 34px 0 17px 15%; background: #c98b70; opacity: .8; }
+.hero-intro { margin: 0 0 2px 15%; color: #e4cfc1; font: 400 16px/1.45 'Fraunces', serif; letter-spacing: .01em; }
+.hero-orbit { position: absolute; border: 1px solid rgba(215, 154, 123, .25); border-radius: 50%; pointer-events: none; }
+.orbit-one { width: 390px; height: 390px; top: 13%; right: -155px; }
+.orbit-two { width: 530px; height: 530px; top: -1%; right: -220px; border-color: rgba(215, 154, 123, .12); }
+.hero-stamp { position: absolute; top: 23%; right: 14%; width: 92px; height: 92px; border: 1px solid rgba(223, 179, 157, .6); border-radius: 50%; transform: rotate(13deg); color: #d9b9a4; display: grid; place-items: center; }
+.stamp-ring { width: 74px; height: 74px; border: 1px dashed rgba(223, 179, 157, .65); border-radius: 50%; display: flex; flex-direction: column; justify-content: space-between; align-items: center; padding: 9px 4px; font: 500 6px 'DM Mono', monospace; letter-spacing: .16em; }
+.stamp-icon { position: absolute; color: #d9b9a4; }
+.scroll-cue { width: fit-content; display: inline-flex; gap: 14px; align-items: center; border: 0; padding: 0; margin-top: 50px; color: #dfb39d; background: transparent; font: 500 10px 'DM Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
+.scroll-cue svg { transition: transform .2s ease-out; }
+.scroll-cue:hover svg { transform: translateY(4px); }
+
+.category-nav { position: sticky; top: 0; z-index: 10; background: rgba(245, 240, 232, .94); border-bottom: 1px solid #ddd1c4; backdrop-filter: blur(14px); }
+.nav-inner { width: min(100% - 40px, 1140px); min-height: 70px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+.nav-caption { color: #938278; font: 500 9px 'DM Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
+.nav-links { display: flex; align-items: center; gap: 10px; }
+.nav-links a { display: inline-block; border-bottom: 1px solid transparent; padding: 12px 5px; color: #786b60; background: transparent; font: 500 12px 'DM Sans', sans-serif; text-decoration: none; transition: color .18s ease-out, border-color .18s ease-out; }
+.nav-links a span { margin-right: 8px; color: #b1a197; font: 500 9px 'DM Mono', monospace; }
+.nav-links a.active, .nav-links a:hover { border-color: #b85d40; color: #4b281c; }
+
+.content-shell { width: min(100% - 40px, 980px); margin: 0 auto; }
+.menu-section { padding: 90px 0 82px; scroll-margin-top: 70px; }
+.section-heading { display: flex; align-items: flex-end; justify-content: space-between; gap: 20px; padding-bottom: 34px; border-bottom: 1px solid #d9cdc0; }
+.section-label { display: flex; align-items: center; gap: 11px; margin-bottom: 24px; color: #b85d40; font: 500 10px 'DM Mono', monospace; letter-spacing: .16em; text-transform: uppercase; }
+.section-number { color: #94776a; }
+.section-line { width: 32px; height: 1px; background: #b85d40; }
+.section-heading h2 { margin: 0; color: #4b281c; font: 500 clamp(42px, 8vw, 76px)/.9 'Fraunces', serif; letter-spacing: -.06em; }
+.section-heading h2 i { color: #b85d40; font-style: italic; font-weight: 400; }
+.section-aside { display: flex; flex-direction: column; align-items: flex-end; gap: 9px; padding-bottom: 5px; color: #9c8c81; }
+.section-aside svg { color: #b85d40; }
+.section-aside span { font: 500 9px 'DM Mono', monospace; letter-spacing: .08em; text-transform: uppercase; white-space: nowrap; }
+.items-list { margin-top: 10px; }
+.menu-item { position: relative; padding: 25px 0 26px; border-bottom: 1px solid #e0d6cb; animation: rise .6s both; animation-delay: calc(var(--item-index) * 50ms); }
+@keyframes rise { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+.item-topline { display: flex; align-items: baseline; justify-content: space-between; gap: 20px; }
+.menu-item h3 { max-width: 75%; margin: 0; color: #36251e; font: 600 18px/1.2 'DM Sans', sans-serif; letter-spacing: -.025em; text-transform: uppercase; }
+.menu-item p { max-width: 520px; margin: 8px 0 0; color: #786b60; font: 400 15px/1.45 'DM Sans', sans-serif; }
+.price { flex: none; color: #b85d40; font: 500 16px 'DM Mono', monospace; white-space: nowrap; }
+.break-mark { display: flex; align-items: center; gap: 14px; padding: 3px 0; color: #b85d40; }
+.break-mark span { height: 1px; flex: 1; background: #d9cdc0; }
+.snacks-section { padding-top: 86px; }
+.menu-footer { display: flex; align-items: center; gap: 16px; padding: 40px 0 48px; border-top: 1px solid #d9cdc0; }
+.footer-monogram { width: 40px; height: 40px; display: grid; place-items: center; border: 1px solid #b85d40; border-radius: 50%; color: #4b281c; font: 500 13px 'Fraunces', serif; }
+.footer-copy { display: flex; flex-direction: column; gap: 3px; }
+.footer-copy p { margin: 0; color: #4b281c; font: 500 14px 'Fraunces', serif; }
+.footer-copy span { color: #9c8c81; font: 500 9px 'DM Mono', monospace; letter-spacing: .12em; text-transform: uppercase; }
+.back-top { width: 40px; height: 40px; display: grid; place-items: center; margin-left: auto; border: 1px solid #d9cdc0; border-radius: 50%; color: #b85d40; background: transparent; text-decoration: none; transition: background .18s ease-out, color .18s ease-out, transform .18s ease-out; }
+.back-top:hover { color: #f7f2e9; background: #b85d40; transform: translateY(-2px); }
+
+@media (min-width: 700px) {
+  .hero-inner, .nav-inner { width: min(100% - 80px, 1140px); }
+  .content-shell { width: min(100% - 80px, 980px); }
+  .hero { min-height: 680px; }
+  .hero-inner { min-height: 680px; }
+  .hero-copy { margin-left: 7%; }
+  .hero-stamp { top: 28%; right: 23%; }
+  .menu-item { display: grid; grid-template-columns: minmax(0, 1fr) 140px; column-gap: 32px; }
+  .item-topline { display: contents; }
+  .menu-item h3 { grid-column: 1; grid-row: 1; }
+  .menu-item p { grid-column: 1; grid-row: 2; }
+  .price { grid-column: 2; grid-row: 1 / span 2; justify-self: end; align-self: start; padding-top: 2px; }
+}
+@media (min-width: 1000px) {
+  .hero-copy { margin-left: 13%; }
+  .hero-stamp { right: 27%; }
+  .menu-section { padding-top: 120px; }
+}
+@media (max-width: 460px) {
+  .hero-inner, .nav-inner, .content-shell { width: min(100% - 32px, 1140px); }
+  .hero, .hero-inner { min-height: 590px; }
+  .hero-stamp { top: 19%; right: 2%; transform: scale(.78) rotate(13deg); }
+  .nav-inner { min-height: 64px; }
+  .nav-caption { display: none; }
+  .nav-links { width: 100%; justify-content: space-between; }
+  .nav-links button { padding-left: 0; padding-right: 0; }
+  .menu-section { padding: 70px 0 64px; }
+  .section-heading { align-items: flex-start; }
+  .section-aside { padding-top: 3px; }
+  .section-aside span { font-size: 8px; }
+  .menu-item h3 { font-size: 16px; }
+  .menu-item p { font-size: 14px; }
+  .price { font-size: 14px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+}
+    </style>
+  </head>
+  <body>
+    <main class="menu-page">
+      <div class="grain" aria-hidden="true"></div>
+
+      <header class="hero" id="topo">
+        <div class="hero-orbit orbit-one" aria-hidden="true"></div>
+        <div class="hero-orbit orbit-two" aria-hidden="true"></div>
+        <div class="hero-inner">
+          <div class="topbar">
+            <span class="brand-mark"><span class="cup-icon" aria-hidden="true">⌁</span> NC</span>
+            <span class="topbar-label">Menu</span>
+          </div>
+
+          <div class="hero-copy">
+            <p class="eyebrow">Cafeteria contemporânea</p>
+            <h1><span>Nenhum</span><em>Café</em></h1>
+            <div class="hero-rule"></div>
+            <p class="hero-intro">Um cardápio para escolher sem pressa.</p>
+          </div>
+
+          <div class="hero-stamp" aria-hidden="true">
+            <div class="stamp-ring"><span>CAFÉ</span><span>COMIDINHAS</span></div>
+            <span class="stamp-icon">⌁</span>
+          </div>
+
+          <a class="scroll-cue" href="#cafes" aria-label="Ir para cafés">
+            <span>explorar o menu</span><span aria-hidden="true">↓</span>
+          </a>
+        </div>
+      </header>
+
+      <nav class="category-nav" aria-label="Categorias do cardápio">
+        <div class="nav-inner">
+          <span class="nav-caption">Escolha uma categoria</span>
+          <div class="nav-links">
+            <a class="active" href="#cafes"><span>01</span> Cafés</a>
+            <a href="#comidinhas"><span>02</span> Comidinhas</a>
+          </div>
+        </div>
+      </nav>
+
+      <div class="content-shell">
+        <section class="menu-section" id="cafes">
+          <div class="section-heading">
+            <div>
+              <div class="section-label"><span class="section-number">01</span><span class="section-line"></span><span>Cafés</span></div>
+              <h2>Do grão<br /><i>à xícara.</i></h2>
+            </div>
+            <div class="section-aside"><span class="aside-icon">⌁</span><span>5 opções</span></div>
+          </div>
+          <div class="items-list">
+            <article class="menu-item"><div class="item-topline"><h3>Espresso (sempre duplo)</h3><span class="price">R$ 12</span></div><p>Café intenso e aromático, servido em dose curta.</p></article>
+            <article class="menu-item"><div class="item-topline"><h3>Café coado</h3><span class="price">R$ 15</span></div><p>Filtrado em métodos de papel para garantir limpeza de bebida e clareza de notas.</p></article>
+            <article class="menu-item"><div class="item-topline"><h3>Cappuccino</h3><span class="price">R$ 18</span></div><p>Espresso duplo com leite quente vaporizado.</p></article>
+            <article class="menu-item"><div class="item-topline"><h3>Pico do Cabugi</h3><span class="price">R$ 22</span></div><p>Cappuccino em uma versão gelada e com especiarias.</p></article>
+            <article class="menu-item"><div class="item-topline"><h3>Pico do Everest</h3><span class="price">R$ 28</span></div><p>Cappuccino com dois expressos duplos em uma versão gelada e com especiarias.</p></article>
+          </div>
+        </section>
+
+        <div class="break-mark" aria-hidden="true"><span></span><span>✧</span><span></span></div>
+
+        <section class="menu-section snacks-section" id="comidinhas">
+          <div class="section-heading">
+            <div>
+              <div class="section-label"><span class="section-number">02</span><span class="section-line"></span><span>Comidinhas</span></div>
+              <h2>Para acompanhar<br /><i>o momento.</i></h2>
+            </div>
+            <div class="section-aside"><span class="aside-icon">✧</span><span>6 opções</span></div>
+          </div>
+          <div class="items-list">
+            <article class="menu-item"><div class="item-topline"><h3>Bolo de capim santo</h3><span class="price">R$ 15</span></div><p>Capim santo com gengibre e uma massa fofinha.</p></article>
+            <article class="menu-item"><div class="item-topline"><h3>Torta de maçã</h3><span class="price">R$ 20</span></div><p>Base de biscoito com brigadeiro de maçã e caramelo de mirtilo.</p></article>
+            <article class="menu-item"><div class="item-topline"><h3>Bolinha de tiramisu</h3><span class="price">R$ 10</span></div><p>Biscoito champagne, creme cheese, café especial e cacau 100%.</p></article>
+            <article class="menu-item"><div class="item-topline"><h3>Ministro da Defesa</h3><span class="price">R$ 8</span></div><p>Docinho de tâmara, castanha de caju e cacau 100.</p></article>
+            <article class="menu-item"><div class="item-topline"><h3>Mousse de limão siciliano</h3><span class="price">R$ 12</span></div><p>Mousse de limão siciliano servido na casca com creme brulee.</p></article>
+            <article class="menu-item"><div class="item-topline"><h3>Croassint recheado</h3><span class="price">R$ 30</span></div><p>Recheado com queijo regional e presunto de parma.</p></article>
+          </div>
+        </section>
+
+        <footer class="menu-footer">
+          <div class="footer-monogram">NC</div>
+          <div class="footer-copy"><p>Nenhum Café</p><span>Menu</span></div>
+          <a class="back-top" href="#topo" aria-label="Voltar ao topo">↗</a>
+        </footer>
+      </div>
+    </main>
+  </body>
+</html>

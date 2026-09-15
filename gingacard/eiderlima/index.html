@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Eider Lima — Studio Art Oral</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,500;0,600;0,700;1,300;1,500&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --bg: #f5f3ef;
+      --bg-warm: #efece6;
+      --navy: #383d5b;
+      --navy-light: #5a5f7a;
+      --navy-muted: #8a8da3;
+      --navy-faint: #c5c7d4;
+      --navy-ghost: #ddd9d0;
+      --gold: #c9a96e;
+      --gold-light: #d4ba8a;
+      --gold-faint: #ebe4d4;
+      --text-primary: #383d5b;
+      --text-body: #5a5f7a;
+      --text-muted: #8a8da3;
+      --whatsapp: #25d366;
+      --instagram: #e1306c;
+      --google: #4285f4;
+}
+
+    html {
+      font-size: 16px;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text-primary);
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Subtle grain texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 0 24px 40px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* Top decorative line */
+    .top-accent {
+      width: 100%;
+      height: 3px;
+      background: linear-gradient(90deg, transparent, var(--navy), var(--gold), var(--navy), transparent);
+      opacity: 0.6;
+      margin-bottom: 0;
+    }
+
+    /* Header */
+    .header {
+      text-align: center;
+      padding-top: 40px;
+      margin-bottom: 4px;
+      opacity: 0;
+      animation: fadeDown 0.8s ease forwards;
+    }
+
+    /* Photo placeholder */
+    .photo-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 24px;
+    }
+
+    .photo-ring {
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      border: 2px solid var(--navy-faint);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: var(--bg-warm);
+      overflow: hidden;
+      box-shadow:
+        0 4px 20px rgba(56, 61, 91, 0.08),
+        0 1px 4px rgba(56, 61, 91, 0.04);
+    }
+
+    .photo-ring::before {
+      content: '';
+      position: absolute;
+      inset: -4px;
+      border-radius: 50%;
+      border: 1px solid var(--gold-faint);
+      animation: rotateRing 20s linear infinite;
+      border-top-color: var(--gold);
+      border-right-color: transparent;
+      border-bottom-color: transparent;
+    }
+
+    @keyframes rotateRing {
+      to { transform: rotate(360deg); }
+    }
+
+    
+
+   
+    .photo-ring img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 50%;
+    }
+    
+
+    .doctor-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 2.2rem;
+      letter-spacing: 2px;
+      color: var(--navy);
+      margin-bottom: 6px;
+      line-height: 1.1;
+    }
+
+    .clinic-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-style: italic;
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      color: var(--gold);
+      margin-bottom: 0;
+      opacity: 0;
+      animation: fadeDown 0.8s ease 0.2s forwards;
+    }
+
+    /* Decorative divider */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 22px auto;
+      opacity: 0;
+      animation: fadeDown 0.8s ease 0.3s forwards;
+    }
+
+    .divider-line {
+      width: 30px;
+      height: 1px;
+      background: var(--navy-faint);
+    }
+
+    .divider-diamond {
+      width: 6px;
+      height: 6px;
+      background: var(--gold);
+      transform: rotate(45deg);
+    }
+
+    /* Tagline */
+    .tagline {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 500;
+      font-style: italic;
+      font-size: 1rem;
+      line-height: 1.6;
+      color: var(--navy-light);
+      max-width: 320px;
+      margin-bottom: 20px;
+      opacity: 0;
+      animation: fadeDown 0.8s ease 0.4s forwards;
+    }
+
+    /* Services */
+    .services {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px;
+      margin-bottom: 32px;
+      opacity: 0;
+      animation: fadeDown 0.8s ease 0.5s forwards;
+    }
+
+    .service-tag {
+      font-size: 0.65rem;
+      font-weight: 500;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      color: var(--navy-muted);
+      padding: 6px 14px;
+      border: 1px solid var(--navy-ghost);
+      border-radius: 20px;
+      background: var(--bg);
+      transition: all 0.3s ease;
+    }
+
+    .service-tag:hover {
+      border-color: var(--gold-light);
+      color: var(--navy);
+      background: var(--gold-faint);
+    }
+
+    /* Links */
+    .links-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: var(--bg);
+      border: 1px solid var(--navy-ghost);
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--text-primary);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.35s ease;
+      opacity: 0;
+      transform: translateY(15px);
+    }
+
+    .link-card:nth-child(1) { animation: fadeUp 0.6s ease 0.65s forwards; }
+    .link-card:nth-child(2) { animation: fadeUp 0.6s ease 0.8s forwards; }
+    .link-card:nth-child(3) { animation: fadeUp 0.6s ease 0.95s forwards; }
+
+    .link-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      border-radius: 0 2px 2px 0;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .link-card.whatsapp::before { background: var(--whatsapp); }
+    .link-card.instagram::before { background: var(--instagram); }
+    .link-card.google::before { background: var(--google); }
+
+    .link-card:hover::before,
+    .link-card:active::before {
+      opacity: 1;
+    }
+
+    .link-card:hover {
+      border-color: var(--navy-faint);
+      box-shadow: 0 4px 16px rgba(56, 61, 91, 0.06);
+      transform: translateY(-1px);
+    }
+
+    .link-card:active {
+      transform: scale(0.98) translateY(0);
+    }
+
+    .link-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .link-card:hover .link-icon-wrap {
+      transform: scale(1.05);
+    }
+
+    .whatsapp .link-icon-wrap {
+      background: rgba(37, 211, 102, 0.08);
+      border: 1px solid rgba(37, 211, 102, 0.15);
+    }
+    .instagram .link-icon-wrap {
+      background: rgba(225, 48, 108, 0.08);
+      border: 1px solid rgba(225, 48, 108, 0.15);
+    }
+    .google .link-icon-wrap {
+      background: rgba(66, 133, 244, 0.08);
+      border: 1px solid rgba(66, 133, 244, 0.15);
+    }
+
+    .link-icon-wrap svg {
+      width: 22px;
+      height: 22px;
+    }
+
+    .whatsapp .link-icon-wrap svg { fill: var(--whatsapp); }
+    .instagram .link-icon-wrap svg { fill: var(--instagram); }
+    .google .link-icon-wrap svg { fill: var(--google); }
+
+    .link-text {
+      flex: 1;
+    }
+
+    .link-title {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.82rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--navy);
+      margin-bottom: 2px;
+    }
+
+    .link-desc {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .link-arrow {
+      color: var(--navy-faint);
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      font-weight: 300;
+    }
+
+    .link-card:hover .link-arrow {
+      transform: translateX(4px);
+      color: var(--gold);
+    }
+
+    /* Footer */
+    .footer {
+      margin-top: auto;
+      padding-top: 40px;
+      text-align: center;
+      opacity: 0;
+      animation: fadeDown 0.8s ease 1.1s forwards;
+    }
+
+    .footer-line {
+      width: 40px;
+      height: 1px;
+      background: var(--navy-ghost);
+      margin: 0 auto 14px;
+    }
+
+    .footer-text {
+      font-family: 'Cormorant Garamond', serif;
+      font-style: italic;
+      font-size: 0.75rem;
+      letter-spacing: 1px;
+      color: var(--navy-muted);
+    }
+
+    .footer-year {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.6rem;
+      color: var(--navy-faint);
+      margin-top: 6px;
+      letter-spacing: 2px;
+    }
+
+    /* Animations */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Responsive */
+    @media (max-width: 360px) {
+      .doctor-name { font-size: 1.8rem; }
+      .clinic-name { font-size: 0.95rem; }
+      .tagline { font-size: 0.9rem; }
+      .link-card { padding: 14px 16px; }
+      .photo-ring { width: 110px; height: 110px; }
+    }
+
+    @media (min-height: 800px) {
+      .header { padding-top: 52px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <div class="top-accent"></div>
+
+    <!-- Header -->
+    <div class="header">
+      <div class="photo-container">
+        <div class="photo-ring">
+          <!-- Substitua pelo <img> da foto do dentista -->
+          <div class="photo-placeholder">
+            <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/>
+            </svg>
+            
+          </div>
+          
+          <img src="foto-eider.png" alt="Dr. Eider Lima">
+          
+        </div>
+      </div>
+      <h1 class="doctor-name">Eider Lima</h1>
+      <p class="clinic-name">Studio Art Oral</p>
+    </div>
+
+    <!-- Divider -->
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-diamond"></span>
+      <span class="divider-line"></span>
+    </div>
+
+    <!-- Tagline -->
+    <p class="tagline">
+      Impactando vidas através do sorriso e da comunicação
+    </p>
+
+    <!-- Services -->
+    <div class="services">
+      <span class="service-tag">Lentes & Implantes</span>
+      <span class="service-tag">Endodontia</span>
+      <span class="service-tag">Periodontia</span>
+      <span class="service-tag">Harmonização Facial</span>
+    </div>
+
+    <!-- Links -->
+    <div class="links-section">
+
+      <!-- WhatsApp -->
+      <a href="https://wa.me/5584998482210" target="_blank" rel="noopener noreferrer" class="link-card whatsapp">
+        <div class="link-icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-title">WhatsApp</div>
+          <div class="link-desc">Agende sua consulta</div>
+        </div>
+        <span class="link-arrow">&#8250;</span>
+      </a>
+
+      <!-- Instagram -->
+      <a href="https://instagram.com/eiderlimaodonto" target="_blank" rel="noopener noreferrer" class="link-card instagram">
+        <div class="link-icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-title">Instagram</div>
+          <div class="link-desc">@eiderlimaodonto</div>
+        </div>
+        <span class="link-arrow">&#8250;</span>
+      </a>
+
+      <!-- Google Maps -->
+      <a href="https://maps.app.goo.gl/PYAfNgDZP8QfuJjFA?g_st=ac" target="_blank" rel="noopener noreferrer" class="link-card google">
+        <div class="link-icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-title">Google Maps</div>
+          <div class="link-desc">Como chegar ao consultório</div>
+        </div>
+        <span class="link-arrow">&#8250;</span>
+      </a>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="footer">
+      <div class="footer-line"></div>
+      <p class="footer-text">Cuidando do seu sorriso</p>
+      <p class="footer-year">&copy; 2026 Studio Art Oral</p>
+    </div>
+
+  </div>
+
+</body>
+</html>
