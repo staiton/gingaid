@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Bucado Mídia — Criativa por natureza</title>
+  <meta name="theme-color" content="#0F2B1D">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,400;1,600&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --verde: #0F2B1D;
+      --verde-light: #163A28;
+      --verde-surface: #1C4A33;
+      --verde-glow: rgba(28, 74, 51, 0.4);
+      --laranja: #D4622B;
+      --laranja-light: #E8844A;
+      --laranja-dim: rgba(212, 98, 43, 0.12);
+      --laranja-glow: rgba(212, 98, 43, 0.2);
+      --white: #FFFFFF;
+      --off-white: #F5F2EC;
+      --text-primary: #FFFFFF;
+      --text-body: #c4d4c8;
+      --text-muted: #7a9a86;
+      --text-dim: #3e5e48;
+      --whatsapp: #25d366;
+      --instagram: #e1306c;
+      --google: #4285f4;
+    }
+
+    html { font-size: 16px; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--verde);
+      color: var(--text-primary);
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      justify-content: center;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Textura organica — folha sutil */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.05'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 100;
+    }
+
+    /* Glow laranja ambiente */
+    body::after {
+      content: '';
+      position: fixed;
+      bottom: -120px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(ellipse, rgba(212, 98, 43, 0.08) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+      animation: ambientPulse 6s ease-in-out infinite;
+    }
+
+    @keyframes ambientPulse {
+      0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
+      50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
+    }
+
+    .container {
+      width: 100%;
+      max-width: 420px;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 0 24px 36px;
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* =============================================
+       LOGO / HEADER
+       Monograma modular: bu/ca/do
+       ============================================= */
+    .header {
+      text-align: center;
+      padding-top: 48px;
+      margin-bottom: 0;
+      opacity: 0;
+      animation: fadeDown 0.8s ease forwards;
+    }
+
+    .logo-container {
+      position: relative;
+      display: inline-block;
+      margin-bottom: 20px;
+    }
+
+    .logo-ring {
+      width: 110px;
+      height: 110px;
+      border-radius: 50%;
+      border: 2px solid var(--verde-surface);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      background: var(--verde-light);
+      overflow: hidden;
+      box-shadow:
+        0 8px 32px rgba(0, 0, 0, 0.3),
+        0 0 40px var(--verde-glow);
+    }
+
+    .logo-ring::before {
+      content: '';
+      position: absolute;
+      inset: -5px;
+      border-radius: 50%;
+      border: 1px solid var(--verde-surface);
+      animation: rotateRing 18s linear infinite;
+      border-top-color: var(--laranja);
+      border-right-color: transparent;
+      border-bottom-color: transparent;
+    }
+
+    @keyframes rotateRing {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Monograma modular dentro do anel */
+    .monograma {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 1px;
+      line-height: 1;
+    }
+
+    .monograma span {
+      font-family: 'Playfair Display', serif;
+      font-weight: 900;
+      font-size: 1.1rem;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      color: var(--white);
+    }
+
+    .monograma span:nth-child(2) {
+      color: var(--laranja);
+    }
+
+
+    .logo-ring img {
+      width: 110%;
+      height: 110%;
+      object-fit: contain;
+      display: block;
+    }
+
+
+    /* Nome horizontal — Búcado */
+    .brand-name {
+      font-family: 'Playfair Display', serif;
+      font-weight: 700;
+      font-size: 2.4rem;
+      letter-spacing: 3px;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+      line-height: 1.1;
+    }
+
+    .brand-name .accent {
+      color: var(--laranja);
+    }
+
+    .brand-sub {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 500;
+      font-size: 0.75rem;
+      letter-spacing: 6px;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      opacity: 0;
+      animation: fadeDown 0.8s ease 0.2s forwards;
+    }
+
+    /* =============================================
+       DIVIDER — detalhe organico
+       ============================================= */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 24px auto;
+      opacity: 0;
+      animation: fadeDown 0.7s ease 0.3s forwards;
+    }
+
+    .divider-line {
+      width: 24px;
+      height: 1px;
+      background: var(--verde-surface);
+    }
+
+    .divider-leaf {
+      width: 8px;
+      height: 8px;
+      border-radius: 0 50% 50% 50%;
+      background: var(--laranja);
+      transform: rotate(45deg);
+      opacity: 0.8;
+    }
+
+    /* =============================================
+       SLOGAN
+       ============================================= */
+    .slogan {
+      text-align: center;
+      font-family: 'Playfair Display', serif;
+      font-weight: 400;
+      font-style: italic;
+      font-size: 0.95rem;
+      line-height: 1.7;
+      color: var(--text-body);
+      max-width: 320px;
+      margin-bottom: 12px;
+      opacity: 0;
+      animation: fadeDown 0.7s ease 0.35s forwards;
+    }
+
+    .slogan .laranja {
+      color: var(--laranja);
+      font-weight: 600;
+      font-style: normal;
+    }
+
+    .services {
+      text-align: center;
+      font-size: 0.7rem;
+      font-weight: 400;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      max-width: 340px;
+      line-height: 1.7;
+      margin-bottom: 0;
+      opacity: 0;
+      animation: fadeDown 0.7s ease 0.4s forwards;
+    }
+
+    .services .dot {
+      display: inline-block;
+      width: 3px;
+      height: 3px;
+      background: var(--laranja);
+      border-radius: 50%;
+      vertical-align: middle;
+      margin: 0 8px;
+    }
+
+    .divider-2 {
+      width: 50px;
+      height: 1px;
+      background: var(--verde-surface);
+      margin: 24px auto;
+      opacity: 0;
+      animation: fadeDown 0.6s ease 0.45s forwards;
+    }
+
+    /* =============================================
+       LINKS
+       ============================================= */
+    .links-section {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .link-card {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 16px 20px;
+      background: var(--verde-light);
+      border: 1px solid var(--verde-surface);
+      border-radius: 14px;
+      text-decoration: none;
+      color: var(--text-primary);
+      position: relative;
+      overflow: hidden;
+      transition: all 0.35s ease;
+      opacity: 0;
+      transform: translateY(15px);
+    }
+
+    .link-card:nth-child(1) { animation: fadeUp 0.6s ease 0.55s forwards; }
+    .link-card:nth-child(2) { animation: fadeUp 0.6s ease 0.7s forwards; }
+    .link-card:nth-child(3) { animation: fadeUp 0.6s ease 0.85s forwards; }
+
+    .link-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      border-radius: 0 2px 2px 0;
+      opacity: 0;
+      transition: opacity 0.35s ease;
+    }
+
+    .link-card.whatsapp::before { background: var(--whatsapp); }
+    .link-card.instagram::before { background: var(--instagram); }
+    .link-card.maps::before { background: var(--laranja); }
+
+    .link-card:hover::before,
+    .link-card:active::before { opacity: 1; }
+
+    .link-card:hover {
+      background: var(--verde-surface);
+      border-color: var(--laranja-dim);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.25);
+      transform: translateY(-1px);
+    }
+
+    .link-card:active {
+      transform: scale(0.98) translateY(0);
+    }
+
+    .link-icon-wrap {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      transition: transform 0.3s ease;
+    }
+
+    .link-card:hover .link-icon-wrap { transform: scale(1.05); }
+
+    .whatsapp .link-icon-wrap {
+      background: rgba(37, 211, 102, 0.1);
+      border: 1px solid rgba(37, 211, 102, 0.15);
+    }
+    .instagram .link-icon-wrap {
+      background: rgba(225, 48, 108, 0.1);
+      border: 1px solid rgba(225, 48, 108, 0.15);
+    }
+    .maps .link-icon-wrap {
+      background: var(--laranja-dim);
+      border: 1px solid rgba(212, 98, 43, 0.2);
+    }
+
+    .link-icon-wrap svg { width: 22px; height: 22px; }
+    .whatsapp .link-icon-wrap svg { fill: var(--whatsapp); }
+    .instagram .link-icon-wrap svg { fill: var(--instagram); }
+    .maps .link-icon-wrap svg { fill: var(--laranja); }
+
+    .link-text { flex: 1; }
+
+    .link-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      letter-spacing: 0.5px;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .link-desc {
+      font-size: 0.7rem;
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .link-arrow {
+      color: var(--text-dim);
+      font-size: 1.2rem;
+      transition: all 0.3s ease;
+      font-weight: 300;
+    }
+
+    .link-card:hover .link-arrow {
+      transform: translateX(4px);
+      color: var(--laranja);
+    }
+
+    /* =============================================
+       FOOTER
+       ============================================= */
+    .footer {
+      margin-top: auto;
+      padding-top: 32px;
+      text-align: center;
+      opacity: 0;
+      animation: fadeDown 0.6s ease 1s forwards;
+    }
+
+    .footer-line {
+      width: 40px;
+      height: 1px;
+      background: var(--verde-surface);
+      margin: 0 auto 14px;
+    }
+
+    .footer-tagline {
+      font-family: 'Playfair Display', serif;
+      font-style: italic;
+      font-size: 0.72rem;
+      letter-spacing: 1px;
+      color: var(--text-muted);
+      margin-bottom: 4px;
+    }
+
+    .footer-tagline .laranja {
+      color: var(--laranja);
+    }
+
+    .footer-year {
+      font-size: 0.55rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--text-dim);
+    }
+
+    /* =============================================
+       ANIMACOES
+       ============================================= */
+    @keyframes fadeDown {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(15px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 360px) {
+      .brand-name { font-size: 2rem; letter-spacing: 2px; }
+      .logo-ring { width: 95px; height: 95px; }
+      .monograma span { font-size: 0.95rem; }
+      .link-card { padding: 14px 16px; }
+    }
+
+    @media (min-height: 800px) {
+      .header { padding-top: 60px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+
+    <!-- ========================================
+         LOGO — Monograma Modular
+         Troque pelo <img> da logo se preferir
+         ======================================== -->
+    <div class="header">
+      <div class="logo-container">
+        <div class="logo-ring">
+          <img src="logo-bucado.png" alt="Bucado Mídia">
+        </div>
+      </div>
+      <h1 class="brand-name">Bucado</h1>
+      <p class="brand-sub">Mídia</p>
+    </div>
+
+    <!-- DIVIDER organico -->
+    <div class="divider">
+      <span class="divider-line"></span>
+      <span class="divider-leaf"></span>
+      <span class="divider-line"></span>
+    </div>
+
+    <!-- SLOGAN -->
+    <p class="slogan">
+      Marketing com tempero <span class="laranja">nordestino</span>!
+    </p>
+
+    <!-- SERVICOS -->
+    <p class="services">
+      Audiovisual
+      <span class="dot"></span>
+      Fotografia
+      <span class="dot"></span>
+      Design
+      <span class="dot"></span>
+      Conteúdo
+    </p>
+
+    <div class="divider-2"></div>
+
+    <!-- LINKS -->
+    <div class="links-section">
+
+      <!-- WHATSAPP -->
+      <a href="https://wa.me/5584991697756" target="_blank" rel="noopener noreferrer" class="link-card whatsapp">
+        <div class="link-icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-title">WhatsApp</div>
+          <div class="link-desc">Chama no whats</div>
+        </div>
+        <span class="link-arrow">&#8250;</span>
+      </a>
+
+      <!-- INSTAGRAM -->
+      <a href="https://instagram.com/bucado" target="_blank" rel="noopener noreferrer" class="link-card instagram">
+        <div class="link-icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-title">Instagram</div>
+          <div class="link-desc">@bucado</div>
+        </div>
+        <span class="link-arrow">&#8250;</span>
+      </a>
+
+      <!-- GOOGLE MAPS -->
+      <a href="https://share.google/Mhb3Y5LAsWXAnOwCC" target="_blank" rel="noopener noreferrer" class="link-card maps">
+        <div class="link-icon-wrap">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5a2.5 2.5 0 010-5 2.5 2.5 0 010 5z"/>
+          </svg>
+        </div>
+        <div class="link-text">
+          <div class="link-title">Localização</div>
+          <div class="link-desc">Como chegar</div>
+        </div>
+        <span class="link-arrow">&#8250;</span>
+      </a>
+
+    </div>
+
+    <!-- FOOTER -->
+    <div class="footer">
+      <div class="footer-line"></div>
+      <p class="footer-tagline">Criativa por <span class="laranja">natureza</span></p>
+      <p class="footer-year">&copy; 2025 Bucado Mídia</p>
+    </div>
+
+  </div>
+
+</body>
+</html>
