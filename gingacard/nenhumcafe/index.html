@@ -9,6 +9,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;1,9..144,300;1,9..144,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>
 <style>
   :root{
     --bg:#140e0a;
@@ -43,12 +45,23 @@
     transition:opacity .9s ease, visibility .9s;
   }
   #intro.out{opacity:0;visibility:hidden}
-  #intro.out .cup-wrap{transform:scale(6) translateY(4%);opacity:0}
-  .cup-wrap{
-    width:min(62vw,260px);
-    transition:transform 1.1s cubic-bezier(.7,0,.3,1), opacity .9s ease .2s;
+  #intro.out .intro-core{transform:scale(1.5);opacity:0;filter:blur(6px)}
+  .stage{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+  .ibean{position:absolute;left:50%;top:52%;width:26px;height:36px;margin:-18px 0 0 -13px;will-change:transform}
+  .ibean svg{width:100%;height:100%;filter:drop-shadow(0 4px 6px rgba(0,0,0,.5))}
+  .burst{
+    position:absolute;left:50%;top:52%;width:260px;height:260px;margin:-130px 0 0 -130px;border-radius:50%;
+    background:radial-gradient(circle,rgba(224,183,122,.35) 0%,rgba(201,154,91,.12) 40%,transparent 70%);
+    opacity:0;transform:scale(.2);
   }
-  .cup-wrap svg{width:100%;height:auto;overflow:visible}
+  #intro.art .burst{animation:burst 1.4s ease-out forwards}
+  @keyframes burst{0%{opacity:0;transform:scale(.2)}30%{opacity:1}100%{opacity:.5;transform:scale(1.6)}}
+  .intro-core{
+    position:relative;z-index:2;display:flex;flex-direction:column;align-items:center;
+    transition:transform 1s cubic-bezier(.7,0,.3,1), opacity .8s ease, filter .8s;
+  }
+  .intro-core .steam{width:90px;height:60px;overflow:visible;margin-bottom:-4px;opacity:0;transition:opacity .6s .6s}
+  #intro.art .intro-core .steam{opacity:1}
   .steam path{
     fill:none;stroke:var(--cream);stroke-width:5;stroke-linecap:round;opacity:0;
     stroke-dasharray:120;stroke-dashoffset:120;
@@ -61,20 +74,14 @@
     30%{opacity:.55}
     100%{stroke-dashoffset:-120;opacity:0;transform:translateY(-24px)}
   }
-  #stream{transform-origin:top;transform:scaleY(0)}
-  #intro.pour #stream{animation:pour 1.5s ease-in-out forwards}
-  @keyframes pour{0%{transform:scaleY(0)}15%{transform:scaleY(1)}80%{transform:scaleY(1);opacity:1}100%{transform:scaleY(1) translateY(60px);opacity:0}}
-  #fill{transform:translateY(80px);transition:transform 1.6s cubic-bezier(.4,0,.2,1) .2s}
-  #intro.pour #fill{transform:translateY(0)}
-  #art{opacity:0;transform:scale(.3);transform-origin:130px 112px;transition:all .9s cubic-bezier(.3,1.5,.5,1)}
-  #intro.art #art{opacity:1;transform:scale(1)}
   .intro-txt{
-    margin-top:34px;text-align:center;opacity:0;transform:translateY(10px);
-    transition:all .8s ease;
+    text-align:center;opacity:0;transform:scale(.6);filter:blur(10px);
+    transition:opacity .7s ease, transform .9s cubic-bezier(.3,1.4,.5,1), filter .7s ease;
   }
-  #intro.art .intro-txt{opacity:1;transform:none}
-  .intro-txt .brand{font-family:Fraunces,serif;font-size:30px;font-weight:300;letter-spacing:.02em}
-  .intro-txt small{display:block;margin-top:6px;font-size:11px;letter-spacing:.4em;color:var(--muted);text-transform:uppercase}
+  #intro.art .intro-txt{opacity:1;transform:none;filter:none}
+  .intro-txt .brand{font-family:Fraunces,serif;font-size:42px;font-weight:300;letter-spacing:.01em;line-height:1}
+  .intro-txt .brand em{font-style:italic;color:var(--gold2)}
+  .intro-txt small{display:block;margin-top:12px;font-size:11px;letter-spacing:.45em;color:var(--muted);text-transform:uppercase}
   .loader{
     position:absolute;bottom:calc(40px + var(--safe-b));
     font-size:11px;letter-spacing:.3em;color:var(--muted);text-transform:uppercase;
@@ -136,7 +143,7 @@
   .ready .hero-title > *{opacity:1;transform:none}
   .ready .hero-title p{transition-delay:.25s}
 
-  main{padding:8px 18px calc(40px + var(--safe-b))}
+  main{padding:8px 18px calc(110px + var(--safe-b))}
 
   .tagline{
     text-align:center;font-family:Fraunces,serif;font-style:italic;font-weight:300;
@@ -224,7 +231,32 @@
     border-radius:20px;overflow:hidden;border:1px solid var(--line);position:relative;height:220px;
     background:var(--card);
   }
-  .map iframe{width:100%;height:100%;border:0;filter:invert(.9) hue-rotate(180deg) sepia(.35) saturate(.8) brightness(.9)}
+  #map{width:100%;height:100%;background:#1a1410}
+  #map .leaflet-tile-pane{filter:sepia(.45) hue-rotate(-12deg) saturate(.9) brightness(.95)}
+  .leaflet-control-attribution{background:rgba(20,14,10,.6)!important;color:#8a7a66!important;font-size:9px!important}
+  .leaflet-control-attribution a{color:#b9a58b!important}
+  .map-open{
+    position:absolute;z-index:500;top:12px;left:12px;font-size:12.5px;padding:8px 12px;border-radius:99px;
+    background:rgba(20,14,10,.75);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border:1px solid var(--line);color:var(--cream);
+  }
+  .pin{position:relative;width:54px;height:66px}
+  .pin .head{
+    position:absolute;left:5px;top:0;width:44px;height:44px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);
+    background:linear-gradient(135deg,var(--gold2),var(--gold));box-shadow:0 8px 20px rgba(0,0,0,.5);
+    display:grid;place-items:center;
+  }
+  .pin .head svg{transform:rotate(45deg);width:22px;height:22px;color:#1c120b}
+  .pin .pulse{
+    position:absolute;left:17px;bottom:2px;width:20px;height:8px;border-radius:50%;background:rgba(201,154,91,.5);
+    animation:pinPulse 2s ease-out infinite;
+  }
+  @keyframes pinPulse{0%{transform:scale(.6);opacity:1}100%{transform:scale(3);opacity:0}}
+  .pin-label{
+    position:absolute;left:50%;top:-30px;transform:translateX(-50%);white-space:nowrap;
+    font-family:Fraunces,serif;font-size:13px;padding:4px 10px;border-radius:99px;
+    background:var(--bg);color:var(--cream);border:1px solid var(--line);
+  }
   .addr{margin-top:12px;font-size:14px;color:var(--muted);line-height:1.5}
   .addr b{color:var(--cream);font-weight:400}
 
@@ -272,51 +304,17 @@
 <!-- ============ INTRO ============ -->
 <div id="intro" aria-hidden="true">
   <button class="skip" id="skip">pular</button>
-  <div class="cup-wrap">
-    <svg viewBox="0 0 260 260">
-      <defs>
-        <clipPath id="cupClip"><path d="M48 92 H212 C212 92 208 190 130 196 C52 190 48 92 48 92 Z"/></clipPath>
-        <linearGradient id="cupG" x1="0" x2="1">
-          <stop offset="0" stop-color="#2f241c"/><stop offset=".5" stop-color="#4a3a2e"/><stop offset="1" stop-color="#2a2019"/>
-        </linearGradient>
-        <radialGradient id="crema" cx=".5" cy=".5" r=".6">
-          <stop offset="0" stop-color="#c58a54"/><stop offset=".7" stop-color="#8a5130"/><stop offset="1" stop-color="#4a2c1a"/>
-        </radialGradient>
-      </defs>
-      <!-- steam -->
-      <g class="steam" id="steam">
-        <path d="M100 70 C88 52 112 40 100 20"/>
-        <path d="M130 66 C118 46 142 34 130 10"/>
-        <path d="M160 70 C148 52 172 40 160 20"/>
-      </g>
-      <!-- pour stream -->
-      <rect id="stream" x="126" y="-40" width="8" height="150" rx="4" fill="#6b3f24"/>
-      <!-- saucer -->
-      <ellipse cx="130" cy="206" rx="104" ry="20" fill="#241a14"/>
-      <ellipse cx="130" cy="202" rx="96" ry="15" fill="#2f241c"/>
-      <!-- handle -->
-      <path d="M206 112 C246 108 248 160 196 162" fill="none" stroke="#3a2d23" stroke-width="13" stroke-linecap="round"/>
-      <!-- cup body -->
-      <path d="M44 88 H216 C216 88 214 196 130 202 C46 196 44 88 44 88 Z" fill="url(#cupG)"/>
-      <!-- coffee inside -->
-      <g clip-path="url(#cupClip)">
-        <g id="fill">
-          <ellipse cx="130" cy="112" rx="88" ry="22" fill="url(#crema)"/>
-          <rect x="40" y="112" width="180" height="100" fill="#3a2214"/>
-        </g>
-      </g>
-      <!-- rim -->
-      <ellipse cx="130" cy="90" rx="86" ry="20" fill="none" stroke="#5a4636" stroke-width="5"/>
-      <!-- latte art heart (rosetta-ish) -->
-      <g id="art" fill="#f3e3cb">
-        <path d="M130 124 C116 112 104 104 112 98 C118 94 126 98 130 104 C134 98 142 94 148 98 C156 104 144 112 130 124 Z"/>
-        <path d="M130 104 L130 128" stroke="#f3e3cb" stroke-width="1.6"/>
-      </g>
+  <div class="stage" id="stage"><div class="burst"></div></div>
+  <div class="intro-core">
+    <svg class="steam" id="steam" viewBox="0 0 90 60">
+      <path d="M25 58 C15 44 35 32 25 14"/>
+      <path d="M45 56 C35 40 55 28 45 6"/>
+      <path d="M65 58 C55 44 75 32 65 14"/>
     </svg>
-  </div>
-  <div class="intro-txt">
-    <div class="brand">Nenhum <span class="strike">café</span></div>
-    <small>cafeteria · natal</small>
+    <div class="intro-txt">
+      <div class="brand">Nenhum <em class="strike">café</em></div>
+      <small>cafeteria · natal</small>
+    </div>
   </div>
   <div class="loader" id="loader">preparando <b>seu café</b></div>
 </div>
@@ -379,8 +377,8 @@
     <section>
       <div class="sec-h rv"><h2><em>Onde</em> estamos</h2><small>Capim Macio</small></div>
       <div class="map rv">
-        <iframe loading="lazy" title="Mapa" referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps?q=Rua+Passeio+dos+Girass%C3%B3is,+963,+Capim+Macio,+Natal+-+RN,+59078-190&output=embed"></iframe>
+        <div id="map" role="img" aria-label="Mapa mostrando a localização do Nenhum café"></div>
+        <a class="map-open" href="https://maps.app.goo.gl/NZYdpFShCvTHLKMF9" target="_blank" rel="noopener">Abrir no Maps ↗</a>
       </div>
       <p class="addr rv"><b>Rua Passeio dos Girassóis, 963a</b><br>Capim Macio, Natal — RN · 59078-190</p>
     </section>
@@ -421,11 +419,41 @@
     setTimeout(() => intro.remove(), 1300);
   }
 
-  if (reduce) { intro.classList.add('pour','art'); steam.classList.add('on'); setTimeout(enter, 600); }
+  /* grãos caem, giram e se juntam formando o logo */
+  const stage = document.getElementById('stage');
+  const beanArt = '<svg viewBox="0 0 26 36"><defs><radialGradient id="bg" cx=".35" cy=".3" r=".8"><stop offset="0" stop-color="#8a5534"/><stop offset=".6" stop-color="#5a3520"/><stop offset="1" stop-color="#2e1a0e"/></radialGradient></defs><ellipse cx="13" cy="18" rx="12" ry="17" fill="url(#bg)"/><path d="M13 2 C6 12 20 24 13 34" stroke="#1e100a" stroke-width="2.2" fill="none" stroke-linecap="round"/></svg>';
+  const showLogo = () => { intro.classList.add('art'); steam.classList.add('on'); };
+
+  if (reduce) { showLogo(); setTimeout(enter, 900); }
   else {
-    setTimeout(() => intro.classList.add('pour'), 300);
-    setTimeout(() => { intro.classList.add('art'); steam.classList.add('on'); }, 1900);
-    setTimeout(enter, 3500);
+    const N = 26, R = Math.min(innerWidth, 420) * .36;
+    for (let i = 0; i < N; i++){
+      const b = document.createElement('div'); b.className = 'ibean'; b.innerHTML = beanArt;
+      stage.appendChild(b);
+      const a = (i / N) * Math.PI * 2 + Math.random() * .3;
+      const r = R * (.55 + Math.random() * .45);
+      const x = Math.cos(a) * r, y = Math.sin(a) * r;
+      const rot = Math.random() * 360, s = .75 + Math.random() * .5;
+      const startX = x + (Math.random() - .5) * 160, startY = -innerHeight * .6 - Math.random() * 200;
+      // 1) queda com quique
+      b.animate([
+        {transform:`translate(${startX}px,${startY}px) rotate(${rot}deg) scale(${s})`},
+        {transform:`translate(${x}px,${y}px) rotate(${rot+260}deg) scale(${s})`}
+      ], {duration: 900, delay: i * 35, easing: 'cubic-bezier(.3,1.35,.55,1)', fill: 'forwards'});
+      // 2) redemoinho até o centro
+      const frames = [];
+      for (let k = 0; k <= 12; k++){
+        const t = k / 12, ang = a + t * 3.2, rr = r * (1 - t) * (1 - t * .1);
+        frames.push({
+          transform:`translate(${Math.cos(ang)*rr}px,${Math.sin(ang)*rr}px) rotate(${rot+260+t*540}deg) scale(${s*(1-t*.85)})`,
+          opacity: t < .7 ? 1 : 1 - (t - .7) / .3
+        });
+      }
+      setTimeout(() => b.animate(frames, {duration: 850, delay: (N - i) * 8, easing: 'cubic-bezier(.55,0,.75,.4)', fill: 'forwards'}), 1650);
+    }
+    setTimeout(showLogo, 2450);
+    setTimeout(() => stage.querySelectorAll('.ibean').forEach(b => b.remove()), 2900);
+    setTimeout(enter, 4300);
   }
   document.getElementById('skip').addEventListener('click', enter);
   intro.addEventListener('click', e => { if (intro.classList.contains('art')) enter(); });
@@ -512,6 +540,30 @@
     }
   }
   document.getElementById('beanBtn').addEventListener('click', () => rain());
+
+  /* ---- mapa: só o pin do Nenhum café ---- */
+  addEventListener('load', () => {
+    if (!window.L) return;
+    const CAFE = [-5.8419382, -35.2036662];
+    const map = L.map('map', {
+      center: CAFE, zoom: 16, zoomControl: false,
+      dragging: false, scrollWheelZoom: false, touchZoom: false, doubleClickZoom: false, boxZoom: false, keyboard: false,
+      attributionControl: true
+    });
+    // mapa escuro sem pontos de comércio: só ruas + nomes de ruas/bairros
+    const esri = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/';
+    L.tileLayer(esri + 'World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+      maxZoom: 16, attribution: '© Esri, HERE, Garmin, OpenStreetMap'
+    }).addTo(map);
+    L.tileLayer(esri + 'World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', { maxZoom: 16 }).addTo(map);
+    const icon = L.divIcon({
+      className: '', iconSize: [54, 66], iconAnchor: [27, 60],
+      html: '<div class="pin"><span class="pin-label">Nenhum café</span><span class="pulse"></span><span class="head"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 9h13v5a5 5 0 0 1-5 5H9a5 5 0 0 1-5-5V9Z"/><path d="M17 11h1.5a2.5 2.5 0 0 1 0 5H17"/></svg></span></div>'
+    });
+    L.marker(CAFE, {icon, keyboard: false}).addTo(map)
+      .on('click', () => window.open('https://maps.app.goo.gl/NZYdpFShCvTHLKMF9', '_blank'));
+    map.panBy([0, -20], {animate: false});
+  });
 })();
 </script>
 </body>
