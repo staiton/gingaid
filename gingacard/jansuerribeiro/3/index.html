@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="pt-BR" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Jansuêr Ribeiro — Advogado Criminalista</title>
+<meta name="description" content="Jansuêr Ribeiro, advogado criminalista. Coragem e estratégia contra o sistema. Atuação nacional em casos complexos.">
+<meta name="author" content="Jansuêr Ribeiro">
+<meta name="theme-color" content="#121419">
+<meta property="og:type" content="profile">
+<meta property="og:locale" content="pt_BR">
+<meta property="og:title" content="Jansuêr Ribeiro — Advogado Criminalista">
+<meta property="og:description" content="Advogado criminalista que preserva a luta pela liberdade.">
+<meta property="og:image" content="assets/foto.jpg">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,600;0,700;1,600&family=Courier+Prime:wght@400;700&family=Figtree:wght@400;500;600;700&display=swap" rel="stylesheet">
+<script>
+  (function(){var t='dark';try{t=localStorage.getItem('jr4-card-theme')||'dark'}catch(e){}document.documentElement.setAttribute('data-theme',t);})();
+</script>
+<style>
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  :root{
+    --bg:#121419; --surface:#1b1e25; --surface-2:#222630; --ink:#ece6da; --muted:#a39d91;
+    --line:#2e323c; --accent:#c9a96e; --accent-ink:#17140e; --stamp:#d4544b; --paper:#1f2229;
+    --rule:rgba(201,169,110,.10); --glow:rgba(201,169,110,.10); --shadow:0 10px 30px rgba(0,0,0,.35);
+    --serif:'EB Garamond',Georgia,serif; --mono:'Courier Prime','Courier New',monospace; --sans:'Figtree',system-ui,sans-serif;
+  }
+  [data-theme="light"]{
+    --bg:#f2ede3; --surface:#fbf8f2; --surface-2:#f4efe5; --ink:#1d2230; --muted:#6a6458;
+    --line:#ddd3c1; --accent:#7a2424; --accent-ink:#fff8ef; --stamp:#a8302a; --paper:#fbf8f2;
+    --rule:rgba(29,34,48,.07); --glow:rgba(122,36,36,.08); --shadow:0 10px 26px rgba(60,45,20,.12);
+  }
+  html{-webkit-text-size-adjust:100%}
+  body{
+    font-family:var(--sans); background:var(--bg); color:var(--ink); min-height:100vh; min-height:100dvh;
+    overflow-x:hidden; line-height:1.5; font-size:16px; transition:background .4s,color .4s;
+    background-image:radial-gradient(var(--rule) 1px,transparent 1.2px); background-size:22px 22px;
+  }
+  body::before{content:"";position:fixed;left:50%;top:-180px;width:560px;height:460px;transform:translateX(-50%);
+    background:radial-gradient(closest-side,var(--glow),transparent);pointer-events:none;z-index:0}
+  body.intro-on{overflow:hidden}
+  a{color:inherit;text-decoration:none}
+  button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+  a,button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+
+  /* ---------- ABERTURA: o martelo do veredito ---------- */
+  .splash{position:fixed;inset:0;z-index:100;min-height:100svh;display:flex;flex-direction:column;align-items:center;justify-content:center;
+    padding:calc(20px + env(safe-area-inset-top)) 20px calc(80px + env(safe-area-inset-bottom));
+    background:radial-gradient(110% 70% at 50% 42%,var(--surface),var(--bg) 70%);cursor:pointer;transition:opacity .6s,visibility .6s;overflow:hidden}
+  .splash.done{opacity:0;visibility:hidden}
+  .flash{position:absolute;inset:0;background:radial-gradient(closest-side,color-mix(in srgb,var(--accent) 40%,transparent),transparent);opacity:0;pointer-events:none}
+  .cena{display:flex;flex-direction:column;align-items:center;width:100%}
+  .tribunal{width:min(270px,74vw);height:auto;overflow:visible}
+  .martelo{transform-box:view-box;transform-origin:222px 125px;transform:rotate(35deg)}
+  .bloco{transform-box:view-box;transform-origin:120px 184px}
+  .onda{transform-box:fill-box;transform-origin:center;opacity:0}
+  .fala{margin-top:18px;min-height:22px;font-family:var(--mono);font-size:14px;color:var(--muted);text-align:center;letter-spacing:.04em}
+  .fala b{color:var(--ink)}
+  .veredito{text-align:center;margin-top:6px;opacity:0;transform:scale(1.25);filter:blur(6px);transition:opacity .5s,transform .6s cubic-bezier(.2,.9,.3,1.2),filter .5s}
+  .splash.vd .veredito{opacity:1;transform:none;filter:none}
+  .veredito .k{display:inline-block;padding:4px 12px;border:2px solid var(--stamp);border-radius:5px;color:var(--stamp);font-family:var(--mono);font-weight:700;font-size:13px;letter-spacing:.3em;transform:rotate(-3deg)}
+  .veredito h2{font-family:var(--serif);font-weight:700;font-size:clamp(38px,11.5vw,50px);line-height:1.02;color:var(--ink);margin:12px 0 6px}
+  .veredito h2 em{font-style:italic;color:var(--accent)}
+  .veredito p{font-family:var(--sans);font-size:12px;letter-spacing:.32em;text-transform:uppercase;color:var(--accent)}
+  .pular{position:absolute;left:0;right:0;bottom:calc(18px + env(safe-area-inset-bottom));text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--muted);opacity:.75;text-transform:lowercase}
+
+  /* ---------- PÁGINA ---------- */
+  .wrap{position:relative;z-index:1;max-width:460px;margin:0 auto;padding:calc(14px + env(safe-area-inset-top)) 16px calc(28px + env(safe-area-inset-bottom))}
+  .topbar{position:sticky;top:calc(12px + env(safe-area-inset-top));z-index:20;display:flex;align-items:center;justify-content:space-between;
+    padding:6px 6px 6px 8px;border:1px solid var(--line);border-radius:999px;
+    background:color-mix(in srgb,var(--bg) 78%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+  .brand{display:flex;align-items:center;gap:10px;font-size:15px;letter-spacing:.01em}
+  .mono-jr{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;border:1.5px solid var(--stamp);color:var(--accent);font-family:var(--serif);font-weight:700;font-size:16px;position:relative}
+  .mono-jr::after{content:"";position:absolute;inset:3px;border-radius:50%;border:1px dashed var(--stamp);opacity:.6}
+  .brand b{font-weight:700}.brand span{color:var(--muted)}
+  .tema{width:44px;height:44px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--line);background:var(--surface)}
+  .tema svg{width:20px;height:20px}
+  .tema .sol{display:none}[data-theme="light"] .tema .sol{display:block}[data-theme="light"] .tema .lua{display:none}
+
+  .hero{text-align:center;padding:34px 0 8px}
+  .selo{position:relative;width:212px;height:212px;margin:0 auto 22px;cursor:pointer}
+  .selo .anel{position:absolute;inset:0;animation:gira 40s linear infinite}
+  .selo .anel text{font-family:var(--mono);font-size:10.6px;letter-spacing:3.2px;fill:var(--accent);text-transform:uppercase}
+  .selo .anel circle{fill:none;stroke:var(--line)}
+  @keyframes gira{to{transform:rotate(360deg)}}
+  .selo img{position:absolute;inset:30px;width:152px;height:152px;border-radius:50%;object-fit:cover;border:2px solid var(--line);box-shadow:var(--shadow);background:#080808}
+  .selo .mini{position:absolute;right:2px;bottom:18px;padding:3px 8px;border:2.5px solid var(--stamp);border-radius:5px;color:var(--stamp);
+    background:color-mix(in srgb,var(--bg) 60%,transparent);font-family:var(--mono);font-weight:700;font-size:12px;letter-spacing:.14em;transform:rotate(-12deg);opacity:0}
+  body.ready .selo .mini{animation:bateMini .45s cubic-bezier(.3,1.6,.5,1) .9s forwards}
+  .selo.again .mini{animation:bateMini .45s cubic-bezier(.3,1.6,.5,1) forwards!important}
+  @keyframes bateMini{0%{opacity:0;transform:rotate(-12deg) scale(2.4)}100%{opacity:.92;transform:rotate(-12deg) scale(1)}}
+  .chip{display:inline-flex;align-items:center;gap:8px;padding:6px 12px;border:1px solid var(--line);border-radius:999px;font-family:var(--mono);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);background:var(--surface)}
+  .chip i{width:7px;height:7px;border-radius:50%;background:var(--stamp);box-shadow:0 0 0 0 var(--stamp);animation:led 2s infinite}
+  @keyframes led{0%{box-shadow:0 0 0 0 color-mix(in srgb,var(--stamp) 60%,transparent)}70%{box-shadow:0 0 0 8px transparent}100%{box-shadow:0 0 0 0 transparent}}
+  h1{font-family:var(--serif);font-weight:700;font-size:clamp(40px,12vw,50px);line-height:1;margin:16px 0 10px;letter-spacing:.005em}
+  h1 em{font-style:italic;color:var(--accent)}
+  .cargo{font-weight:600;font-size:17px;letter-spacing:.02em}
+  .sec{color:var(--muted);font-size:16px;margin-top:4px}
+
+  .peticao{margin-top:28px;background:var(--surface);border:1px solid var(--line);border-radius:18px;overflow:hidden;box-shadow:var(--shadow)}
+  .peticao .cab{padding:14px 18px;border-bottom:1px dashed var(--line);font-family:var(--mono);font-size:12px;color:var(--muted);display:grid;gap:3px}
+  .peticao .cab .t{display:flex;justify-content:space-between;color:var(--accent);letter-spacing:.12em;text-transform:uppercase;font-size:11px;margin-bottom:4px}
+  .peticao .cab b{color:var(--ink);font-weight:700}
+  .peticao .cab .ok{color:var(--stamp);font-weight:700}
+  .peticao .corpo{padding:18px 18px 20px 30px;position:relative;font-size:16.5px;line-height:28px;
+    background-image:repeating-linear-gradient(to bottom,transparent 0 27px,var(--rule) 27px 28px);background-position:0 18px}
+  .peticao .corpo::before{content:"";position:absolute;left:18px;top:0;bottom:0;width:1px;background:var(--stamp);opacity:.3}
+  .peticao .corpo p+p{margin-top:0}
+  .assin{display:block;text-align:right;font-family:var(--serif);font-style:italic;font-weight:600;font-size:22px;color:var(--accent);margin-top:8px}
+
+  .tags{list-style:none;display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:22px}
+  .tags li{display:inline-flex;align-items:center;gap:8px;padding:8px 14px;border:1px solid var(--line);border-radius:999px;background:var(--surface);font-size:14px;font-weight:500}
+  .tags li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
+
+  .eyebrow{display:flex;align-items:center;gap:12px;margin:34px 0 14px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .eyebrow::before,.eyebrow::after{content:"";flex:1;height:1px;background:var(--line)}
+
+  .links{display:grid;gap:12px}
+  .wa{position:relative;overflow:hidden;display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:14px;min-height:72px;padding:14px 18px 14px 14px;border-radius:18px;background:var(--accent);color:var(--accent-ink);box-shadow:var(--shadow);transition:transform .2s}
+  .wa::before{content:"";position:absolute;top:0;bottom:0;width:40%;left:-60%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.28),transparent);animation:brilho 3.6s ease-in-out infinite}
+  @keyframes brilho{0%,55%{transform:translateX(0)}100%{transform:translateX(420%)}}
+  .wa .ic{position:relative;width:44px;height:44px;border-radius:50%;display:grid;place-items:center;background:color-mix(in srgb,var(--accent-ink) 14%,transparent)}
+  .wa .ic::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid var(--accent-ink);opacity:.5;animation:anel 2s ease-out infinite}
+  @keyframes anel{from{transform:scale(1);opacity:.5}to{transform:scale(1.45);opacity:0}}
+  .wa svg{width:24px;height:24px;fill:currentColor}
+  .wa strong{display:block;font-size:17px;font-weight:700}.wa small{display:block;font-size:14px;opacity:.82;font-family:var(--mono)}
+  .seta{font-size:20px;font-weight:600}
+  .link-card{display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:14px;min-height:68px;padding:12px 18px 12px 14px;border-radius:18px;background:var(--surface);border:1px solid var(--line);transition:transform .2s,border-color .2s}
+  .link-card .ic{width:44px;height:44px;border-radius:12px;display:grid;place-items:center}
+  .link-card .ic svg{width:22px;height:22px}
+  .ic.ig{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);color:#fff}
+  .ic.ig svg{fill:#fff}
+  .ic.gg{background:#fff;border:1px solid #e6e6e6}
+  .link-card strong{display:block;font-size:16.5px;font-weight:600}
+  .link-card small{display:block;font-size:14px;color:var(--muted)}
+  .link-card .seta{color:var(--muted)}
+  .estrelas{display:inline-flex;gap:2px;margin-left:6px;vertical-align:-1px}
+  .estrelas svg{width:12px;height:12px;fill:none;stroke:var(--accent);stroke-width:2;transition:fill .3s}
+  .estrelas.on svg{fill:var(--accent)}
+  @media (hover:hover){.link-card:hover{border-color:var(--accent);transform:translateY(-2px)}.wa:hover{transform:translateY(-2px)}}
+  .wa:active,.link-card:active,.acao:active,.tema:active{transform:scale(.97)}
+
+  .acoes{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+  .acao{min-height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:600;font-size:15px;transition:transform .2s}
+  .acao svg{width:18px;height:18px}
+  .acao.sal{background:var(--ink);color:var(--bg)}
+  .acao.com{border:1.5px solid var(--line);background:transparent}
+
+  footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);text-align:center;font-family:var(--mono);font-size:12px;color:var(--muted);display:grid;gap:4px}
+  footer .frase{font-family:var(--serif);font-style:italic;font-size:19px;color:var(--ink);font-weight:600}
+
+  .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom));transform:translate(-50%,20px);opacity:0;z-index:90;
+    padding:12px 18px;border-radius:999px;background:var(--ink);color:var(--bg);font-weight:600;font-size:14px;transition:all .3s;pointer-events:none;max-width:calc(100% - 32px);overflow-wrap:anywhere}
+  .toast.on{opacity:1;transform:translate(-50%,0)}
+
+  .reveal{opacity:0;transform:translateY(14px)}
+  body.ready .reveal{opacity:1;transform:none;transition:opacity .7s cubic-bezier(.2,.8,.2,1),transform .7s cubic-bezier(.2,.8,.2,1);transition-delay:calc(var(--d,0)*90ms)}
+
+  @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}.splash{display:none}.selo .mini{opacity:.92}}
+</style>
+</head>
+<body class="intro-on">
+
+<!-- ABERTURA: três batidas do martelo e o veredito revela o nome -->
+<div class="splash" id="splash" aria-hidden="true">
+  <div class="flash" id="flash"></div>
+  <div class="cena" id="cena">
+    <svg class="tribunal" viewBox="0 0 240 200">
+      <ellipse cx="120" cy="192" rx="78" ry="5" fill="rgba(0,0,0,.3)"/>
+      <ellipse class="onda" id="onda" cx="110" cy="160" rx="46" ry="9" fill="none" stroke="var(--accent)" stroke-width="2"/>
+      <g class="bloco" id="bloco">
+        <rect x="58" y="160" width="124" height="26" rx="6" fill="#5a3d24" stroke="#3a2716"/>
+        <rect x="58" y="160" width="124" height="7" rx="3" fill="#8a6239"/>
+        <rect x="70" y="174" width="100" height="2" rx="1" fill="#3a2716" opacity=".6"/>
+      </g>
+      <g class="martelo" id="martelo">
+        <rect x="126" y="119" width="98" height="12" rx="6" fill="#6b4a2b" stroke="#3a2716"/>
+        <rect x="132" y="121" width="86" height="3" rx="1.5" fill="#8f6a42"/>
+        <circle cx="224" cy="125" r="9" fill="#5a3d24" stroke="#3a2716"/>
+        <rect x="90" y="92" width="40" height="66" rx="8" fill="#7a5532" stroke="#3a2716"/>
+        <rect x="96" y="96" width="6" height="58" rx="3" fill="#9a7148" opacity=".7"/>
+        <rect x="87" y="101" width="46" height="7" rx="2" fill="var(--accent)"/>
+        <rect x="87" y="142" width="46" height="7" rx="2" fill="var(--accent)"/>
+      </g>
+    </svg>
+    <div class="fala" id="fala">a sessão está <b>aberta</b></div>
+    <div class="veredito">
+      <span class="k">VEREDITO</span>
+      <h2>Jansuêr <em>Ribeiro</em></h2>
+      <p>Advogado Criminalista</p>
+    </div>
+  </div>
+  <div class="pular">toque para pular</div>
+</div>
+
+<div class="wrap">
+  <header class="topbar reveal" style="--d:0">
+    <div class="brand"><span class="mono-jr">JR</span><div><b>Jansuêr</b> <span>Ribeiro</span></div></div>
+    <button class="tema" id="tema" aria-label="Alternar tema claro ou escuro">
+      <svg class="lua" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      <svg class="sol" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>
+    </button>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="selo reveal" style="--d:1" id="selo" title="Toque para carimbar de novo">
+        <svg class="anel" viewBox="0 0 212 212" aria-hidden="true">
+          <defs><path id="c" d="M106,106 m-92,0 a92,92 0 1,1 184,0 a92,92 0 1,1 -184,0"/></defs>
+          <circle cx="106" cy="106" r="100" stroke-width="1"/>
+          <text><textPath href="#c">coragem · estratégia · defesa criminal · atuação nacional · </textPath></text>
+        </svg>
+        <img src="assets/foto.jpg" alt="Foto de Jansuêr Ribeiro" width="152" height="152" fetchpriority="high">
+        <span class="mini" aria-hidden="true">LIBERDADE</span>
+      </div>
+      <span class="chip reveal" style="--d:2"><i></i>Defesa criminal · atuação nacional</span>
+      <h1 class="reveal" style="--d:3">Jansuêr <em>Ribeiro</em></h1>
+      <p class="cargo reveal" style="--d:4">Advogado Criminalista</p>
+      <p class="sec reveal" style="--d:5">Coragem e estratégia contra o sistema</p>
+    </section>
+
+    <section class="peticao reveal" style="--d:6" aria-label="Apresentação">
+      <div class="cab">
+        <div class="t"><span>Termo de apresentação</span><span>fls. 02</span></div>
+        <div>Requerente: <b>você</b></div>
+        <div>Assunto: <b>a sua defesa</b></div>
+        <div>Status: em análise → <span class="ok">em boas mãos ✓</span></div>
+      </div>
+      <div class="corpo">
+        <p>Sou advogado criminalista e dedico minha atuação a uma causa: a liberdade. Enfrento o sistema com coragem e estratégia, com atuação nacional em casos complexos. Se você ou alguém próximo precisa de defesa, fale comigo.</p>
+        <span class="assin">— Jansuêr Ribeiro</span>
+      </div>
+    </section>
+
+    <ul class="tags reveal" style="--d:7" aria-label="Áreas de atuação">
+      <li>Direito Penal</li><li>Casos complexos</li><li>Atuação nacional</li><li>Defesa estratégica</li>
+    </ul>
+
+    <div class="eyebrow reveal" style="--d:8">§ fale comigo</div>
+
+    <nav class="links" aria-label="Contatos">
+      <a class="wa reveal" style="--d:9" id="waBtn" href="https://wa.me/5584986856245" target="_blank" rel="noopener">
+        <span class="ic"><svg viewBox="0 0 24 24"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.08-.13-.28-.2-.57-.35M12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88m8.41-18.3A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89a11.82 11.82 0 0 0-3.48-8.41z"/></svg></span>
+        <span><strong>Chamar no WhatsApp</strong><small>(84) 98685-6245</small></span>
+        <span class="seta">→</span>
+      </a>
+      <a class="link-card reveal" style="--d:10" href="https://instagram.com/jansuerribeiro" target="_blank" rel="noopener">
+        <span class="ic ig"><svg viewBox="0 0 24 24"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.64-.07-4.85s.01-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.41-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></svg></span>
+        <span><strong>Instagram</strong><small>@jansuerribeiro</small></span>
+        <span class="seta">↗</span>
+      </a>
+      <a class="link-card reveal" style="--d:11" href="https://search.google.com/local/writereview?placeid=ChIJf69ku0D_sgcRJXvXOuYBMmw" target="_blank" rel="noopener">
+        <span class="ic gg"><svg viewBox="0 0 24 24"><path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92a5.06 5.06 0 0 1-2.2 3.32v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.1z" fill="#4285F4"/><path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84A11 11 0 0 0 12 23z" fill="#34A853"/><path d="M5.84 14.09A6.6 6.6 0 0 1 5.49 12c0-.73.13-1.43.35-2.09V7.07H2.18A11 11 0 0 0 1 12c0 1.78.43 3.45 1.18 4.93l3.66-2.84z" fill="#FBBC05"/><path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15A10.6 10.6 0 0 0 12 1 11 11 0 0 0 2.18 7.07l3.66 2.84C6.71 7.31 9.14 5.38 12 5.38z" fill="#EA4335"/></svg></span>
+        <span><strong>Avalie no Google <span class="estrelas" id="estrelas" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2l3 6.9 7.5.6-5.7 4.9 1.8 7.3L12 17.8 5.4 21.7l1.8-7.3L1.5 9.5 9 8.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.9 7.5.6-5.7 4.9 1.8 7.3L12 17.8 5.4 21.7l1.8-7.3L1.5 9.5 9 8.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.9 7.5.6-5.7 4.9 1.8 7.3L12 17.8 5.4 21.7l1.8-7.3L1.5 9.5 9 8.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.9 7.5.6-5.7 4.9 1.8 7.3L12 17.8 5.4 21.7l1.8-7.3L1.5 9.5 9 8.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2l3 6.9 7.5.6-5.7 4.9 1.8 7.3L12 17.8 5.4 21.7l1.8-7.3L1.5 9.5 9 8.9z"/></svg></span></strong><small>Conte como foi seu atendimento</small></span>
+        <span class="seta">↗</span>
+      </a>
+    </nav>
+
+    <div class="acoes reveal" style="--d:12">
+      <button class="acao sal" id="salvar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v11M7 10l5 5 5-5M5 20h14"/></svg>Salvar contato</button>
+      <button class="acao com" id="compartilhar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="18" cy="5" r="2.5"/><circle cx="6" cy="12" r="2.5"/><circle cx="18" cy="19" r="2.5"/><path d="M8.2 10.8l7.6-4.4M8.2 13.2l7.6 4.4"/></svg>Compartilhar</button>
+    </div>
+  </main>
+
+  <footer class="reveal" style="--d:13">
+    <span class="frase">Liberdade é direito, não privilégio.</span>
+    <span>© <span id="ano">2026</span> Jansuêr Ribeiro · fim dos autos</span>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const splash = $('#splash'), folha = $('#folha');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const timers = [];
+  const later = (fn, ms) => timers.push(setTimeout(fn, ms));
+  let done = false;
+
+  $('#ano').textContent = new Date().getFullYear();
+
+  function enter(){
+    if (done) return; done = true;
+    timers.forEach(clearTimeout);
+    splash.classList.add('done');
+    document.body.classList.remove('intro-on');
+    document.body.classList.add('ready');
+    iniciarPagina();
+  }
+
+  function rodarCena(){
+    const mt = $('#martelo'), bloco = $('#bloco'), onda = $('#onda'), cena = $('#cena'), fala = $('#fala'), flash = $('#flash');
+    const can = !!mt.animate;
+    const falas = ['ordem no <b>tribunal</b>', 'o júri chegou a uma <b>decisão</b>', ''];
+    function batida(i, forte){
+      const dur = forte ? 760 : 520, hit = .5;
+      if (can) mt.animate([
+        {transform:'rotate(35deg)', easing:'cubic-bezier(.55,0,1,.6)'},
+        {transform:'rotate(-1.5deg)', offset:hit, easing:'ease-out'},
+        {transform:'rotate(5deg)', offset:hit + .12, easing:'ease-in-out'},
+        {transform: forte ? 'rotate(14deg)' : 'rotate(35deg)'}
+      ], {duration:dur, fill:'forwards'});
+      later(() => {
+        if (can) {
+          onda.animate([{opacity:.9, transform:'scale(.6)'},{opacity:0, transform:`scale(${forte ? 2.4 : 1.8})`}], {duration:forte ? 700 : 500, easing:'ease-out'});
+          bloco.animate([{transform:'scaleY(.9)'},{transform:'scaleY(1)'}], {duration:220, easing:'ease-out'});
+          const a = forte ? 6 : 3;
+          cena.animate([{transform:'none'},{transform:`translate(${a}px,${a/2}px)`},{transform:`translate(${-a}px,${-a/2}px)`},{transform:'none'}], {duration:240});
+          if (forte) flash.animate([{opacity:0},{opacity:1},{opacity:0}], {duration:700, easing:'ease-out'});
+        }
+        if (forte) { fala.innerHTML = ''; splash.classList.add('vd'); }
+        else fala.innerHTML = falas[i];
+      }, dur * hit);
+    }
+    later(() => batida(0, false), 550);
+    later(() => batida(1, false), 1250);
+    later(() => batida(2, true), 2000);
+  }
+
+  splash.addEventListener('click', enter);
+  if (reduce) enter(); else { rodarCena(); later(enter, 4300); }
+
+  // ---------- tema ----------
+  const meta = document.querySelector('meta[name="theme-color"]');
+  function aplicaTema(t){
+    document.documentElement.setAttribute('data-theme', t);
+    meta.setAttribute('content', t === 'light' ? '#f2ede3' : '#121419');
+  }
+  aplicaTema(document.documentElement.getAttribute('data-theme') || 'dark');
+  $('#tema').addEventListener('click', () => {
+    const t = document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    aplicaTema(t); try{ localStorage.setItem('jr4-card-theme', t) }catch(e){}
+  });
+
+  // ---------- página ----------
+  function iniciarPagina(){
+    const est = $('#estrelas');
+    if ('IntersectionObserver' in window) {
+      const io = new IntersectionObserver(es => es.forEach(e => {
+        if (e.isIntersecting) { [...est.children].forEach((s,i) => setTimeout(() => s.style.fill = 'var(--accent)', 1200 + i*140)); io.disconnect(); }
+      }), {threshold:.6});
+      io.observe(est);
+    } else est.classList.add('on');
+  }
+
+  // carimbar de novo ao tocar na foto
+  const selo = $('#selo');
+  selo.addEventListener('click', () => {
+    selo.classList.remove('again'); void selo.offsetWidth; selo.classList.add('again');
+    if (navigator.vibrate) try{navigator.vibrate(10)}catch(e){}
+  });
+
+  // WhatsApp com mensagem
+  $('#waBtn').href = 'https://wa.me/5584986856245?text=' + encodeURIComponent('Olá, Jansuêr! Vim pelo seu cartão virtual.');
+
+  // ---------- toast ----------
+  let tt;
+  function toast(msg){ const el = $('#toast'); el.textContent = msg; el.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => el.classList.remove('on'), 2400); }
+
+  // ---------- vCard ----------
+  let photoB64 = '';
+  try { fetch('assets/foto.jpg').then(r => r.ok ? r.blob() : null).then(b => { if (!b) return; const fr = new FileReader(); fr.onload = () => { photoB64 = String(fr.result).split(',')[1] || '' }; fr.readAsDataURL(b); }).catch(() => {}); } catch(e){}
+  $('#salvar').addEventListener('click', () => {
+    // PENDENTE: cidade/UF e número da OAB não constam no cartão antigo
+    const L = ['BEGIN:VCARD','VERSION:3.0','N:Ribeiro;Jansuêr;;;','FN:Jansuêr Ribeiro','TITLE:Advogado Criminalista',
+      'TEL;TYPE=CELL:+5584986856245','X-SOCIALPROFILE;TYPE=instagram:https://instagram.com/jansuerribeiro',
+      'URL:https://instagram.com/jansuerribeiro','NOTE:Advogado criminalista · Atuação nacional em casos complexos'];
+    if (photoB64) L.push('PHOTO;ENCODING=b;TYPE=JPEG:' + photoB64);
+    L.push('END:VCARD');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([L.join('\r\n')], {type:'text/vcard;charset=utf-8'}));
+    a.download = 'jansuer-ribeiro.vcf'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    toast('✓ contato salvo');
+  });
+
+  // ---------- compartilhar ----------
+  $('#compartilhar').addEventListener('click', () => {
+    const data = {title:'Jansuêr Ribeiro', text:'Jansuêr Ribeiro — Advogado Criminalista', url:location.href};
+    if (navigator.share) { navigator.share(data).catch(() => {}); return; }
+    try { navigator.clipboard.writeText(location.href).then(() => toast('✓ link copiado'), () => toast(location.href)); } catch(e){ toast(location.href); }
+  });
+})();
+</script>
+</body>
+</html>
