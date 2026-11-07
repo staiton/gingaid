@@ -1,696 +1,394 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>Ginga ID — Sua identidade. Um toque.</title>
-  <meta name="theme-color" content="#082B3A">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    *, *::before, *::after {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    :root {
-      --azul-profundo: #082B3A;
-      --azul-light: #0c3d50;
-      --azul-surface: #0e4558;
-      --turquesa: #12B8A6;
-      --turquesa-dim: rgba(18, 184, 166, 0.12);
-      --turquesa-glow: rgba(18, 184, 166, 0.25);
-      --amarelo: #F4C95D;
-      --amarelo-dim: rgba(244, 201, 93, 0.12);
-      --off-white: #F6F7F2;
-      --text-primary: #F6F7F2;
-      --text-body: #b8ccd4;
-      --text-muted: #6a8a98;
-      --text-dim: #3a5a68;
-      --whatsapp: #25d366;
-      --instagram: #e1306c;
-    }
-
-    html { font-size: 16px; }
-
-    body {
-      font-family: 'DM Sans', sans-serif;
-      background: var(--azul-profundo);
-      color: var(--text-primary);
-      min-height: 100vh;
-      min-height: 100dvh;
-      display: flex;
-      justify-content: center;
-      overflow-x: hidden;
-      position: relative;
-    }
-
-    /* Padrao de pontos — derivado do "Ponto de Contato" */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: radial-gradient(circle, rgba(18, 184, 166, 0.06) 1px, transparent 1px);
-      background-size: 24px 24px;
-      pointer-events: none;
-      z-index: 0;
-    }
-
-    /* Glow ambiente — derivado da "Curva Principal" */
-    body::after {
-      content: '';
-      position: fixed;
-      top: -160px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 450px;
-      height: 450px;
-      background: radial-gradient(ellipse, rgba(18, 184, 166, 0.07) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 0;
-      animation: ambientPulse 6s ease-in-out infinite;
-    }
-
-    @keyframes ambientPulse {
-      0%, 100% { opacity: 0.5; transform: translateX(-50%) scale(1); }
-      50% { opacity: 1; transform: translateX(-50%) scale(1.1); }
-    }
-
-    .container {
-      width: 100%;
-      max-width: 420px;
-      min-height: 100vh;
-      min-height: 100dvh;
-      padding: 0 24px 36px;
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
-
-    /* =============================================
-       SIMBOLO + ANIMACAO (Arcos de Sinal)
-       ============================================= */
-    .header {
-      text-align: center;
-      padding-top: 48px;
-      margin-bottom: 0;
-      opacity: 0;
-      animation: fadeDown 0.8s ease forwards;
-    }
-
-    .symbol-container {
-      position: relative;
-      width: 140px;
-      height: 140px;
-      margin: 0 auto 24px;
-    }
-
-    /* Simbolo central */
-    .symbol-core {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  background: var(--off-white);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow:
-    0 0 30px var(--turquesa-glow),
-    0 0 60px rgba(18, 184, 166, 0.1);
-  z-index: 3;
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ginga ID — Sua identidade. Um toque.</title>
+<meta name="description" content="Ginga ID: soluções em identidade digital com NFC e QR Code para pessoas, pets e negócios. Feito em Natal/RN.">
+<meta name="theme-color" content="#082B3A">
+<meta name="author" content="Ginga ID">
+<meta property="og:title" content="Ginga ID — Sua identidade. Um toque.">
+<meta property="og:description" content="Cartões digitais, tags para pets e displays NFC + QR Code para negócios. Feito em Natal/RN.">
+<meta property="og:image" content="assets/logo.png">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_BR">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="apple-touch-icon" href="assets/logo.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700;12..96,800&family=JetBrains+Mono:wght@400;600&family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#082B3A; --bg-2:#051d27; --surface:#0d3d52; --surface-2:#11475e;
+  --ink:#F6F7F2; --body:#b8ccd4; --muted:#7a9aa6;
+  --line:rgba(255,255,255,.09); --line-2:rgba(18,184,166,.22);
+  --teal:#12B8A6; --teal-d:#0e9a8b; --teal-dim:rgba(18,184,166,.13);
+  --sun:#F4C85D; --paper:#F6F7F2;
+  --ease:cubic-bezier(.22,1,.36,1);
+  --f-display:"Bricolage Grotesque",system-ui,sans-serif;
+  --f-body:"Manrope",system-ui,sans-serif;
+  --f-mono:"JetBrains Mono",ui-monospace,monospace;
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
 }
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased;min-height:100svh;overflow-x:hidden}
+body.intro-on{overflow:hidden}
+body::before{content:"";position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:radial-gradient(circle,rgba(18,184,166,.09) 1px,transparent 1.2px);background-size:22px 22px;
+  -webkit-mask-image:linear-gradient(#000 0,rgba(0,0,0,.35) 70%);mask-image:linear-gradient(#000 0,rgba(0,0,0,.35) 70%)}
+body::after{content:"";position:fixed;left:50%;top:-220px;width:620px;height:520px;transform:translateX(-50%);pointer-events:none;z-index:0;
+  background:radial-gradient(closest-side,rgba(18,184,166,.20),transparent),radial-gradient(closest-side at 70% 60%,rgba(244,200,93,.08),transparent)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a,button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+img,svg{display:block;max-width:100%}
+:focus-visible{outline:2px solid var(--teal);outline-offset:3px;border-radius:8px}
 
-    .symbol-core img {
-      width: 95%;
-      height: 95%;
-      object-fit: contain;
-      display: block;
-    }
+/* ================= ABERTURA: ponto de leitura ================= */
+.splash{position:fixed;inset:0;z-index:100;display:grid;place-items:center;overflow:hidden;background:radial-gradient(120% 80% at 50% 42%,#0e4558 0%,#082B3A 45%,#041821 100%);color:#F6F7F2;transition:opacity .6s var(--ease),visibility .6s}
+.splash::before{content:"";position:absolute;inset:0;background-image:linear-gradient(rgba(18,184,166,.08) 1px,transparent 1px),linear-gradient(90deg,rgba(18,184,166,.08) 1px,transparent 1px);background-size:28px 28px;
+  -webkit-mask-image:radial-gradient(closest-side,#000,transparent);mask-image:radial-gradient(closest-side,#000,transparent)}
+.splash.done{opacity:0;visibility:hidden}
+.skip{position:absolute;top:calc(14px + var(--sat));right:14px;z-index:3;min-height:44px;padding:0 18px;border-radius:99px;font-family:var(--f-mono);font-size:12px;
+  color:inherit;opacity:.75;background:rgba(127,127,127,.12);border:1px solid rgba(127,127,127,.2)}
+.reader{position:relative;width:240px;height:240px;transition:transform .8s var(--ease)}
+.splash.st3 .reader{transform:translateY(-34px) scale(.82)}
+.reader svg.dial{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.dial .track{fill:none;stroke:rgba(127,127,127,.22);stroke-width:2;stroke-dasharray:3 7}
+.dial .prog{fill:none;stroke:#12B8A6;stroke-width:4;stroke-linecap:round;stroke-dasharray:629;stroke-dashoffset:629;transform:rotate(-90deg);transform-origin:120px 120px}
+.splash.st2 .dial .prog{transition:stroke-dashoffset 1.25s cubic-bezier(.6,0,.3,1);stroke-dashoffset:0}
+.dial .spin{transform-origin:120px 120px;animation:spin 14s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.target{position:absolute;inset:0;display:grid;place-content:center;justify-items:center;gap:8px;transition:opacity .35s}
+.target svg{width:58px;height:58px;color:#12B8A6}
+.target span{font-family:var(--f-mono);font-size:12px;letter-spacing:.08em;opacity:.7}
+.splash.st1 .target{opacity:0}
+.waves{position:absolute;left:50%;top:50%;width:0;height:0}
+.waves i{position:absolute;left:-60px;top:-60px;width:120px;height:120px;border-radius:50%;border:2px solid #12B8A6;opacity:0}
+.waves i:nth-child(2){border-color:#F4C85D}
+.splash.st2 .waves i{animation:wave 1.3s var(--ease) forwards}
+.splash.st2 .waves i:nth-child(2){animation-delay:.25s}
+.splash.st2 .waves i:nth-child(3){animation-delay:.5s}
+@keyframes wave{0%{transform:scale(.4);opacity:.9}100%{transform:scale(2.6);opacity:0}}
+.tag{position:absolute;left:50%;top:50%;width:112px;height:112px;margin:-56px 0 0 -56px;border-radius:50%;background:#fff;padding:10px;
+  box-shadow:0 0 0 6px rgba(18,184,166,.14),0 30px 40px -18px rgba(0,0,0,.7);
+  transform:translate(150px,330px) rotate(40deg) scale(1.35);opacity:0;transition:transform 1.05s var(--ease),opacity .4s,box-shadow .6s}
+.splash.st1 .tag{transform:none;opacity:1}
+.splash.st3 .tag{box-shadow:0 0 0 10px rgba(18,184,166,.14),0 0 70px rgba(18,184,166,.5)}
+.tag img{width:100%;height:100%}
+.check{position:absolute;right:16px;top:16px;width:40px;height:40px;border-radius:50%;background:#12B8A6;color:#082B3A;display:grid;place-items:center;transform:scale(0);transition:transform .5s cubic-bezier(.34,1.56,.64,1)}
+.splash.st3 .check{transform:scale(1)}
+.check svg{width:22px;height:22px}
+.log{position:absolute;left:50%;top:calc(50% + 140px);transform:translateX(-50%);width:min(300px,86vw);font-family:var(--f-mono);font-size:12px;line-height:1.9;transition:opacity .35s}
+.log p{opacity:0;transform:translateY(6px);transition:opacity .3s,transform .3s;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.log p.on{opacity:.8;transform:none}
+.log p b{color:#12B8A6;font-weight:600}
+.splash.st3 .log{opacity:0}
+.brand{position:absolute;left:0;right:0;top:calc(50% + 78px);text-align:center;pointer-events:none}
+.brand>*{opacity:0;transform:translateY(10px);filter:blur(8px);transition:opacity .6s var(--ease),transform .7s var(--ease),filter .6s}
+.splash.st3 .brand>*{opacity:1;transform:none;filter:none}
+.splash.st3 .brand>:nth-child(2){transition-delay:.15s}
+.brand h2{font-family:var(--f-display);font-weight:800;font-size:40px;letter-spacing:.12em;line-height:1}
+.brand h2 b{color:#F4C85D}
+.brand p{margin-top:10px;font-family:var(--f-mono);font-size:12px;opacity:.7}
+.skiptxt{position:absolute;left:0;right:0;bottom:calc(24px + var(--sab));text-align:center;font-family:var(--f-mono);font-size:11px;opacity:.5;letter-spacing:.06em}
 
-    /* Placeholder do simbolo */
-    .symbol-placeholder {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: 1.5rem;
-      color: var(--azul-profundo);
-      letter-spacing: -1px;
-    }
+/* ================= PÁGINA ================= */
+.wrap{position:relative;z-index:1;width:100%;max-width:460px;margin:0 auto;padding:calc(12px + var(--sat)) 16px calc(28px + var(--sab))}
+.reveal{opacity:0;transform:translateY(16px)}
+body.ready .reveal{opacity:1;transform:none;transition:opacity .7s var(--ease),transform .8s var(--ease);transition-delay:calc(var(--d,0)*90ms)}
 
-    /* Arcos de Sinal — anel 1 (interno) */
-    .sinal-ring-1 {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 100px;
-      height: 100px;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      border: 1.5px solid rgba(18, 184, 166, 0.2);
-      border-top-color: var(--turquesa);
-      border-right-color: transparent;
-      animation: sinalRotate 4s linear infinite;
-      z-index: 2;
-    }
+.topbar{position:sticky;top:calc(10px + var(--sat));z-index:20;display:flex;align-items:center;gap:10px;padding:7px 8px 7px 8px;border-radius:99px;
+  background:color-mix(in srgb,var(--bg) 72%,transparent);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);border:1px solid var(--line)}
+.topbar img{width:32px;height:32px;border-radius:50%;background:var(--paper);padding:2px}
+.topbar .wm{font-family:var(--f-display);font-weight:800;font-size:15px;letter-spacing:.12em}
+.topbar .wm b{color:var(--sun)}
+.status{margin-left:auto;display:inline-flex;align-items:center;gap:7px;min-height:32px;padding:0 12px;border-radius:99px;background:var(--teal-dim);color:var(--teal);font-size:12px;font-weight:700;letter-spacing:.04em}
+.led{width:7px;height:7px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 0 rgba(18,184,166,.6);animation:led 1.8s infinite}
+@keyframes led{0%{box-shadow:0 0 0 0 rgba(18,184,166,.6)}80%,100%{box-shadow:0 0 0 8px rgba(18,184,166,0)}}
 
-    /* Arcos de Sinal — anel 2 (externo) */
-    .sinal-ring-2 {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 126px;
-      height: 126px;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      border: 1px solid rgba(18, 184, 166, 0.1);
-      border-bottom-color: var(--amarelo);
-      border-left-color: transparent;
-      animation: sinalRotateReverse 6s linear infinite;
-      z-index: 2;
-    }
+.hero{text-align:center;padding:38px 0 8px}
+.orb{position:relative;width:176px;height:176px;margin:0 auto 22px;display:grid;place-items:center;border-radius:50%}
+.orb .core{position:relative;z-index:2;width:108px;height:108px;border-radius:50%;background:var(--paper);padding:8px;
+  box-shadow:0 0 0 8px rgba(18,184,166,.08),0 0 50px rgba(18,184,166,.35);transition:transform .3s var(--ease)}
+.orb:active .core{transform:scale(.95)}
+.orb .pulse{position:absolute;inset:34px;border-radius:50%;border:1.5px solid var(--teal);opacity:0;animation:pulse 3.2s var(--ease) infinite}
+.orb .pulse:nth-of-type(2){border-color:var(--sun);animation-delay:1.06s}
+.orb .pulse:nth-of-type(3){animation-delay:2.13s}
+@keyframes pulse{0%{transform:scale(.9);opacity:.75}100%{transform:scale(1.75);opacity:0}}
+.orb .ring{position:absolute;inset:6px;border-radius:50%;border:1px dashed rgba(18,184,166,.25);animation:spin 18s linear infinite}
+.orb .ring::after{content:"";position:absolute;top:-4px;left:50%;width:8px;height:8px;margin-left:-4px;border-radius:50%;background:var(--sun);box-shadow:0 0 10px var(--sun)}
+@keyframes spin{to{transform:rotate(360deg)}}
+.orb .ping{position:absolute;inset:34px;border-radius:50%;border:2px solid var(--teal);opacity:0;pointer-events:none}
+.orb.tap .ping{animation:wave 1s var(--ease)}
+.orb-hint{display:block;margin:-10px auto 18px;font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
 
-    /* Arcos de Sinal — anel 3 (mais externo, tracejado) */
-    .sinal-ring-3 {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 140px;
-      height: 140px;
-      transform: translate(-50%, -50%);
-      border-radius: 50%;
-      border: 1px dashed rgba(18, 184, 166, 0.08);
-      border-top-color: rgba(18, 184, 166, 0.15);
-      animation: sinalRotate 10s linear infinite;
-      z-index: 1;
-    }
+.kicker{display:inline-flex;align-items:center;gap:8px;padding:6px 14px;border-radius:99px;border:1px solid var(--line-2);background:rgba(18,184,166,.07);font-size:12px;font-weight:600;color:var(--body);letter-spacing:.03em}
+.kicker svg{width:14px;height:14px;color:var(--teal)}
+h1{font-family:var(--f-display);font-weight:800;font-size:clamp(46px,14vw,60px);line-height:1;letter-spacing:.06em;margin:16px 0 10px}
+h1 b{color:var(--sun)}
+.tagline{font-family:var(--f-display);font-weight:600;font-size:21px;line-height:1.25;letter-spacing:-.01em}
+.swoosh{position:relative;display:inline-block;color:var(--teal)}
+.swoosh svg{position:absolute;left:-2px;right:-2px;bottom:-8px;width:calc(100% + 4px);height:10px;overflow:visible}
+.swoosh path{fill:none;stroke:var(--sun);stroke-width:3;stroke-linecap:round;stroke-dasharray:120;stroke-dashoffset:120}
+body.ready .swoosh path{transition:stroke-dashoffset 1s var(--ease) .7s;stroke-dashoffset:0}
+.sub{margin-top:14px;font-size:14px;color:var(--muted);letter-spacing:.02em}
 
-    @keyframes sinalRotate {
-      to { transform: translate(-50%, -50%) rotate(360deg); }
-    }
+.box{margin-top:26px;border-radius:22px;background:linear-gradient(180deg,var(--surface),rgba(13,61,82,.6));border:1px solid var(--line);overflow:hidden}
+.box-head{display:flex;align-items:center;gap:8px;padding:11px 16px;border-bottom:1px solid var(--line);font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.box-head svg{width:15px;height:15px;color:var(--teal);flex:none}
+.box-head .r{margin-left:auto;color:var(--teal);font-weight:700}
+.box-body{padding:18px 18px 16px;font-size:16px;line-height:1.65;color:var(--body)}
+.box-body strong{color:var(--ink);font-weight:700}
+.box-body .sig{margin-top:12px;font-family:var(--f-display);font-weight:600;color:var(--teal);font-size:15px}
 
-    @keyframes sinalRotateReverse {
-      to { transform: translate(-50%, -50%) rotate(-360deg); }
-    }
+.sols{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.sol{border-radius:18px;padding:14px 10px 12px;background:rgba(255,255,255,.03);border:1px solid var(--line);text-align:center}
+.sol .si{width:40px;height:40px;margin:0 auto 8px;border-radius:12px;display:grid;place-items:center;background:var(--teal-dim);color:var(--teal)}
+.sol:nth-child(2) .si{background:rgba(244,200,93,.12);color:var(--sun)}
+.sol .si svg{width:20px;height:20px}
+.sol b{display:block;font-family:var(--f-display);font-weight:700;font-size:15px;line-height:1.15}
+.sol span{display:block;margin-top:4px;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
 
-    /* Ponto de Contato — pontos orbitais */
-    .contact-point {
-      position: absolute;
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      z-index: 4;
-    }
+.eyebrow{display:flex;align-items:center;gap:12px;margin:32px 0 14px;font-size:12px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.eyebrow::before,.eyebrow::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,transparent,var(--line-2),transparent)}
+.eyebrow svg{width:16px;height:16px;color:var(--teal)}
 
-    .contact-point.p1 {
-      background: var(--turquesa);
-      box-shadow: 0 0 8px var(--turquesa);
-      animation: orbit1 4s linear infinite;
-    }
+.links{display:grid;gap:12px}
+.btn{position:relative;display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:14px;min-height:72px;padding:12px 16px 12px 12px;border-radius:20px;overflow:hidden;
+  transition:transform .25s var(--ease),border-color .25s,background .25s}
+.btn:active{transform:scale(.97)}
+.btn .i{position:relative;width:44px;height:44px;border-radius:14px;display:grid;place-items:center}
+.btn .i svg{width:22px;height:22px}
+.btn strong{display:block;font-family:var(--f-display);font-weight:700;font-size:17px;line-height:1.2}
+.btn small{display:block;font-size:14px;line-height:1.3;opacity:.8;overflow-wrap:anywhere}
+.btn .ar{font-size:20px;line-height:1;transition:transform .25s var(--ease)}
+.wa{background:linear-gradient(135deg,#16c7b4,var(--teal) 45%,var(--teal-d));color:#062330;box-shadow:0 14px 34px -14px rgba(18,184,166,.7)}
+.wa .i{border-radius:50%;background:#082B3A;color:#25D366}
+.wa .i::after{content:"";position:absolute;inset:0;border-radius:50%;border:2px solid #082B3A;animation:ringp 2s ease-out infinite}
+@keyframes ringp{0%{transform:scale(1);opacity:.6}100%{transform:scale(1.45);opacity:0}}
+.wa::before{content:"";position:absolute;top:0;bottom:0;left:0;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.38),transparent);transform:translateX(-120%) skewX(-18deg);animation:shine 4.2s ease-in-out 1.5s infinite}
+@keyframes shine{0%{transform:translateX(-120%) skewX(-18deg)}35%,100%{transform:translateX(330%) skewX(-18deg)}}
+.wa small{opacity:.85;font-weight:600}
+.lc{background:var(--surface);border:1px solid var(--line)}
+.lc .ar{color:var(--muted)}
+.site .i{background:var(--teal-dim);color:var(--teal)}
+.ig .i{background:radial-gradient(circle at 30% 107%,#fdf497 0%,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285AEB 90%);color:#fff}
+@media (hover:hover){
+  .lc:hover{border-color:var(--teal);transform:translateY(-2px)}
+  .btn:hover .ar{transform:translate(3px,-3px)}
+  .wa:hover .ar{transform:translateX(4px)}
+}
+.rip{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:rip .6s ease-out forwards;pointer-events:none}
+@keyframes rip{to{transform:scale(1);opacity:0}}
 
-    .contact-point.p2 {
-      background: var(--amarelo);
-      box-shadow: 0 0 8px var(--amarelo);
-      animation: orbit2 6s linear infinite;
-    }
+.actions{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
+.act{display:flex;align-items:center;justify-content:center;gap:8px;min-height:54px;border-radius:16px;font-weight:700;font-size:15px;transition:transform .2s var(--ease)}
+.act:active{transform:scale(.97)}
+.act svg{width:18px;height:18px}
+.save{background:var(--sun);color:#082B3A}
+.share{border:1.5px solid var(--line-2);color:var(--ink);background:rgba(18,184,166,.05)}
 
-    .contact-point.p3 {
-      background: var(--off-white);
-      box-shadow: 0 0 6px rgba(246, 247, 242, 0.4);
-      animation: orbit3 8s linear infinite;
-    }
+.trust{display:flex;justify-content:center;flex-wrap:wrap;gap:8px 16px;margin-top:26px;font-size:13px;color:var(--muted)}
+.trust span{display:inline-flex;align-items:center;gap:6px}
+.trust svg{width:15px;height:15px;color:var(--teal)}
 
-    @keyframes orbit1 {
-      0%   { top: 10px;  left: 50%; }
-      25%  { top: 50%;   left: 130px; }
-      50%  { top: 130px; left: 50%; }
-      75%  { top: 50%;   left: 10px; }
-      100% { top: 10px;  left: 50%; }
-    }
+footer{margin-top:28px;padding-top:18px;border-top:1px solid var(--line);text-align:center;font-size:12px;color:var(--muted);letter-spacing:.04em}
+footer p+p{margin-top:4px}
+footer .fx{font-family:var(--f-display);font-weight:600;font-size:14px;color:var(--body);letter-spacing:0}
+footer .fx i{font-style:normal;color:var(--sun)}
 
-    @keyframes orbit2 {
-      0%   { top: 50%;   left: 134px; }
-      25%  { top: 134px; left: 50%; }
-      50%  { top: 50%;   left: 6px; }
-      75%  { top: 6px;   left: 50%; }
-      100% { top: 50%;   left: 134px; }
-    }
+.toast{position:fixed;left:50%;bottom:calc(22px + var(--sab));z-index:60;transform:translate(-50%,24px);opacity:0;pointer-events:none;
+  padding:12px 20px;border-radius:99px;background:var(--paper);color:#082B3A;font-weight:700;font-size:14px;box-shadow:0 14px 30px -10px rgba(0,0,0,.5);transition:.35s var(--ease);max-width:calc(100% - 32px);overflow-wrap:anywhere;text-align:center}
+.toast.on{transform:translate(-50%,0);opacity:1}
 
-    @keyframes orbit3 {
-      0%   { top: 134px; left: 50%; }
-      25%  { top: 50%;   left: 6px; }
-      50%  { top: 6px;   left: 50%; }
-      75%  { top: 50%;   left: 134px; }
-      100% { top: 134px; left: 50%; }
-    }
-
-    /* =============================================
-       NOME — Lockup Principal
-       ============================================= */
-    .brand-name {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 700;
-      font-size: 2.2rem;
-      letter-spacing: 4px;
-      text-transform: uppercase;
-      color: var(--text-primary);
-      margin-bottom: 6px;
-    }
-
-    .brand-name .id {
-      font-size: 1.2rem;
-      color: var(--amarelo);
-      vertical-align: middle;
-      letter-spacing: 2px;
-    }
-
-    .brand-tagline {
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 400;
-      font-size: 0.82rem;
-      letter-spacing: 1px;
-      color: var(--text-body);
-      opacity: 0;
-      animation: fadeDown 0.8s ease 0.2s forwards;
-    }
-
-    .brand-tagline .dot {
-      color: var(--amarelo);
-      font-weight: 700;
-    }
-
-    /* =============================================
-       CURVA PRINCIPAL — divider decorativo
-       ============================================= */
-    .curva-divider {
-      width: 100%;
-      height: 20px;
-      margin: 24px auto;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      opacity: 0;
-      animation: fadeDown 0.7s ease 0.3s forwards;
-    }
-
-    .curva-divider svg {
-      width: 120px;
-      height: 20px;
-    }
-
-    /* =============================================
-       DESCRICAO
-       ============================================= */
-    .description {
-      text-align: center;
-      font-size: 0.82rem;
-      line-height: 1.7;
-      color: var(--text-muted);
-      max-width: 340px;
-      margin-bottom: 8px;
-      opacity: 0;
-      animation: fadeDown 0.7s ease 0.35s forwards;
-    }
-
-    .tagline-secondary {
-      text-align: center;
-      font-family: 'Space Grotesk', sans-serif;
-      font-weight: 500;
-      font-size: 0.72rem;
-      letter-spacing: 0.5px;
-      color: var(--turquesa);
-      max-width: 320px;
-      margin-bottom: 0;
-      opacity: 0;
-      animation: fadeDown 0.7s ease 0.4s forwards;
-    }
-
-    .divider-simple {
-      width: 50px;
-      height: 1px;
-      background: var(--text-dim);
-      margin: 24px auto;
-      opacity: 0;
-      animation: fadeDown 0.6s ease 0.45s forwards;
-    }
-
-    /* =============================================
-       LINKS
-       ============================================= */
-    .links-section {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 12px;
-    }
-
-    .link-card {
-      display: flex;
-      align-items: center;
-      gap: 16px;
-      padding: 16px 20px;
-      background: var(--azul-light);
-      border: 1px solid rgba(18, 184, 166, 0.08);
-      border-radius: 14px;
-      text-decoration: none;
-      color: var(--text-primary);
-      position: relative;
-      overflow: hidden;
-      transition: all 0.35s ease;
-      opacity: 0;
-      transform: translateY(15px);
-    }
-
-    .link-card:nth-child(1) { animation: fadeUp 0.6s ease 0.55s forwards; }
-    .link-card:nth-child(2) { animation: fadeUp 0.6s ease 0.7s forwards; }
-    .link-card:nth-child(3) { animation: fadeUp 0.6s ease 0.85s forwards; }
-
-    /* Curva de destaque no hover */
-    .link-card::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
-      bottom: 0;
-      width: 3px;
-      border-radius: 0 2px 2px 0;
-      opacity: 0;
-      transition: opacity 0.35s ease;
-    }
-
-    .link-card.whatsapp::before { background: var(--whatsapp); }
-    .link-card.instagram::before { background: var(--instagram); }
-    .link-card.site::before { background: var(--turquesa); }
-
-    .link-card:hover::before,
-    .link-card:active::before { opacity: 1; }
-
-    .link-card:hover {
-      background: var(--azul-surface);
-      border-color: rgba(18, 184, 166, 0.2);
-      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.2);
-      transform: translateY(-1px);
-    }
-
-    .link-card:active {
-      transform: scale(0.98) translateY(0);
-    }
-
-    .link-icon-wrap {
-      width: 44px;
-      height: 44px;
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      transition: transform 0.3s ease;
-    }
-
-    .link-card:hover .link-icon-wrap { transform: scale(1.05); }
-
-    .whatsapp .link-icon-wrap {
-      background: rgba(37, 211, 102, 0.1);
-      border: 1px solid rgba(37, 211, 102, 0.15);
-    }
-    .instagram .link-icon-wrap {
-      background: rgba(225, 48, 108, 0.1);
-      border: 1px solid rgba(225, 48, 108, 0.15);
-    }
-    .site .link-icon-wrap {
-      background: var(--turquesa-dim);
-      border: 1px solid rgba(18, 184, 166, 0.15);
-    }
-
-    .link-icon-wrap svg { width: 22px; height: 22px; }
-    .whatsapp .link-icon-wrap svg { fill: var(--whatsapp); }
-    .instagram .link-icon-wrap svg { fill: var(--instagram); }
-    .site .link-icon-wrap svg { fill: var(--turquesa); }
-
-    .link-text { flex: 1; }
-
-    .link-title {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.82rem;
-      font-weight: 600;
-      letter-spacing: 0.5px;
-      color: var(--text-primary);
-      margin-bottom: 2px;
-    }
-
-    .link-desc {
-      font-size: 0.7rem;
-      color: var(--text-muted);
-      font-weight: 400;
-    }
-
-    .link-arrow {
-      color: var(--text-dim);
-      font-size: 1.2rem;
-      transition: all 0.3s ease;
-      font-weight: 300;
-    }
-
-    .link-card:hover .link-arrow {
-      transform: translateX(4px);
-      color: var(--turquesa);
-    }
-
-    /* =============================================
-       PADRAO DE CONEXAO — decoracao inferior
-       ============================================= */
-    .pattern-decoration {
-      width: 100%;
-      margin-top: 28px;
-      display: flex;
-      justify-content: center;
-      gap: 6px;
-      opacity: 0;
-      animation: fadeDown 0.6s ease 0.95s forwards;
-    }
-
-    .pattern-dot {
-      width: 4px;
-      height: 4px;
-      border-radius: 50%;
-      background: var(--text-dim);
-    }
-
-    .pattern-dot.active {
-      background: var(--turquesa);
-      box-shadow: 0 0 6px var(--turquesa-glow);
-    }
-
-    .pattern-line {
-      width: 20px;
-      height: 1px;
-      background: var(--text-dim);
-      align-self: center;
-    }
-
-    /* =============================================
-       FOOTER
-       ============================================= */
-    .footer {
-      margin-top: auto;
-      padding-top: 24px;
-      text-align: center;
-      opacity: 0;
-      animation: fadeDown 0.6s ease 1s forwards;
-    }
-
-    .footer-line {
-      width: 40px;
-      height: 1px;
-      background: var(--text-dim);
-      margin: 0 auto 14px;
-    }
-
-    .footer-tagline {
-      font-family: 'Space Grotesk', sans-serif;
-      font-size: 0.68rem;
-      letter-spacing: 1px;
-      color: var(--text-muted);
-      margin-bottom: 4px;
-    }
-
-    .footer-tagline .dot {
-      color: var(--amarelo);
-    }
-
-    .footer-year {
-      font-size: 0.55rem;
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      color: var(--text-dim);
-    }
-
-    /* =============================================
-       ANIMACOES
-       ============================================= */
-    @keyframes fadeDown {
-      from { opacity: 0; transform: translateY(-10px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(15px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    /* =============================================
-       RESPONSIVO
-       ============================================= */
-    @media (max-width: 360px) {
-      .brand-name { font-size: 1.8rem; letter-spacing: 2px; }
-      .brand-name .id { font-size: 1rem; }
-      .symbol-container { width: 120px; height: 120px; }
-      .symbol-core { width: 60px; height: 60px; }
-      .sinal-ring-1 { width: 86px; height: 86px; }
-      .sinal-ring-2 { width: 108px; height: 108px; }
-      .sinal-ring-3 { width: 120px; height: 120px; }
-      .link-card { padding: 14px 16px; }
-    }
-
-    @media (min-height: 800px) {
-      .header { padding-top: 60px; }
-    }
-  </style>
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition-duration:.01ms!important}
+  .splash{display:none}
+}
+</style>
 </head>
-<body>
+<body class="intro-on">
 
-  <div class="container">
-
-    <!-- ========================================
-         SIMBOLO COM ANIMACAO
-         Troque o src da logo
-         ======================================== -->
-    <div class="header">
-      <div class="symbol-container">
-
-        <!-- Ponto de Contato orbital 1 -->
-        <div class="contact-point p1"></div>
-        <!-- Ponto de Contato orbital 2 -->
-        <div class="contact-point p2"></div>
-        <!-- Ponto de Contato orbital 3 -->
-        <div class="contact-point p3"></div>
-
-        <!-- Arcos de Sinal -->
-        <div class="sinal-ring-1"></div>
-        <div class="sinal-ring-2"></div>
-        <div class="sinal-ring-3"></div>
-
-        <!-- Simbolo central -->
-        <div class="symbol-core">
-          <!-- COLOQUE SUA LOGO AQUI -->
-          <img src="logo-ginga.png" alt="Ginga ID">
-          <!-- Placeholder (descomente se nao tiver logo):
-          <span class="symbol-placeholder">G</span>
-          -->
-        </div>
-
-      </div>
-
-      <!-- Lockup Principal -->
-      <h1 class="brand-name">Ginga <span class="id">ID</span></h1>
-      <p class="brand-tagline">Sua identidade. Um toque<span class="dot">.</span></p>
+<!-- ===== ABERTURA: a tela vira um leitor; a tag Ginga pousa e é lida ===== -->
+<div class="splash" id="splash" aria-hidden="true">
+  <button class="skip" type="button">pular ›</button>
+  <div class="reader">
+    <svg class="dial" viewBox="0 0 240 240">
+      <g class="spin"><circle class="track" cx="120" cy="120" r="112"/></g>
+      <circle class="prog" cx="120" cy="120" r="100"/>
+    </svg>
+    <div class="target">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M6 8.3a6 6 0 0 1 0 7.4"/><path d="M9.5 6a10 10 0 0 1 0 12"/><path d="M13 3.8a14 14 0 0 1 0 16.4"/><path d="M16.5 1.8a18 18 0 0 1 0 20.4"/></svg>
+      <span>aproxime aqui</span>
     </div>
-
-    <!-- Curva Principal — divider SVG -->
-    <div class="curva-divider">
-      <svg viewBox="0 0 120 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <path d="M0 10 Q30 0 60 10 Q90 20 120 10" stroke="rgba(18,184,166,0.2)" stroke-width="1" fill="none"/>
-        <circle cx="60" cy="10" r="2.5" fill="#F4C95D"/>
-        <circle cx="0" cy="10" r="1.5" fill="rgba(18,184,166,0.3)"/>
-        <circle cx="120" cy="10" r="1.5" fill="rgba(18,184,166,0.3)"/>
-      </svg>
-    </div>
-
-    <!-- DESCRICAO -->
-    <p class="description">
-      Soluções em identidade digital com tecnologia NFC e QR Code.
-      Conectamos pessoas, marcas e experiências com um simples toque.
-    </p>
-
-    <p class="tagline-secondary">
-      Tecnologia que conecta. Identidade que aproxima.
-    </p>
-
-    <div class="divider-simple"></div>
-
-    <!-- LINKS -->
-    <div class="links-section">
-
-      <!-- WHATSAPP -->
-      <a href="https://wa.me/5584994717566" target="_blank" rel="noopener noreferrer" class="link-card whatsapp">
-        <div class="link-icon-wrap">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
-          </svg>
-        </div>
-        <div class="link-text">
-          <div class="link-title">WhatsApp</div>
-          <div class="link-desc">Fale com a gente</div>
-        </div>
-        <span class="link-arrow">&#8250;</span>
-      </a>
-
-      <!-- INSTAGRAM -->
-      <a href="https://instagram.com/gingaid" target="_blank" rel="noopener noreferrer" class="link-card instagram">
-        <div class="link-icon-wrap">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/>
-          </svg>
-        </div>
-        <div class="link-text">
-          <div class="link-title">Instagram</div>
-          <div class="link-desc">@gingaid</div>
-        </div>
-        <span class="link-arrow">&#8250;</span>
-      </a>
-
-      <!-- SITE -->
-      <a href="https://gingaid.com.br" target="_blank" rel="noopener noreferrer" class="link-card site">
-        <div class="link-icon-wrap">
-          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
-          </svg>
-        </div>
-        <div class="link-text">
-          <div class="link-title">Site</div>
-          <div class="link-desc">gingaid.com.br</div>
-        </div>
-        <span class="link-arrow">&#8250;</span>
-      </a>
-
-    </div>
-
-    <!-- Padrao de Conexao -->
-    <div class="pattern-decoration">
-      <span class="pattern-dot"></span>
-      <span class="pattern-line"></span>
-      <span class="pattern-dot active"></span>
-      <span class="pattern-line"></span>
-      <span class="pattern-dot"></span>
-      <span class="pattern-line"></span>
-      <span class="pattern-dot active"></span>
-      <span class="pattern-line"></span>
-      <span class="pattern-dot"></span>
-    </div>
-
-    <!-- FOOTER -->
-    <div class="footer">
-      <div class="footer-line"></div>
-      <p class="footer-tagline">Tecnologia que conecta. Identidade que aproxima<span class="dot">.</span></p>
-      <p class="footer-year">&copy; 2026 Ginga ID</p>
-    </div>
-
+    <div class="waves"><i></i><i></i><i></i></div>
+    <div class="tag"><img src="assets/logo.png" alt="" width="92" height="92"></div>
+    <span class="check"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>
   </div>
+  <div class="log" id="log">
+    <p>&gt; tag detectada · <b>NFC</b></p>
+    <p>&gt; lendo registro NDEF · URI</p>
+    <p>&gt; <b>gingaid.com.br</b></p>
+    <p>&gt; ✓ identidade confirmada</p>
+  </div>
+  <div class="brand">
+    <h2>GINGA <b>ID</b></h2>
+    <p>sua identidade. um toque.</p>
+  </div>
+  <p class="skiptxt">toque para entrar</p>
+</div>
 
+<div class="wrap">
+  <header class="topbar reveal" style="--d:0">
+    <img src="assets/logo.png" alt="" width="32" height="32">
+    <span class="wm">GINGA <b>ID</b></span>
+    <span class="status"><span class="led"></span>tag ativa</span>
+  </header>
+
+  <main>
+    <section class="hero">
+      <button class="orb reveal" style="--d:1" id="orb" type="button" aria-label="Logo da Ginga ID — toque para aproximar">
+        <span class="ring"></span>
+        <span class="pulse"></span><span class="pulse"></span><span class="pulse"></span>
+        <span class="ping"></span>
+        <img class="core" src="assets/logo.png" alt="" width="108" height="108" fetchpriority="high">
+      </button>
+      <span class="orb-hint reveal" style="--d:2">toque no logo · aproxime</span>
+      <span class="kicker reveal" style="--d:2"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 8.3a6 6 0 0 1 0 7.4"/><path d="M9.5 6a10 10 0 0 1 0 12"/><path d="M13 3.8a14 14 0 0 1 0 16.4"/></svg>Identidade digital inteligente</span>
+      <h1 class="reveal" style="--d:3">GINGA <b>ID</b></h1>
+      <p class="tagline reveal" style="--d:4">Sua identidade. Um <span class="swoosh">toque.<svg viewBox="0 0 100 10" preserveAspectRatio="none" aria-hidden="true"><path d="M2 8 C 30 1, 70 1, 98 6"/></svg></span></p>
+      <p class="sub reveal" style="--d:5">NFC + QR Code · Feito em Natal/RN</p>
+    </section>
+
+    <section class="box reveal" style="--d:6" aria-label="Apresentação">
+      <div class="box-head">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>
+        leitura NFC · até 4 cm
+        <span class="r">✓ conectado</span>
+      </div>
+      <div class="box-body">
+        <p>Soluções em identidade digital com tecnologia <strong>NFC e QR Code</strong>. Transformamos um simples toque em uma experiência completa — para <strong>pessoas</strong>, <strong>pets</strong> e <strong>negócios</strong>. Sem aplicativo, sem complicação.</p>
+        <p class="sig">Tecnologia que conecta. Identidade que aproxima.</p>
+      </div>
+    </section>
+
+    <ul class="sols reveal" style="--d:7" aria-label="Soluções">
+      <li class="sol"><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="5" width="20" height="14" rx="3"/><circle cx="8" cy="12" r="2.2"/><path d="M13 10h5M13 14h3"/></svg></span><b>Ginga Card</b><span>pessoas</span></li>
+      <li class="sol"><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="4" r="2"/><circle cx="18" cy="8" r="2"/><circle cx="4" cy="8" r="2"/><path d="M8 14c0-2.5 1.5-4 3.5-4s3.5 1.5 3.5 4c0 1.5 1.5 2 1.5 3.5 0 1.9-1.6 2.8-3 2.4-.9-.3-1.4-.6-2-.6s-1.1.3-2 .6c-1.4.4-3-.5-3-2.4C6.5 16 8 15.5 8 14z"/></svg></span><b>Ginga Pet</b><span>pets</span></li>
+      <li class="sol"><span class="si"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 9l1.5-5h15L21 9"/><path d="M4 9v11h16V9"/><path d="M3 9h18"/><path d="M9 20v-6h6v6"/></svg></span><b>Ginga Connect</b><span>negócios</span></li>
+    </ul>
+
+    <p class="eyebrow reveal" style="--d:8">aproxime · conecte</p>
+
+    <nav class="links" aria-label="Contatos">
+      <a class="btn wa reveal" style="--d:9" href="https://wa.me/5584994717566?text=Ol%C3%A1%2C%20Ginga%20ID!%20Vim%20pelo%20seu%20cart%C3%A3o%20virtual." target="_blank" rel="noopener">
+        <span class="i"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.08-.3-.15-1.26-.46-2.39-1.48-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.18.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.48-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.06 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.3 1.26.49 1.7.63.71.22 1.36.19 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.17-1.41-.07-.13-.27-.2-.57-.35m-5.42 7.4a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.89 9.88M20.46 3.49A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45h.01c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.17-3.48-8.42"/></svg></span>
+        <span><strong>Chamar no WhatsApp</strong><small>(84) 99471-7566</small></span>
+        <span class="ar" aria-hidden="true">→</span>
+      </a>
+      <a class="btn lc site reveal" style="--d:10" href="https://gingaid.com.br" target="_blank" rel="noopener">
+        <span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c2.6 2.6 3.9 5.8 3.9 9.5s-1.3 6.9-3.9 9.5c-2.6-2.6-3.9-5.8-3.9-9.5S9.4 5.1 12 2.5z"/></svg></span>
+        <span><strong>Conhecer o site</strong><small>gingaid.com.br</small></span>
+        <span class="ar" aria-hidden="true">↗</span>
+      </a>
+      <a class="btn lc ig reveal" style="--d:11" href="https://instagram.com/gingaid" target="_blank" rel="noopener">
+        <span class="i"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></span>
+        <span><strong>Instagram</strong><small>@gingaid · novidades e bastidores</small></span>
+        <span class="ar" aria-hidden="true">↗</span>
+      </a>
+    </nav>
+
+    <div class="actions reveal" style="--d:12">
+      <button class="act save" id="save" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="4"/><path d="M2 21c0-3.9 3.1-7 7-7s7 3.1 7 7"/><path d="M19 8v6M16 11h6"/></svg>Salvar contato</button>
+      <button class="act share" id="share" type="button"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>Compartilhar</button>
+    </div>
+
+    <div class="trust reveal" style="--d:13">
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 8.3a6 6 0 0 1 0 7.4"/><path d="M9.5 6a10 10 0 0 1 0 12"/><path d="M13 3.8a14 14 0 0 1 0 16.4"/></svg>NFC</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3M21 14v7h-7"/></svg>QR Code</span>
+      <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/></svg>Sem aplicativo</span>
+    </div>
+  </main>
+
+  <footer class="reveal" style="--d:14">
+    <p class="fx">Feito com ginga em Natal/RN<i>.</i></p>
+    <p>© <span id="yr">2026</span> Ginga ID · conectado em 1 toque</p>
+  </footer>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const splash = $('#splash');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let done = false; const timers = [];
+  const at = (ms, fn) => timers.push(setTimeout(fn, ms));
+  const buzz = ms => { try{ navigator.vibrate && navigator.vibrate(ms); }catch(e){} };
+
+  function enter(){
+    if (done) return; done = true;
+    timers.forEach(clearTimeout);
+    splash.classList.add('done');
+    document.body.classList.remove('intro-on');
+    document.body.classList.add('ready');
+  }
+  splash.addEventListener('click', enter);
+
+  function scene(){
+    const lines = document.querySelectorAll('#log p');
+    requestAnimationFrame(() => splash.classList.add('st1'));        // a tag pousa no leitor
+    at(1100, () => { splash.classList.add('st2'); });       // leitura
+    [1150, 1550, 1950, 2350].forEach((t, i) => at(t, () => lines[i].classList.add('on')));
+    at(2750, () => { splash.classList.add('st3'); }); // confirmado → marca
+    at(4300, enter);
+  }
+  if (reduce) enter(); else scene();
+
+  // ---- logo vivo: toque = nova aproximação
+  const orb = $('#orb');
+  orb.addEventListener('click', () => {
+    orb.classList.remove('tap'); void orb.offsetWidth; orb.classList.add('tap');
+    buzz(10); toast('✓ conectado em 1 toque');
+  });
+
+  // ---- ripple nos botões
+  document.querySelectorAll('.btn').forEach(b => b.addEventListener('pointerdown', e => {
+    const r = b.getBoundingClientRect(), s = Math.max(r.width, r.height) * 2;
+    const el = document.createElement('span'); el.className = 'rip';
+    el.style.cssText = `width:${s}px;height:${s}px;left:${e.clientX - r.left - s/2}px;top:${e.clientY - r.top - s/2}px`;
+    b.appendChild(el); setTimeout(() => el.remove(), 650); buzz(8);
+  }));
+
+  // ---- toast
+  let tt; function toast(msg){ const t = $('#toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('on'), 2200); }
+
+  // ---- vCard
+  let photoB64 = '';
+  try { fetch('assets/logo.png').then(r => r.ok ? r.blob() : null).then(b => { if (!b) return; const fr = new FileReader(); fr.onload = () => { photoB64 = String(fr.result).split(',')[1] || ''; }; fr.readAsDataURL(b); }).catch(() => {}); } catch(e){}
+  $('#save').addEventListener('click', () => {
+    const L = ['BEGIN:VCARD','VERSION:3.0','N:;Ginga ID;;;','FN:Ginga ID','ORG:Ginga ID','TITLE:Identidade digital · NFC + QR Code',
+      'TEL;TYPE=CELL:+5584994717566','URL:https://gingaid.com.br','X-SOCIALPROFILE;TYPE=instagram:https://instagram.com/gingaid',
+      'ADR;TYPE=WORK:;;;Natal;RN;;Brasil','NOTE:Sua identidade. Um toque.'];
+    if (photoB64) L.push('PHOTO;ENCODING=b;TYPE=PNG:' + photoB64);
+    L.push('END:VCARD');
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(new Blob([L.join('\r\n')], {type:'text/vcard;charset=utf-8'}));
+    a.download = 'ginga-id.vcf'; document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+    toast('✓ contato salvo');
+  });
+  $('#share').addEventListener('click', () => {
+    const data = {title:'Ginga ID', text:'Ginga ID — Sua identidade. Um toque.', url:location.href};
+    if (navigator.share) { navigator.share(data).catch(() => {}); return; }
+    try { navigator.clipboard.writeText(location.href).then(() => toast('✓ link copiado'), () => toast(location.href)); } catch(e){ toast(location.href); }
+  });
+
+  $('#yr').textContent = new Date().getFullYear();
+})();
+</script>
 </body>
 </html>
