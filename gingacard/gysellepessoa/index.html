@@ -241,13 +241,12 @@ footer{text-align:center;padding:56px 20px 10px}
 
 <!-- ===== ABERTURA ===== -->
 <div class="splash" id="splash" aria-hidden="true">
-  <button class="skip" id="skip" type="button">pular</button>
   <div class="center" id="center">
     <img class="logoSplash" src="assets/logo.png" alt="" width="287" height="200">
     <svg class="stroke" viewBox="0 0 320 40" preserveAspectRatio="none"><path d="M22 26 C 80 10, 140 34, 200 18 S 290 14, 300 20"/></svg>
     <div class="tom">tom 7.3 · mel dourado</div>
   </div>
-  <div class="loader" id="loader"><span>abrindo a cartela</span><small>cartela de cores · 7.3</small>
+  <div class="loader" id="loader"><span>abrindo a cartela</span><small>toque em qualquer lugar para pular</small>
     <div class="bar" id="bar"><i style="--c:#3a2418"></i><i style="--c:#6b3f22"></i><i style="--c:#a8652f"></i><i style="--c:#d39b5a"></i></div>
   </div>
 </div>
@@ -429,7 +428,7 @@ document.addEventListener('visibilitychange', () => { if (!document.hidden) pint
 const splash = $('#splash'), center = $('#center'), loader = $('#loader');
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const TONS = ['#2a1a12','#3a2418','#4a2c1c','#6b3f22','#8c5232','#a8652f','#c27a3e','#d39b5a','#d9b07c','#e8c79a','#9b4a5a','#b8697a'];
-let done = false, logoShown = false, timers = [];
+let done = false, timers = [];
 const later = (fn, ms) => timers.push(setTimeout(fn, ms));
 function enter(){
   if (done) return; done = true;
@@ -440,10 +439,27 @@ function enter(){
   setTimeout(() => splash.remove(), 900);
   iniciarPagina();
 }
-$('#skip').addEventListener('click', e => { e.stopPropagation(); enter(); });
-splash.addEventListener('click', () => { if (logoShown) enter(); });
+// tocar em qualquer ponto da tela pula a abertura, a qualquer momento
+splash.addEventListener('pointerdown', enter);
+splash.addEventListener('click', enter);
+
+// sorteia um tom da cartela para a pincelada da abertura
+function sorteiaTom(){
+  const sws = document.querySelectorAll('.sw');
+  const sw = sws[Math.floor(Math.random() * sws.length)];
+  if (!sw) return;
+  const [a, a2, ad] = sw.dataset.a.split(',');
+  const stops = document.querySelectorAll('#gStroke stop');
+  [ad, a, a2].forEach((c, i) => stops[i] && stops[i].setAttribute('stop-color', c));
+  splash.style.setProperty('--acc', a);
+  const tom = splash.querySelector('.tom');
+  if (tom) tom.textContent = 'tom ' + sw.dataset.t + ' · ' + sw.dataset.n;
+  const bar = document.querySelectorAll('#bar i');
+  if (bar.length) bar[bar.length - 1].style.setProperty('--c', a);
+}
 
 function rodarCena(){
+  sorteiaTom();
   const W = innerWidth, H = innerHeight, items = [];
   TONS.forEach(c => items.push({k:'fsw', c}));
   ['i-pincel','i-tigela','i-tes','i-pincel','i-batom'].forEach(id => items.push({k:'ic2', id}));
@@ -470,12 +486,11 @@ function rodarCena(){
     if (el.animate) el.animate(kf, {duration:2500 + Math.random()*250, delay:n*30, easing:'cubic-bezier(.3,.1,.4,1)', fill:'forwards'});
   });
   later(() => center.classList.add('on'), 1900);
-  later(() => { logoShown = true; }, 2300);
   const passos = ['escolhendo o seu tom','aplicando as mechas','tempo de pausa','pronto, <b>entre</b>'];
   const barHTML = () => document.getElementById('bar') ? document.getElementById('bar').outerHTML : '';
   let bar = barHTML();
   passos.forEach((p,i) => later(() => {
-    loader.innerHTML = '<span>' + p + '</span><small>' + (i<3 ? 'cartela de cores · passo ' + (i+1) + ' de 3' : 'toque para entrar') + '</small>' + bar;
+    loader.innerHTML = '<span>' + p + '</span><small>' + (i<3 ? 'toque em qualquer lugar para pular' : 'toque para entrar') + '</small>' + bar;
     loader.querySelectorAll('.bar i').forEach((b,j) => b.classList.toggle('on', j <= i));
   }, i*850 + 400));
   later(enter, 4300);
