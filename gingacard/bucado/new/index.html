@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Bucado Mídia · Agência de Marketing em Natal/RN</title>
+<meta name="description" content="Bucado Mídia: agência de marketing e produtora audiovisual em Lagoa Nova, Natal/RN. Marketing com tempero nordestino: audiovisual, site e estratégia.">
+<meta name="theme-color" content="#0c2318">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Bucado Mídia · Marketing com tempero nordestino">
+<meta property="og:description" content="Agência de marketing e produtora audiovisual em Natal/RN. Audiovisual, site e estratégia.">
+<!-- og:image precisa de URL absoluta: ajuste se o caminho de publicação for outro -->
+<meta property="og:image" content="https://app.gingaid.com.br/gingacard/bucado/1/assets/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:locale" content="pt_BR">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=DM+Mono:wght@400;500&family=Instrument+Serif:ital@1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+<link rel="preload" as="image" href="assets/hero.jpg" fetchpriority="high">
+<style>
+:root{
+  --bg:#0c2318; --bg2:#0F2B1D; --card:#143524; --card2:#1C4A33;
+  --line:rgba(245,242,236,.11); --line2:rgba(245,242,236,.2);
+  --cream:#F5F2EC; --muted:#a3bcab; --dim:#6f8f7b;
+  --accent:#D4622B; --accent2:#E8844A; --rec:#ff5233; --ok:#3ddc84;
+  --display:'Bricolage Grotesque',system-ui,sans-serif;
+  --mono:'DM Mono',ui-monospace,monospace;
+  --serif:'Instrument Serif',Georgia,serif;
+  --sat:env(safe-area-inset-top,0px); --sab:env(safe-area-inset-bottom,0px);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;background:var(--bg)}
+body{font-family:var(--display);background:var(--bg);color:var(--cream);min-height:100svh;overflow-x:hidden;-webkit-font-smoothing:antialiased;padding-bottom:calc(96px + var(--sab))}
+body.locked{overflow:hidden;height:100svh}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+a,button{-webkit-tap-highlight-color:transparent;touch-action:manipulation}
+img{display:block;max-width:100%;height:auto}
+em{font-family:var(--serif);font-style:italic;font-weight:400;color:var(--accent2);letter-spacing:0}
+.wrap{max-width:520px;margin:0 auto;position:relative}
+/* grão de filme leve */
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opacity:.06;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 160 160' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
+
+/* ============ ABERTURA: visor de câmera ============ */
+.splash{position:fixed;inset:0;z-index:100;background:radial-gradient(120% 80% at 50% 45%,#16402b 0%,#0a1f15 60%,#06140d 100%);overflow:hidden;transition:opacity .6s ease,visibility .6s;cursor:pointer}
+.splash.done{opacity:0;visibility:hidden;pointer-events:none}
+.vf{position:absolute;inset:calc(18px + var(--sat)) 16px calc(18px + var(--sab));pointer-events:none;font-family:var(--mono);font-size:11px;letter-spacing:.08em;color:rgba(245,242,236,.75)}
+.vf i{position:absolute;width:26px;height:26px;border:2px solid rgba(245,242,236,.7)}
+.vf i:nth-child(1){left:0;top:0;border-right:0;border-bottom:0}
+.vf i:nth-child(2){right:0;top:0;border-left:0;border-bottom:0}
+.vf i:nth-child(3){left:0;bottom:0;border-right:0;border-top:0}
+.vf i:nth-child(4){right:0;bottom:0;border-left:0;border-top:0}
+.vf .rec{position:absolute;left:38px;top:5px;display:flex;align-items:center;gap:7px;color:var(--cream)}
+.vf .rec b{width:9px;height:9px;border-radius:50%;background:var(--rec);animation:blink 1s steps(2,start) infinite}
+.vf .spec{position:absolute;right:38px;top:5px}
+.vf .tc{position:absolute;right:38px;bottom:5px;font-size:13px;color:var(--cream);font-variant-numeric:tabular-nums}
+.vf .iso{position:absolute;right:38px;bottom:6px}
+.vf .bat{position:absolute;left:38px;bottom:6px}
+.vf .cross{position:absolute;left:50%;top:50%;width:40px;height:40px;transform:translate(-50%,-50%);opacity:.35}
+.vf .cross::before,.vf .cross::after{content:"";position:absolute;background:var(--cream)}
+.vf .cross::before{left:50%;top:0;bottom:0;width:1px}
+.vf .cross::after{top:50%;left:0;right:0;height:1px}
+@keyframes blink{to{visibility:hidden}}
+.skip{position:absolute;top:calc(56px + var(--sat));right:22px;z-index:5;font-family:var(--mono);font-size:12px;letter-spacing:.1em;padding:10px 16px;min-height:44px;border-radius:99px;border:1px solid var(--line2);background:rgba(10,31,21,.55);color:var(--cream);pointer-events:auto}
+.flock{position:absolute;left:50%;top:46%;width:0;height:0}
+.flock svg{position:absolute;left:-17px;top:-17px;width:34px;height:34px;will-change:transform,opacity;opacity:0}
+.slate{position:absolute;left:50%;top:46%;width:180px;margin-left:-90px;margin-top:-80px;opacity:0;transform:scale(.6)}
+.slate .stick{transform-origin:6px 30px;transform:rotate(-30deg)}
+.flash{position:absolute;inset:0;background:#fff7ec;opacity:0;pointer-events:none}
+.mark{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);text-align:center;opacity:0}
+.logo{display:block;width:150px;aspect-ratio:366/362;margin:0 auto;background:var(--cream);-webkit-mask:url(assets/logo.png) center/contain no-repeat;mask:url(assets/logo.png) center/contain no-repeat}
+.mark .take{margin-top:18px;font-family:var(--mono);font-size:11px;letter-spacing:.22em;color:var(--muted);display:flex;gap:8px;align-items:center;justify-content:center}
+.mark .take b{width:7px;height:7px;border-radius:50%;background:var(--rec);animation:blink 1s steps(2,start) infinite}
+.loader{position:absolute;left:0;right:0;bottom:calc(96px + var(--sab));text-align:center;font-family:var(--mono);font-size:13px;letter-spacing:.06em;color:var(--muted)}
+.loader span{display:inline-block;transition:opacity .25s,transform .25s}
+.loader span.out{opacity:0;transform:translateY(6px)}
+.loader strong{color:var(--accent2);font-weight:500}
+.tap{position:absolute;left:0;right:0;bottom:calc(64px + var(--sab));text-align:center;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--dim);text-transform:uppercase}
+
+/* ============ HERO ============ */
+.hero{position:relative;background:#173b2a;border-radius:0 0 28px 28px;overflow:hidden;isolation:isolate}
+.hero-img{width:100%;aspect-ratio:657/556;object-fit:cover;transform:scale(1.15);transform-origin:50% 40%;transition:transform 2.4s cubic-bezier(.2,.7,.2,1)}
+body.ready .hero-img{transform:scale(1.02)}
+.hero::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(12,35,24,.55) 0%,transparent 22%,transparent 46%,rgba(12,35,24,.8) 74%,var(--bg) 100%);z-index:1}
+.hero-top{position:absolute;z-index:3;left:0;right:0;top:0;padding:calc(14px + var(--sat)) 16px 0;display:flex;justify-content:space-between;align-items:center;gap:8px}
+.pill{display:inline-flex;align-items:center;gap:8px;min-height:34px;padding:7px 13px;border-radius:99px;background:rgba(8,24,16,.62);border:1px solid var(--line2);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);font-family:var(--mono);font-size:11.5px;letter-spacing:.06em}
+.pill .dot{width:8px;height:8px;border-radius:50%;background:#8a9a90}
+.pill.open .dot{background:var(--ok);box-shadow:0 0 0 0 rgba(61,220,132,.6);animation:pulse 1.8s infinite}
+.pill.closed .dot{background:var(--rec)}
+@keyframes pulse{70%{box-shadow:0 0 0 9px rgba(61,220,132,0)}100%{box-shadow:0 0 0 0 rgba(61,220,132,0)}}
+.city{font-family:var(--mono);font-size:11.5px;letter-spacing:.2em;color:var(--cream);text-shadow:0 1px 8px rgba(0,0,0,.5)}
+/* moldura do visor sobre a foto (detalhe vivo) */
+.frame{position:absolute;z-index:2;inset:62px 18px 120px;pointer-events:none}
+.frame i{position:absolute;width:20px;height:20px;border:2px solid rgba(245,242,236,.75)}
+.frame i:nth-child(1){left:0;top:0;border-right:0;border-bottom:0}
+.frame i:nth-child(2){right:0;top:0;border-left:0;border-bottom:0}
+.frame i:nth-child(3){left:0;bottom:0;border-right:0;border-top:0}
+.frame i:nth-child(4){right:0;bottom:0;border-left:0;border-top:0}
+.hero-txt{position:relative;z-index:3;text-align:center;padding:0 18px 26px;margin-top:-96px}
+.rec-line{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11px;letter-spacing:.14em;color:var(--cream);background:rgba(8,24,16,.6);border-radius:6px;padding:5px 9px;margin-bottom:12px;font-variant-numeric:tabular-nums}
+.rec-line b{width:8px;height:8px;border-radius:50%;background:var(--rec);animation:blink 1s steps(2,start) infinite}
+h1{font-size:clamp(42px,12.5vw,58px);line-height:.95;font-weight:800;letter-spacing:-.02em}
+h1 em{font-size:1.08em;padding-left:.04em}
+.cat{margin-top:12px;font-family:var(--mono);font-size:11.5px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted)}
+
+/* ============ CONTEÚDO ============ */
+main{padding:0 16px}
+.slogan{text-align:center;font-family:var(--serif);font-style:italic;font-size:24px;line-height:1.25;color:var(--cream);margin:22px auto 6px;max-width:340px}
+.slogan em{color:var(--accent2)}
+.servs{text-align:center;font-family:var(--mono);font-size:12px;letter-spacing:.12em;color:var(--muted);text-transform:uppercase}
+.servs i{display:inline-block;width:4px;height:4px;border-radius:50%;background:var(--accent);vertical-align:middle;margin:0 9px}
+
+.btns{display:grid;gap:12px;margin:26px 0 0}
+.btn{position:relative;overflow:hidden;display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:14px;min-height:68px;padding:12px 16px;border-radius:18px;background:var(--card);border:1px solid var(--line);transition:transform .18s,border-color .25s,background .25s}
+.btn:active{transform:scale(.97)}
+@media (hover:hover){.btn:hover{border-color:rgba(232,132,74,.55);transform:translateY(-2px)}}
+.btn .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:rgba(245,242,236,.07);border:1px solid var(--line)}
+.btn .ico svg{width:22px;height:22px}
+.btn b{display:block;font-size:17px;font-weight:700;letter-spacing:-.005em}
+.btn span{display:block;font-size:14px;color:var(--muted);margin-top:2px;overflow-wrap:anywhere}
+.btn .arr{font-size:20px;color:var(--muted);transition:transform .25s}
+.btn.primary{background:linear-gradient(135deg,#e2733a 0%,var(--accent) 55%,#b94f1f 100%);border-color:transparent;color:#fff;min-height:74px;box-shadow:0 10px 30px -10px rgba(212,98,43,.6)}
+.btn.primary span{color:rgba(255,255,255,.85)}
+.btn.primary .arr{color:#fff}
+.btn.primary .ico{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.25);position:relative}
+.btn.primary .ico::after{content:"";position:absolute;inset:-1px;border-radius:12px;border:2px solid rgba(255,255,255,.5);animation:ring 2.2s ease-out infinite}
+@keyframes ring{0%{transform:scale(1);opacity:.8}100%{transform:scale(1.45);opacity:0}}
+.btn.primary::before{content:"";position:absolute;top:0;bottom:0;left:-60%;width:45%;background:linear-gradient(100deg,transparent,rgba(255,255,255,.35),transparent);transform:skewX(-18deg) translateX(0);animation:shine 4.5s ease-in-out infinite 1.5s}
+@keyframes shine{0%,62%{transform:skewX(-18deg) translateX(0)}100%{transform:skewX(-18deg) translateX(420%)}}
+.ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:rip .6s ease-out forwards;pointer-events:none}
+@keyframes rip{to{transform:scale(4);opacity:0}}
+
+.review{margin-top:22px;display:grid;grid-template-columns:44px 1fr auto;align-items:center;gap:14px;min-height:72px;padding:12px 16px;border-radius:18px;background:var(--card);border:1px solid var(--line);position:relative;overflow:hidden}
+.review:active{transform:scale(.97)}
+.review .ico{width:44px;height:44px;border-radius:12px;display:grid;place-items:center;background:#fff}
+.review .ico svg{width:22px;height:22px}
+.review b{display:block;font-size:17px;font-weight:700}
+.review span{display:block;font-size:14px;color:var(--muted);margin-top:2px}
+.stars{display:flex;gap:3px;margin-top:6px}
+.stars svg{width:15px;height:15px}
+.stars path{fill:transparent;stroke:var(--accent2);stroke-width:1.6;transition:fill .3s}
+.review.in .stars path{fill:var(--accent2)}
+.review.in .stars svg:nth-child(2) path{transition-delay:.15s}
+.review.in .stars svg:nth-child(3) path{transition-delay:.3s}
+.review.in .stars svg:nth-child(4) path{transition-delay:.45s}
+.review.in .stars svg:nth-child(5) path{transition-delay:.6s}
+.review .arr{color:var(--muted);font-size:20px}
+
+section{margin-top:48px}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:10px;margin-bottom:16px}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent2);margin-bottom:6px}
+h2{font-size:30px;line-height:1;font-weight:800;letter-spacing:-.02em}
+.hint{font-family:var(--mono);font-size:11.5px;color:var(--muted);white-space:nowrap}
+
+/* galeria = rolo de filme */
+.reel{margin:0 -16px;padding:14px 16px 12px;background:#07160e;border-top:1px solid var(--line);border-bottom:1px solid var(--line);position:relative}
+.reel::before,.reel::after{content:"";position:absolute;left:0;right:0;height:8px;background:radial-gradient(circle at 7px 4px,rgba(245,242,236,.16) 2.6px,transparent 3px) 0 0/16px 8px repeat-x}
+.reel::before{top:3px}.reel::after{bottom:3px}
+.gal{display:flex;gap:12px;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:6px 0;overscroll-behavior-x:contain}
+.gal::-webkit-scrollbar{display:none}
+.gal figure{flex:0 0 84%;scroll-snap-align:center;border-radius:14px;overflow:hidden;background:var(--card);position:relative}
+.gal img{width:100%;aspect-ratio:16/9;object-fit:cover}
+.gal figcaption{padding:11px 13px 12px;display:flex;justify-content:space-between;gap:10px;align-items:baseline}
+.gal figcaption b{font-size:16px;font-weight:700}
+.gal figcaption span{font-family:var(--mono);font-size:11px;color:var(--muted);text-align:right}
+.dots{display:flex;justify-content:center;gap:7px;margin-top:12px}
+.dots i{width:7px;height:7px;border-radius:99px;background:rgba(245,242,236,.22);transition:width .3s,background .3s}
+.dots i.on{width:22px;background:var(--accent)}
+.more{display:flex;justify-content:center;margin-top:14px}
+.more a{font-family:var(--mono);font-size:12.5px;color:var(--accent2);padding:12px 6px;min-height:44px;display:inline-flex;align-items:center}
+
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chips span{display:inline-flex;align-items:center;gap:8px;font-size:14.5px;padding:9px 13px;border-radius:99px;border:1px solid var(--line);background:var(--card)}
+.chips span::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--accent)}
+
+/* créditos (clientes) */
+.credits{overflow:hidden;margin:16px -16px 0;mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent);-webkit-mask:linear-gradient(90deg,transparent,#000 12%,#000 88%,transparent)}
+.credits div{display:flex;gap:28px;width:max-content;animation:roll 38s linear infinite;font-weight:700;font-size:18px;color:var(--muted);text-transform:uppercase;letter-spacing:.04em}
+.credits div span::after{content:"✦";color:var(--accent);margin-left:28px;font-size:12px;vertical-align:middle}
+@keyframes roll{to{transform:translateX(-50%)}}
+
+/* horários */
+.week{display:grid;grid-template-columns:repeat(7,1fr);gap:6px}
+.day{border-radius:12px;border:1px solid var(--line);background:var(--card);text-align:center;padding:10px 0 9px;font-family:var(--mono)}
+.day small{display:block;font-size:11px;letter-spacing:.06em;color:var(--muted)}
+.day b{display:block;margin-top:5px;font-size:15px;font-weight:500;color:var(--ok)}
+.day.off{opacity:.45}.day.off b{color:var(--muted)}
+.day.today{border-color:var(--accent);background:linear-gradient(180deg,rgba(212,98,43,.2),var(--card))}
+.day.today small{color:var(--accent2)}
+.hcard{margin-top:12px;border-radius:18px;border:1px solid var(--line);background:var(--card);padding:16px 18px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap}
+.hcard .sum b{display:block;font-size:17px}
+.hcard .sum span{display:block;font-family:var(--mono);font-size:14px;color:var(--muted);margin-top:3px}
+.hcard .now{font-size:15px;color:var(--muted)}
+.hcard .now strong{color:var(--ok)}
+.hcard .now.closed strong{color:var(--rec)}
+
+/* mapa */
+.mapbox{position:relative;border-radius:20px;overflow:hidden;border:1px solid var(--line);background:#11261b;aspect-ratio:4/3.2}
+#map{position:absolute;inset:0;background:#11261b}
+#map .leaflet-tile-pane{filter:sepia(.45) hue-rotate(85deg) saturate(1.6) brightness(.92) contrast(1.05)}
+.leaflet-container{font-family:var(--mono)}
+.leaflet-control-attribution{font-size:9px!important;background:rgba(8,24,16,.6)!important;color:var(--dim)!important}
+.leaflet-control-attribution a{color:var(--dim)!important}
+.map-open{position:absolute;z-index:500;right:12px;top:12px;min-height:44px;display:inline-flex;align-items:center;padding:0 16px;border-radius:99px;background:rgba(8,24,16,.78);border:1px solid var(--line2);font-family:var(--mono);font-size:12.5px;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px)}
+.map-fb{position:absolute;inset:0;display:grid;place-items:center;font-family:var(--mono);font-size:12px;color:var(--muted);text-align:center;padding:20px}
+.pin{position:relative;width:0;height:0}
+.pin .head{position:absolute;left:-22px;top:-58px;width:44px;height:44px;border-radius:50% 50% 50% 4px;transform:rotate(-45deg);background:var(--accent);box-shadow:0 8px 18px rgba(0,0,0,.45);display:grid;place-items:center;border:2px solid var(--cream)}
+.pin .head svg{width:22px;height:22px;transform:rotate(45deg)}
+.pin .ground{position:absolute;left:-14px;top:-7px;width:28px;height:14px;border-radius:50%;background:rgba(212,98,43,.45);animation:gp 2s ease-out infinite}
+@keyframes gp{0%{transform:scale(.4);opacity:1}100%{transform:scale(2.2);opacity:0}}
+.pin .tag{position:absolute;left:30px;top:-52px;white-space:nowrap;background:var(--cream);color:var(--bg);font-family:var(--display);font-weight:700;font-size:13px;padding:6px 10px;border-radius:8px;box-shadow:0 6px 14px rgba(0,0,0,.35)}
+.addr{margin-top:14px}
+.addr b{display:block;font-size:18px;line-height:1.3;overflow-wrap:anywhere}
+.addr span{display:block;margin-top:4px;font-size:15px;color:var(--muted);overflow-wrap:anywhere}
+
+/* rodapé */
+footer{margin-top:56px;padding:34px 16px 20px;border-top:1px solid var(--line);text-align:center}
+footer .logo{width:86px}
+.state{margin-top:14px;font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:22px 0 0}
+.acts button{min-height:52px;border-radius:14px;font-size:15px;font-weight:700;display:flex;align-items:center;justify-content:center;gap:8px}
+.acts .save{background:var(--cream);color:var(--bg)}
+.acts .share{border:1px solid var(--line2)}
+.acts button:active{transform:scale(.97)}
+.egg{margin-top:22px;min-height:48px;padding:0 18px;border-radius:99px;border:1.5px dashed rgba(232,132,74,.6);color:var(--accent2);font-family:var(--mono);font-size:13px}
+.egg:active{transform:scale(.97)}
+.copy{margin-top:20px;font-family:var(--mono);font-size:11px;color:var(--dim);letter-spacing:.06em;line-height:1.7}
+.copy em{font-size:14px}
+.pop{position:fixed;top:-40px;z-index:90;pointer-events:none;font-size:24px;will-change:transform}
+
+/* dock */
+.dock{position:fixed;z-index:80;left:50%;bottom:calc(12px + var(--sab));transform:translate(-50%,140%);width:min(calc(100% - 24px),496px);display:grid;grid-template-columns:1.5fr 1fr;gap:8px;padding:8px;border-radius:99px;background:rgba(10,30,20,.82);border:1px solid var(--line2);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);transition:transform .45s cubic-bezier(.2,.8,.2,1);box-shadow:0 14px 40px rgba(0,0,0,.45)}
+.dock.show{transform:translate(-50%,0)}
+.dock a{min-height:50px;border-radius:99px;display:flex;align-items:center;justify-content:center;gap:8px;font-weight:700;font-size:15.5px}
+.dock a svg{width:19px;height:19px}
+.dock .d1{background:var(--accent);color:#fff}
+.dock .d2{border:1px solid var(--line2)}
+.dock a:active{transform:scale(.96)}
+
+.toast{position:fixed;left:50%;bottom:calc(92px + var(--sab));z-index:95;transform:translate(-50%,20px);opacity:0;transition:.3s;background:var(--cream);color:var(--bg);font-weight:700;font-size:15px;padding:12px 18px;border-radius:99px;pointer-events:none;max-width:calc(100% - 32px);overflow-wrap:anywhere}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+
+/* revelação */
+.rv{opacity:0;transform:translateY(18px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.7,.2,1);transition-delay:calc(var(--d,0) * 90ms)}
+.rv.in{opacity:1;transform:none}
+body:not(.ready) .rv{transition:none}
+
+@media (min-width:560px){body{background:radial-gradient(100% 60% at 50% 0%,#123526,var(--bg))}}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition-duration:.01ms!important}.splash{display:none}.rv{opacity:1;transform:none}.hero-img{transform:none}}
+</style>
+</head>
+<body class="locked">
+
+<!-- sprite de ícones -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-slate" viewBox="0 0 24 24"><path fill="currentColor" d="M3 10h18v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2zm.3-1.9L19.6 3.6l.8 2.9L4.1 11z"/><path fill="#0c2318" d="M7.2 7.3l2.1-3 1.9-.5-2.1 3zm5.2-1.4 2.1-3 1.9-.5-2.1 3z"/></symbol>
+    <symbol id="i-cam" viewBox="0 0 24 24"><path fill="currentColor" d="M3 7h12a2 2 0 0 1 2 2v1.5l4-2.5v8l-4-2.5V15a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2z"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/><path fill="currentColor" d="M10 8l6 4-6 4z"/></symbol>
+    <symbol id="i-mic" viewBox="0 0 24 24"><rect x="9" y="2" width="6" height="12" rx="3" fill="currentColor"/><path d="M5 11a7 7 0 0 0 14 0M12 18v4M8 22h8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-mega" viewBox="0 0 24 24"><path fill="currentColor" d="M3 10v4a1 1 0 0 0 1 1h2l5 4V5L6 9H4a1 1 0 0 0-1 1zm10-4.5v13L21 21V3z"/></symbol>
+    <symbol id="i-cursor" viewBox="0 0 24 24"><path fill="currentColor" d="M5 3l14 7-6 1.5L10 18z"/></symbol>
+    <symbol id="i-chart" viewBox="0 0 24 24"><path fill="currentColor" d="M3 20h18v2H3zM5 12h3v7H5zm5-4h3v11h-3zm5-5h3v16h-3z"/></symbol>
+    <symbol id="i-drone" viewBox="0 0 24 24"><g fill="currentColor"><rect x="9" y="10" width="6" height="5" rx="1.5"/><path d="M5 9h4v1.5H5zM15 9h4v1.5h-4z"/><ellipse cx="5" cy="7.5" rx="4" ry="1.2"/><ellipse cx="19" cy="7.5" rx="4" ry="1.2"/><circle cx="12" cy="16.5" r="1.4"/></g></symbol>
+    <symbol id="i-wa" viewBox="0 0 24 24"><path fill="currentColor" d="M17.47 14.38c-.3-.15-1.76-.87-2.03-.97-.27-.1-.47-.15-.67.15-.2.3-.77.97-.94 1.16-.17.2-.35.22-.64.07-.3-.15-1.26-.46-2.39-1.47-.88-.79-1.48-1.76-1.65-2.06-.17-.3-.02-.46.13-.6.13-.14.3-.35.45-.52.15-.17.2-.3.3-.5.1-.2.05-.37-.03-.52-.07-.15-.67-1.61-.92-2.2-.24-.58-.49-.5-.67-.51h-.57c-.2 0-.52.07-.79.37-.27.3-1.04 1.02-1.04 2.48s1.07 2.88 1.21 3.07c.15.2 2.1 3.2 5.08 4.49.71.31 1.26.49 1.7.62.71.23 1.36.2 1.87.12.57-.09 1.76-.72 2-1.41.25-.7.25-1.29.18-1.41-.08-.13-.28-.2-.57-.35M12.05 21.79h-.01a9.87 9.87 0 0 1-5.03-1.38l-.36-.21-3.74.98 1-3.65-.24-.37a9.86 9.86 0 0 1-1.51-5.26c0-5.45 4.44-9.88 9.89-9.88 2.64 0 5.12 1.03 6.99 2.9a9.83 9.83 0 0 1 2.89 6.99c0 5.45-4.44 9.88-9.88 9.88M20.46 3.49A11.82 11.82 0 0 0 12.05 0C5.5 0 .16 5.34.16 11.89c0 2.1.55 4.14 1.59 5.95L.06 24l6.3-1.65a11.88 11.88 0 0 0 5.68 1.45c6.55 0 11.89-5.34 11.89-11.89 0-3.18-1.24-6.16-3.48-8.41z"/></symbol>
+    <symbol id="i-ig" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2.16c3.2 0 3.58.01 4.85.07 3.25.15 4.77 1.69 4.92 4.92.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.15 3.23-1.66 4.77-4.92 4.92-1.27.06-1.64.07-4.85.07s-3.58-.01-4.85-.07c-3.26-.15-4.77-1.7-4.92-4.92-.06-1.27-.07-1.64-.07-4.85s.01-3.58.07-4.85C2.38 3.92 3.9 2.38 7.15 2.23 8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 2.7.27.27 2.69.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.2 4.36 2.62 6.78 6.98 6.98 1.28.06 1.69.07 4.95.07s3.67-.01 4.95-.07c4.35-.2 6.78-2.62 6.98-6.98.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.2-4.35-2.62-6.78-6.98-6.98C15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 1 0 0 12.32 6.16 6.16 0 0 0 0-12.32zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.41-11.85a1.44 1.44 0 1 0 0 2.88 1.44 1.44 0 0 0 0-2.88z"/></symbol>
+    <symbol id="i-globe" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.5"/><path d="M2.5 12h19M12 2.5c2.6 2.8 3.9 6 3.9 9.5s-1.3 6.7-3.9 9.5c-2.6-2.8-3.9-6-3.9-9.5s1.3-6.7 3.9-9.5z"/></g></symbol>
+    <symbol id="i-route" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2a7 7 0 0 0-7 7c0 5.25 7 13 7 13s7-7.75 7-13a7 7 0 0 0-7-7zm0 9.5a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5z"/></symbol>
+  </defs>
+</svg>
+
+<!-- ABERTURA -->
+<div class="splash" id="splash" aria-hidden="true">
+  <div class="vf">
+    <i></i><i></i><i></i><i></i>
+    <div class="rec"><b></b>REC</div>
+    <div class="spec">4K · 24FPS · f/2.8</div>
+    <div class="cross"></div>
+    <div class="bat">▮▮▮▯ 87%</div>
+    <div class="tc" id="tc">00:00:00:00</div>
+  </div>
+  <button class="skip" id="skip" type="button" tabindex="-1">pular ›</button>
+  <div class="flock" id="flock"></div>
+  <svg class="slate" id="slate" viewBox="0 0 180 150" aria-hidden="true">
+    <rect x="6" y="40" width="168" height="104" rx="8" fill="#F5F2EC"/>
+    <g fill="#0F2B1D" font-family="DM Mono,monospace" font-size="10" letter-spacing="1">
+      <text x="18" y="64">PRODUÇÃO</text><text x="18" y="80" font-size="13" font-weight="500">BUCADO MÍDIA</text>
+      <path d="M14 90h152M14 116h152M90 90v26M128 90v26" stroke="#0F2B1D" stroke-width="1.2" opacity=".45"/>
+      <text x="18" y="108">CENA 01</text><text x="96" y="108">TAKE</text><text x="140" y="108" font-size="13">1</text>
+      <text x="18" y="134">DIR: SUA MARCA</text><text x="120" y="134" fill="#D4622B">NATAL/RN</text>
+    </g>
+    <g class="stick" id="stick">
+      <rect x="6" y="18" width="168" height="20" rx="4" fill="#D4622B"/>
+      <path d="M22 18h16l-12 20H10zM58 18h16l-12 20H46zM94 18h16l-12 20H82zM130 18h16l-12 20h-16z" fill="#0F2B1D"/>
+    </g>
+  </svg>
+  <div class="flash" id="flash"></div>
+  <div class="mark" id="mark">
+    <span class="logo"></span>
+    <div class="take"><b></b>TAKE 01 · MÍDIA</div>
+  </div>
+  <div class="loader"><span id="ld">ligando as câmeras…</span></div>
+  <div class="tap">toque para pular</div>
+</div>
+
+<div class="wrap">
+  <!-- HERO -->
+  <header class="hero">
+    <img class="hero-img" src="assets/hero.jpg" width="657" height="556" fetchpriority="high" alt="Equipe da Bucado Mídia com câmeras e claquete">
+    <div class="frame" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <div class="hero-top">
+      <span class="pill" id="status"><span class="dot"></span><span id="statusTxt">Atendimento</span></span>
+      <span class="city">NATAL · RN</span>
+    </div>
+  </header>
+  <div class="hero-txt">
+    <div class="rec-line" aria-hidden="true"><b></b>REC <span id="tc2">00:00:00:00</span></div>
+    <h1>Bucado <em>Mídia</em></h1>
+    <p class="cat">Agência de marketing · produtora</p>
+  </div>
+
+  <main>
+    <p class="slogan rv" style="--d:0">Marketing com tempero <em>nordestino</em>!</p>
+    <p class="servs rv" style="--d:1">Audiovisual<i></i>Site<i></i>Estratégia</p>
+
+    <nav class="btns" id="btns" aria-label="Contatos">
+      <a class="btn primary rv" style="--d:2" id="waBtn" href="#" target="_blank" rel="noopener">
+        <span class="ico"><svg aria-hidden="true"><use href="#i-wa"/></svg></span>
+        <div><b>Chamar no WhatsApp</b><span>(84) 99169-7756</span></div>
+        <span class="arr" aria-hidden="true">→</span>
+      </a>
+      <a class="btn rv" style="--d:3" href="https://instagram.com/bucadomidia" target="_blank" rel="noopener">
+        <span class="ico" style="background:linear-gradient(45deg,#f9ce34,#ee2a7b 50%,#6228d7);border:0;color:#fff"><svg aria-hidden="true"><use href="#i-ig"/></svg></span>
+        <div><b>@bucadomidia</b><span>Bastidores e trabalhos</span></div>
+        <span class="arr" aria-hidden="true">↗</span>
+      </a>
+      <a class="btn rv" style="--d:4" href="https://bucado.com.br" target="_blank" rel="noopener">
+        <span class="ico" style="color:var(--accent2)"><svg aria-hidden="true"><use href="#i-globe"/></svg></span>
+        <div><b>bucado.com.br</b><span>Portfólio completo e serviços</span></div>
+        <span class="arr" aria-hidden="true">↗</span>
+      </a>
+    </nav>
+
+    <a class="review rv" style="--d:1" id="review" href="https://search.google.com/local/writereview?placeid=ChIJsRt75fv_sgcRV3-M5SH2KDY" target="_blank" rel="noopener">
+      <span class="ico"><svg viewBox="0 0 48 48" aria-hidden="true"><path fill="#FFC107" d="M43.6 20.1H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 13 4 4 13 4 24s9 20 20 20 20-9 20-20c0-1.3-.1-2.6-.4-3.9z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3.1l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-8l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.1H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.6-.4-3.9z"/></svg></span>
+      <div><b>Avalie no Google</b><span>Conte como foi sua experiência</span>
+        <div class="stars" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z"/></svg><svg viewBox="0 0 24 24"><path d="M12 2.8l2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z"/></svg></div>
+      </div>
+      <span class="arr" aria-hidden="true">↗</span>
+    </a>
+
+    <!-- PORTFÓLIO -->
+    <section aria-labelledby="t-gal">
+      <div class="sec-head rv">
+        <div><p class="eyebrow">// em cartaz</p><h2 id="t-gal">Nossos <em>trabalhos</em></h2></div>
+        <span class="hint" aria-hidden="true">arraste →</span>
+      </div>
+      <div class="reel rv">
+        <div class="gal" id="gal">
+          <figure><img src="assets/galeria-1.jpg" width="1080" height="608" loading="lazy" alt="Evento da campanha de incentivo Americanas"><figcaption><b>Americanas</b><span>campanha de incentivo</span></figcaption></figure>
+          <figure><img src="assets/galeria-2.jpg" width="1080" height="608" loading="lazy" alt="Público no Teatro Riachuelo"><figcaption><b>Teatro Riachuelo</b><span>Mônica Salmasso</span></figcaption></figure>
+          <figure><img src="assets/galeria-3.jpg" width="600" height="338" loading="lazy" alt="Encontro Mundo Saudável Nordestão"><figcaption><b>Nordestão</b><span>Mundo Saudável</span></figcaption></figure>
+          <figure><img src="assets/galeria-4.jpg" width="1080" height="608" loading="lazy" alt="Vídeo institucional INNOV em São Paulo"><figcaption><b>INNOV</b><span>institucional · SP</span></figcaption></figure>
+          <figure><img src="assets/galeria-5.jpg" width="1080" height="608" loading="lazy" alt="Tênis Colliman em stop motion"><figcaption><b>Colliman</b><span>stop motion</span></figcaption></figure>
+          <figure><img src="assets/galeria-6.jpg" width="1080" height="608" loading="lazy" alt="Garrafa Baobá Vino com ilustração do Pequeno Príncipe"><figcaption><b>Baobá Vino</b><span>Pequeno Príncipe</span></figcaption></figure>
+        </div>
+      </div>
+      <div class="dots" id="dots" aria-hidden="true"></div>
+      <div class="more"><a href="https://bucado.com.br" target="_blank" rel="noopener">ver portfólio completo ↗</a></div>
+    </section>
+
+    <!-- SERVIÇOS + CLIENTES -->
+    <section aria-labelledby="t-srv">
+      <div class="sec-head rv"><div><p class="eyebrow">// roteiro</p><h2 id="t-srv">O que a gente <em>produz</em></h2></div></div>
+      <div class="chips rv">
+        <span>Vídeo institucional</span><span>Redes sociais</span><span>Cobertura de eventos</span><span>Captação com drone</span><span>Gravação de curso</span><span>Sites</span><span>Estratégia</span>
+      </div>
+      <p class="eyebrow rv" style="margin-top:26px;text-align:center;color:var(--muted)">créditos · quem já escolheu a bucado</p>
+      <div class="credits rv" aria-label="Clientes: Americanas, Nordestão, Teatro Riachuelo, INNOV, Colliman, Burnfit, Gladiatore, Schalk, Armindo, Fábrica Modelar, Brasil Embalagens">
+        <div aria-hidden="true">
+          <span>Americanas</span><span>Nordestão</span><span>Teatro Riachuelo</span><span>INNOV</span><span>Colliman</span><span>Burnfit</span><span>Gladiatore</span><span>Schalk</span><span>Armindo</span><span>Fábrica Modelar</span><span>Brasil Embalagens</span>
+          <span>Americanas</span><span>Nordestão</span><span>Teatro Riachuelo</span><span>INNOV</span><span>Colliman</span><span>Burnfit</span><span>Gladiatore</span><span>Schalk</span><span>Armindo</span><span>Fábrica Modelar</span><span>Brasil Embalagens</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- HORÁRIOS -->
+    <section aria-labelledby="t-hor">
+      <div class="sec-head rv"><div><p class="eyebrow">// ordem do dia</p><h2 id="t-hor"><em>Quando</em> estamos no set</h2></div></div>
+      <div class="week rv" id="week"></div>
+      <div class="hcard rv">
+        <div class="sum"><b>Segunda a sexta</b><span>8h — 18h</span></div>
+        <div class="now" id="now">—</div>
+      </div>
+    </section>
+
+    <!-- MAPA -->
+    <section aria-labelledby="t-map">
+      <div class="sec-head rv"><div><p class="eyebrow">// locação</p><h2 id="t-map"><em>Onde</em> estamos</h2></div><span class="hint">Lagoa Nova</span></div>
+      <div class="mapbox rv">
+        <div class="map-fb">Av. Sen. Salgado Filho, 1718 · Sl 405<br>Lagoa Nova, Natal/RN</div>
+        <div id="map" aria-label="Mapa com a localização da Bucado Mídia"></div>
+        <a class="map-open" href="https://maps.app.goo.gl/PupdZF7YYBkLH1Rr7" target="_blank" rel="noopener">Abrir no Maps ↗</a>
+      </div>
+      <div class="addr rv">
+        <b>Av. Sen. Salgado Filho, 1718 · Sala 405</b>
+        <span>Lagoa Nova, Natal — RN · CEP 59022-000</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <span class="logo" role="img" aria-label="Bucado Mídia"></span>
+    <p class="state">Natal · Rio Grande do Norte</p>
+    <div class="acts">
+      <button class="save" id="saveBtn" type="button">Salvar contato</button>
+      <button class="share" id="shareBtn" type="button">Compartilhar</button>
+    </div>
+    <button class="egg" id="egg" type="button">🎬 corta! toque para pipoca</button>
+    <p class="copy">© <span id="yr">2026</span> Bucado Mídia · <em>Criativa por natureza</em><br>fim da cena 01 · obrigado por assistir</p>
+  </footer>
+</div>
+
+<nav class="dock" id="dock" aria-label="Atalhos">
+  <a class="d1" id="waDock" href="#" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-wa"/></svg>WhatsApp</a>
+  <a class="d2" href="https://www.google.com/maps/dir/?api=1&amp;destination=-5.799936,-35.2059392&amp;destination_place_id=ChIJsRt75fv_sgcRV3-M5SH2KDY" target="_blank" rel="noopener"><svg aria-hidden="true"><use href="#i-route"/></svg>Rota</a>
+</nav>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js" defer></script>
+<script>
+(() => {
+'use strict';
+const $ = s => document.querySelector(s);
+const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+/* ---------- dados ---------- */
+const WA = 'https://wa.me/5584991697756?text=' + encodeURIComponent('Olá, Bucado Mídia! Vim pelo seu cartão virtual.');
+$('#waBtn').href = WA; $('#waDock').href = WA;
+$('#yr').textContent = new Date().getFullYear();
+
+/* ---------- horários ---------- */
+const TZ = 'America/Fortaleza';
+const HORARIOS = {0:[],1:[['08:00','18:00']],2:[['08:00','18:00']],3:[['08:00','18:00']],4:[['08:00','18:00']],5:[['08:00','18:00']],6:[]};
+const DIAS = ['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+const DIAS_EXT = ['domingo','segunda','terça','quarta','quinta','sexta','sábado'];
+const toMin = s => { const [h,m] = s.split(':').map(Number); return h*60+m; };
+const fmtHora = m => { m = ((m%1440)+1440)%1440; const h=Math.floor(m/60), mm=m%60; return `${h}h${mm?String(mm).padStart(2,'0'):''}`; };
+const fmtDur = m => { const h=Math.floor(m/60), mm=m%60; return h ? `${h}h${mm?String(mm).padStart(2,'0'):''}` : `${mm} min`; };
+function agora(){
+  const p = Object.fromEntries(new Intl.DateTimeFormat('en-US',{timeZone:TZ,weekday:'short',hour:'2-digit',minute:'2-digit',hourCycle:'h23'}).formatToParts(new Date()).map(x=>[x.type,x.value]));
+  return {dia:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'].indexOf(p.weekday), min:+p.hour*60 + +p.minute};
+}
+function faixasSemana(){
+  const out=[];
+  for (let w=0; w<2; w++) for (let d=0; d<7; d++) for (const [a,f] of HORARIOS[d]||[]) {
+    let ini=toMin(a), fim=toMin(f); if (fim<=ini) fim+=1440;
+    out.push([w*10080+d*1440+ini, w*10080+d*1440+fim]);
+  }
+  return out;
+}
+function estado(){
+  const {dia,min} = agora(), t = dia*1440+min, fx = faixasSemana();
+  const aberta = fx.find(([i,f]) => (t>=i && t<f) || (t+10080>=i && t+10080<f));
+  if (aberta) { const fim = (t>=aberta[0]&&t<aberta[1]) ? aberta[1] : aberta[1]-10080; return {aberto:true, fechaEm:fim-t, dia}; }
+  const prox = fx.map(([i])=>i).filter(i=>i>t).sort((a,b)=>a-b)[0];
+  if (prox===undefined) return {aberto:false, dia};
+  const diasAte = Math.floor(prox/1440) - dia, quando = diasAte===0?'hoje':diasAte===1?'amanhã':DIAS_EXT[Math.floor(prox/1440)%7];
+  return {aberto:false, abre:`${quando} às ${fmtHora(prox%1440)}`, dia};
+}
+function pintaHorarios(){
+  const e = estado();
+  const pill = $('#status');
+  pill.classList.toggle('open', e.aberto); pill.classList.toggle('closed', !e.aberto);
+  $('#statusTxt').textContent = e.aberto ? 'Aberto agora' : 'Fechado agora';
+  const now = $('#now');
+  now.classList.toggle('closed', !e.aberto);
+  now.innerHTML = e.aberto ? `<strong>Aberto</strong> · fecha em ${fmtDur(e.fechaEm)}` : `<strong>Fechado</strong>${e.abre ? ' · abre ' + e.abre : ''}`;
+  $('#week').innerHTML = DIAS.map((d,i) => {
+    const on = (HORARIOS[i]||[]).length > 0;
+    return `<div class="day${on?'':' off'}${i===e.dia?' today':''}"><small>${d}</small><b>${on?'✓':'—'}</b></div>`;
+  }).join('');
+}
+pintaHorarios();
+setInterval(pintaHorarios, 30000);
+document.addEventListener('visibilitychange', () => { if (!document.hidden) pintaHorarios(); });
+
+/* ---------- timecode (abertura e hero) ---------- */
+const pad = n => String(n).padStart(2,'0');
+const tcFmt = ms => { const f = Math.floor(ms/ (1000/24)); return `${pad(Math.floor(f/86400))}:${pad(Math.floor(f/1440)%60)}:${pad(Math.floor(f/24)%60)}:${pad(f%24)}`; };
+let tcRun = true, tcStart = performance.now(), tcEl = $('#tc');
+const tcHero = $('#tc2'); const heroStart = performance.now();
+let lastHero = 0;
+function tick(now){
+  if (tcRun && tcEl) tcEl.textContent = tcFmt((now - tcStart) * 1);
+  if (!document.hidden && now - lastHero > 120) { lastHero = now; tcHero.textContent = tcFmt(now - heroStart); }
+  requestAnimationFrame(tick);
+}
+requestAnimationFrame(tick);
+
+/* ---------- abertura ---------- */
+const splash = $('#splash');
+let done = false;
+const timers = [];
+function enter(){
+  if (done) return; done = true;
+  timers.forEach(clearTimeout);
+  tcRun = false;
+  splash.classList.add('done');
+  document.body.classList.remove('locked');
+  document.body.classList.add('ready');
+  setTimeout(() => { splash.remove(); }, 700);
+  iniciarPagina();
+}
+splash.addEventListener('click', enter);   // tocar em qualquer lugar pula
+
+function rodarCena(){
+  const flock = $('#flock');
+  const icons = ['i-slate','i-cam','i-play','i-mic','i-mega','i-cursor','i-chart','i-drone'];
+  const cols = ['#F5F2EC','#E8844A','#D4622B','#a3bcab','#F5F2EC'];
+  const W = innerWidth, H = innerHeight, N = 22;
+  for (let k=0; k<N; k++){
+    const s = document.createElementNS('http://www.w3.org/2000/svg','svg');
+    s.setAttribute('viewBox','0 0 24 24');
+    s.innerHTML = `<use href="#${icons[k%icons.length]}"/>`;
+    s.style.color = cols[k%cols.length];
+    flock.appendChild(s);
+    const sc = .7 + Math.random()*.7;
+    const x0 = (Math.random()-.5)*W*.9, y0 = -H*.6 - Math.random()*H*.3;
+    const xs = (Math.random()-.5)*W*.8, ys = (Math.random()-.4)*H*.55;
+    const a0 = Math.atan2(ys, xs), r0 = Math.hypot(xs, ys), r0r = Math.random()*360;
+    const kf = [
+      {transform:`translate(${x0}px,${y0}px) rotate(${r0r}deg) scale(${sc})`, opacity:0, offset:0},
+      {transform:`translate(${xs}px,${ys}px) rotate(${r0r+90}deg) scale(${sc})`, opacity:1, offset:.38, easing:'ease-in-out'}
+    ];
+    const steps = 6;
+    for (let j=1; j<=steps; j++){
+      const t = j/steps, ang = a0 + t*Math.PI*2.2, r = r0*(1-t);
+      kf.push({transform:`translate(${Math.cos(ang)*r}px,${Math.sin(ang)*r}px) rotate(${r0r+90+t*540}deg) scale(${sc*(1-t*.85)})`, opacity: j===steps?0:1, offset:.38+.62*t});
+    }
+    s.animate(kf, {duration:2500, delay:k*25, easing:'cubic-bezier(.45,0,.4,1)', fill:'forwards'});
+  }
+  const slate = $('#slate'), stick = $('#stick'), mark = $('#mark'), flash = $('#flash');
+  timers.push(setTimeout(() => {
+    slate.animate([{opacity:0,transform:'scale(.5) rotate(-8deg)'},{opacity:1,transform:'scale(1) rotate(0)'}],{duration:380,easing:'cubic-bezier(.2,1.4,.4,1)',fill:'forwards'});
+  }, 2050));
+  timers.push(setTimeout(() => {
+    stick.animate([{transform:'rotate(-30deg)'},{transform:'rotate(0deg)'}],{duration:160,easing:'cubic-bezier(.6,0,1,1)',fill:'forwards'});
+    flash.animate([{opacity:0},{opacity:.85,offset:.15},{opacity:0}],{duration:520,delay:150});
+    slate.animate([{transform:'scale(1)'},{transform:'scale(1.04) translateY(2px)'},{transform:'scale(1)'}],{duration:220,delay:150});
+
+  }, 2600));
+  timers.push(setTimeout(() => {
+    slate.animate([{opacity:1,transform:'scale(1)'},{opacity:0,transform:'scale(1.25)'}],{duration:350,fill:'forwards'});
+    mark.animate([{opacity:0,transform:'translate(-50%,-50%) scale(1.35)',filter:'blur(12px)'},{opacity:1,transform:'translate(-50%,-50%) scale(1)',filter:'blur(0)'}],{duration:700,easing:'cubic-bezier(.2,.8,.2,1)',fill:'forwards'});
+  }, 2950));
+  const passos = ['ligando as câmeras…','ajustando o foco…','luz, câmera…','ação! pronto, <strong>entre</strong>'];
+  const ld = $('#ld');
+  passos.forEach((p,i) => { if (!i) return; timers.push(setTimeout(() => { ld.classList.add('out'); setTimeout(() => { ld.innerHTML = p; ld.classList.remove('out'); }, 220); }, i*850)); });
+  timers.push(setTimeout(enter, 4300));
+}
+$('#skip').addEventListener('click', e => { e.stopPropagation(); enter(); });
+if (reduce) enter(); else rodarCena();
+
+/* ---------- página ---------- */
+let iniciada = false;
+function iniciarPagina(){
+  if (iniciada) return; iniciada = true;
+  // revelação
+  const io = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } }), {threshold:.12, rootMargin:'0px 0px -6% 0px'});
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+  // dock
+  const dock = $('#dock'), btns = $('#btns');
+  new IntersectionObserver(([e]) => dock.classList.toggle('show', !e.isIntersecting && e.boundingClientRect.top < 0)).observe(btns);
+  iniciarMapa();
+}
+
+/* ripple + vibração */
+document.querySelectorAll('.btn,.review,.dock a,.acts button').forEach(el => {
+  el.addEventListener('pointerdown', e => {
+    const r = el.getBoundingClientRect(), d = Math.max(r.width, r.height) * .6;
+    const s = document.createElement('span'); s.className = 'ripple';
+    s.style.cssText = `width:${d}px;height:${d}px;left:${e.clientX - r.left - d/2}px;top:${e.clientY - r.top - d/2}px`;
+    if (getComputedStyle(el).position === 'static') el.style.position = 'relative';
+    el.style.overflow = 'hidden'; el.appendChild(s); setTimeout(() => s.remove(), 650);
+    if (navigator.vibrate) try{ navigator.vibrate(8) }catch(_){}
+  });
+});
+
+/* galeria: pontinhos */
+const gal = $('#gal'), dots = $('#dots'), n = gal.children.length;
+dots.innerHTML = Array.from({length:n}, (_,i) => `<i${i?'':' class="on"'}></i>`).join('');
+let raf = 0;
+gal.addEventListener('scroll', () => {
+  cancelAnimationFrame(raf);
+  raf = requestAnimationFrame(() => {
+    const it = gal.children[0].getBoundingClientRect().width + 12;
+    const idx = Math.max(0, Math.min(n-1, Math.round(gal.scrollLeft / it)));
+    [...dots.children].forEach((d,i) => d.classList.toggle('on', i===idx));
+  });
+}, {passive:true});
+
+/* mapa */
+function iniciarMapa(){
+  const go = () => {
+    if (!window.L) return;
+    const pos = [-5.799936, -35.2059392];
+    const map = L.map('map', {center:[pos[0]+0.0009, pos[1]+0.0011], zoom:16, zoomControl:false, dragging:false, scrollWheelZoom:false, doubleClickZoom:false, boxZoom:false, keyboard:false, touchZoom:false, tap:false, attributionControl:true});
+    const esri = 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/';
+    L.tileLayer(esri + 'World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {maxZoom:16, attribution:'Esri'}).addTo(map);
+    L.tileLayer(esri + 'World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {maxZoom:16}).addTo(map);
+    const icon = L.divIcon({className:'', iconSize:[0,0], html:'<div class="pin"><div class="ground"></div><div class="head"><svg viewBox="0 0 24 24" style="color:#fff"><use href="#i-cam"/></svg></div><div class="tag">Bucado Mídia</div></div>'});
+    L.marker(pos, {icon, interactive:false, keyboard:false}).addTo(map);
+    map.attributionControl.setPrefix(false);
+  };
+  if (window.L) go(); else window.addEventListener('load', go, {once:true});
+}
+
+/* toast */
+const toastEl = $('#toast'); let tt;
+function toast(m){ toastEl.textContent = m; toastEl.classList.add('show'); clearTimeout(tt); tt = setTimeout(() => toastEl.classList.remove('show'), 2400); }
+
+/* vCard + compartilhar */
+$('#saveBtn').onclick = () => {
+  const L = ['BEGIN:VCARD','VERSION:3.0','N:;Bucado Mídia;;;','FN:Bucado Mídia','ORG:Bucado Mídia','TITLE:Agência de marketing e produtora audiovisual','TEL;TYPE=WORK,CELL:+5584991697756','URL:https://bucado.com.br','X-SOCIALPROFILE;TYPE=instagram:https://instagram.com/bucadomidia','ADR;TYPE=WORK:;Sala 405;Av. Sen. Salgado Filho\\, 1718 - Lagoa Nova;Natal;RN;59022-000;Brasil','END:VCARD'];
+  const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([L.join('\r\n')], {type:'text/vcard;charset=utf-8'}));
+  a.download = 'bucado-midia.vcf'; document.body.appendChild(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 1000);
+  toast('✓ contato salvo');
+};
+$('#shareBtn').onclick = () => {
+  const data = {title:'Bucado Mídia', text:'Bucado Mídia · Marketing com tempero nordestino', url:location.href};
+  if (navigator.share) { navigator.share(data).catch(() => {}); return; }
+  try { navigator.clipboard.writeText(location.href).then(() => toast('✓ link copiado'), () => toast(location.href)); } catch(e){ toast(location.href); }
+};
+
+/* easter egg: chuva de pipoca */
+$('#egg').addEventListener('click', () => {
+  if (reduce) { toast('🍿 bom filme!'); return; }
+  const W = innerWidth, H = innerHeight;
+  for (let k=0; k<24; k++){
+    const p = document.createElement('span'); p.className = 'pop'; p.textContent = k%5 ? '🍿' : '🎬';
+    p.style.left = (Math.random()*W - 12) + 'px'; document.body.appendChild(p);
+    const dx = (Math.random()-.5)*120, rot = (Math.random()-.5)*720;
+    const an = p.animate([{transform:'translate(0,0) rotate(0)'},{transform:`translate(${dx}px,${H+80}px) rotate(${rot}deg)`}], {duration:1600+Math.random()*1300, delay:Math.random()*600, easing:'cubic-bezier(.3,.1,.7,1)'});
+    an.onfinish = () => p.remove();
+  }
+  toast('🍿 corta! bom filme');
+});
+})();
+</script>
+</body>
+</html>
