@@ -67,7 +67,7 @@ body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:60;opa
 .skip{position:absolute;top:calc(56px + var(--sat));right:22px;z-index:5;font-family:var(--mono);font-size:12px;letter-spacing:.1em;padding:10px 16px;min-height:44px;border-radius:99px;border:1px solid var(--line2);background:rgba(10,31,21,.55);color:var(--cream);pointer-events:auto}
 .flock{position:absolute;left:50%;top:46%;width:0;height:0}
 .flock svg{position:absolute;left:-17px;top:-17px;width:34px;height:34px;will-change:transform,opacity;opacity:0}
-.slate{position:absolute;left:50%;top:46%;width:180px;margin-left:-90px;margin-top:-80px;opacity:0;transform:scale(.6)}
+.slate{position:absolute;left:50%;top:46%;width:180px;margin-left:-90px;margin-top:-80px;opacity:0;transform:scale(.6);overflow:visible}
 .slate .stick{transform-origin:6px 30px;transform:rotate(-30deg)}
 .flash{position:absolute;inset:0;background:#fff7ec;opacity:0;pointer-events:none}
 .mark{position:absolute;left:50%;top:46%;transform:translate(-50%,-50%);text-align:center;opacity:0}
@@ -290,7 +290,7 @@ body:not(.ready) .rv{transition:none}
       <text x="18" y="64">PRODUÇÃO</text><text x="18" y="80" font-size="13" font-weight="500">BUCADO MÍDIA</text>
       <path d="M14 90h152M14 116h152M90 90v26M128 90v26" stroke="#0F2B1D" stroke-width="1.2" opacity=".45"/>
       <text x="18" y="108">CENA 01</text><text x="96" y="108">TAKE</text><text x="140" y="108" font-size="13">1</text>
-      <text x="18" y="134">DIR: SUA MARCA</text><text x="120" y="134" fill="#D4622B">NATAL/RN</text>
+      <g font-size="9" letter-spacing=".4"><text x="18" y="134">DIR: SUA MARCA</text><text x="162" y="134" text-anchor="end" fill="#D4622B">NATAL/RN</text></g>
     </g>
     <g class="stick" id="stick">
       <rect x="6" y="18" width="168" height="20" rx="4" fill="#D4622B"/>
